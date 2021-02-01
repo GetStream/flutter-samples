@@ -15,12 +15,6 @@ class AppRoutes {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
     switch (settings.name) {
-      case Routes.APP:
-        return MaterialPageRoute(
-            settings: const RouteSettings(name: Routes.APP),
-            builder: (_) {
-              return MyApp(args);
-            });
       case Routes.HOME:
         return MaterialPageRoute(
             settings: const RouteSettings(name: Routes.HOME),

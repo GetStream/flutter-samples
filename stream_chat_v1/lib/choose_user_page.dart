@@ -1,9 +1,11 @@
 import 'package:example/stream_version.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
+import 'notifications_service.dart';
 import 'routes/routes.dart';
 
 const kStreamApiKey = 'STREAM_API_KEY';
@@ -185,6 +187,10 @@ class ChooseUserPage extends StatelessWidget {
                               key: kStreamToken,
                               value: token,
                             );
+
+                            if (!kIsWeb) {
+                              initNotifications(client);
+                            }
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               Routes.HOME,

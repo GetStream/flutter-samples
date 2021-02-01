@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:example/chat_info_screen.dart';
 import 'package:example/choose_user_page.dart';
@@ -9,18 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-import 'package:stream_chat_persistence/stream_chat_persistence.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 import 'notifications_service.dart';
 import 'routes/app_routes.dart';
 import 'routes/routes.dart';
 import 'search_text_field.dart';
-
-final chatPersistentClient = StreamChatPersistenceClient(
-  logLevel: Level.INFO,
-  connectionMode: ConnectionMode.background,
-);
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +27,10 @@ void main() async {
   final client = Client(
     apiKey ?? kDefaultStreamApiKey,
     logLevel: Level.INFO,
-  )..chatPersistenceClient = chatPersistentClient;
+    showLocalNotification:
+        (!kIsWeb && Platform.isAndroid) ? showLocalNotification : null,
+    persistenceEnabled: true,
+  );
 
   if (userId != null) {
     final token = await secureStorage.read(key: kStreamToken);
@@ -40,6 +38,9 @@ void main() async {
       User(id: userId),
       token,
     );
+    if (!kIsWeb) {
+      initNotifications(client);
+    }
   }
 
   runApp(MyApp(client));
@@ -67,7 +68,6 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return StreamChat(
                 client: client,
-                onBackgroundEventReceived: showLocalNotification,
                 child: Builder(
                   builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
                     child: child,
