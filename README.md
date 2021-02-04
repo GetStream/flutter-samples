@@ -2,6 +2,13 @@
 
 ![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/sdk_hero_v4.png)
 
+**Quick Links**
+
+- [Register](https://getstream.io/chat/trial/) to get an API key for Stream Chat
+- [Flutter Chat Tutorial](https://getstream.io/chat/flutter/tutorial/)
+- [Chat UI Kit](https://getstream.io/chat/ui-kit/)
+
+
 ## What is Stream?
 
 Stream allows developers to rapidly deploy scalable feeds and chat messaging with an industry leading 99.999% uptime SLA guarantee.
