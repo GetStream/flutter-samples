@@ -36,7 +36,7 @@ void main() async {
 
   if (userId != null) {
     final token = await secureStorage.read(key: kStreamToken);
-    await client.setUser(
+    await client.connectUser(
       User(id: userId),
       token,
     );
@@ -67,7 +67,8 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return StreamChat(
                 client: client,
-                onBackgroundEventReceived: showLocalNotification,
+                onBackgroundEventReceived: (e) =>
+                    showLocalNotification(e, client.state.user.id),
                 child: Builder(
                   builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
                     child: child,

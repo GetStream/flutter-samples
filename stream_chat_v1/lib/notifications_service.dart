@@ -2,7 +2,14 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart'
     hide Message;
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-void showLocalNotification(Event event) async {
+void showLocalNotification(Event event, String currentUserId) async {
+  if (![
+        EventType.messageNew,
+        EventType.notificationMessageNew,
+      ].contains(event.type) ||
+      event.user.id == currentUserId) {
+    return;
+  }
   if (event.message == null) return;
   final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   final initializationSettingsAndroid =
