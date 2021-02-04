@@ -40,13 +40,19 @@ After installing Flutter and the necessary toolchain for your device (Android or
 **Clone the repo**
 
 ```bash
-git clone [https://github.com/GetStream/flutter-samples](https://github.com/GetStream/flutter-samples)
+git clone https://github.com/GetStream/flutter-samples
 ```
 
 **Open the app folder** 
 
 ```bash
 cd flutter-samples/stream_chat_v1
+```
+
+**Install package dependencies:**
+
+```bash
+flutter packages get 
 ```
 
 **Open or create an emulator**
@@ -56,12 +62,6 @@ cd flutter-samples/stream_chat_v1
 # To create a new emulator, run 'flutter emulators --create [--name xyz]'.
 # You can find more information on managing emulators at the links below:
 # [https://developer.android.com/studio/run/managing-avds](https://developer.android.com/studio/run/managing-avds)[https://developer.android.com/studio/command-line/avdmanager](https://developer.android.com/studio/command-line/avdmanager)
-```
-
-**Install package dependencies:**
-
-```bash
-flutter packages get 
 ```
 
 **Run the project on your device or emulator:**
