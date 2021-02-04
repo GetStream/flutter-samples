@@ -1,34 +1,71 @@
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fec6cd42-4557-4e35-aa55-4d2979c14bb4/image.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/fec6cd42-4557-4e35-aa55-4d2979c14bb4/image.png)
+# Stream Chat v1
 
-## What is Stream?
+![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/sdk_hero_v4.png)
 
-Stream allows developers to rapidly deploy scalable feeds and chat messaging with an industry leading 99.999% uptime SLA guarantee.
+Stream Chat V1 is a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using a combination of our pre-made widgets and custom Flutter widgets. 
 
-With Stream's chat components, developers quickly add chat to their app for a variety of use-cases:
+It supports several advanced features like:
 
-- Livestreams like Twitch or Youtube
-- In-Game chat like Overwatch or Fortnite
-- Team style chat like Slack
-- Messaging style chat like Whatsapp or Facebook's messenger
-- Commerce chat like Drift or Intercom
+- Channels list UI
+- Channel UI
+- Message reactions
+- Link preview
+- Image, video and file attachments
+- Editing and deleting messages
+- Typing indicators
+- Read indicators
+- Image gallery
+- GIF support
+- Light and dark themes
+- Threads
+- Slash commands
+- Markdown message formatting
+- Count for unread messages
 
-## Repo Overview 😎
-
-This repo contains projects and samples developed by the team and Stream community. Projects are broke up into directories containing the source code for each project. 
-
-## **Projects 🚀**
-
-- [Stream Chat v1](https://github.com/GetStream/flutter-samples/tree/main/stream_chat_v1): a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using a combination of our pre-made widgets and custom Flutter widgets.
-
-## Requirements 🛠
+## Getting Started
 
 Before running this project please ensure Flutter is installed and configured on your machine. If you're new to Flutter, please checkout the [official guide](https://flutter.dev/docs/get-started/install) with installation instructions for your OS. 
 
-## Contributing
+ 
 
-- How can I submit a sample app?
-    - Apps submissions are always welcomed! 🥳 Open a pr with a proper description and we'll review it as soon as possible
-- Spot a bug 🕷 ?
-    - We welcome code changes that improve the apps or fix a problem. Please make sure to follow all best practices and add tests if applicable before submitting a Pull Request on Github.
+This project is only configured to support the following platforms:
 
-[Stream Chat v1 Readme](https://www.notion.so/Stream-Chat-v1-Readme-c02de873a35c425cb9672ddfee2f49e7)
+- Android
+- iOS
+
+Web and Desktop is not supported at this time. 
+
+After installing Flutter and the necessary toolchain for your device (Android or iOS), connect your device or open your emulator before running the following:
+
+**Clone the repo**
+
+```bash
+git clone [https://github.com/GetStream/flutter-samples](https://github.com/GetStream/flutter-samples)
+```
+
+**Open the app folder** 
+
+```bash
+cd flutter-samples/stream_chat_v1
+```
+
+**Open or create an emulator**
+
+```bash
+# To run an emulator, run 'flutter emulators --launch <emulator id>'.
+# To create a new emulator, run 'flutter emulators --create [--name xyz]'.
+# You can find more information on managing emulators at the links below:
+# [https://developer.android.com/studio/run/managing-avds](https://developer.android.com/studio/run/managing-avds)[https://developer.android.com/studio/command-line/avdmanager](https://developer.android.com/studio/command-line/avdmanager)
+```
+
+**Install package dependencies:**
+
+```bash
+flutter packages get 
+```
+
+**Run the project on your device or emulator:**
+
+```bash
+flutter run 
+```
