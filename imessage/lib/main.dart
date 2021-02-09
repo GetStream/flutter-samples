@@ -59,8 +59,7 @@ class RightColumn extends StatelessWidget {
               children: [
                 ChatMessageHeader(),
                 ChatMessage(
-                  alignment: Alignment.centerLeft,
-                ),
+                    alignment: Alignment.centerLeft, message: 'Hello World'),
               ],
             )
             // Center(
@@ -88,7 +87,10 @@ class ChatMessageHeader extends StatelessWidget {
 
 class ChatMessage extends StatelessWidget {
   final Alignment alignment;
-  const ChatMessage({Key key, this.alignment}) : super(key: key);
+  final String message;
+
+  const ChatMessage({Key key, @required this.alignment, @required this.message})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +107,7 @@ class ChatMessage extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text('Hello World'),
+                  child: Text(message),
                 ),
               ],
             ),
