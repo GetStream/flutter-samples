@@ -1,77 +1,98 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:imessage/utils.dart';
-import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    initializeDateFormatting('en_US', null);
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('Messages'),
-          ),
-          body: IMessage()),
-    );
-  }
+  runApp(IMessage());
 }
 
 class IMessage extends StatelessWidget {
-  const IMessage({
-    Key key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          LeftColumn(),
-          RightColumn(),
-        ],
+    initializeDateFormatting('en_US', null);
+    final conversations = [
+      Conversation(
+          messages: [
+            Message(
+                body: "Whatsup",
+                receivedAt: DateTime(2021, DateTime.january, 20, 15, 31))
+          ],
+          contact: Contact(
+              contact: "Daniel Kaluuya",
+              avatarUrl:
+                  "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg"))
+    ];
+    return CupertinoApp(
+      title: 'Flutter Demo',
+      theme: CupertinoThemeData(brightness: Brightness.light),
+      home: CupertinoPageScaffold(
+        child: CustomScrollView(
+          slivers: [
+            CupertinoSliverNavigationBar(
+              largeTitle: Text('Messages'),
+            ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (BuildContext context, int index) {
+                  return Column(
+                    children: [
+                      MessagePreview(
+                          from: conversations[index].contact,
+                          message: conversations[index].lastMessage(),
+                          onTap: () {
+                            //TODO:transition animation
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                  builder: (context) => MessageDetail(
+                                      conversation: conversations[index])),
+                            );
+                          })
+                    ],
+                  );
+                },
+                childCount: conversations.length,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class RightColumn extends StatelessWidget {
-  const RightColumn({
-    Key key,
-  }) : super(key: key);
+class MessageDetail extends StatelessWidget {
+  final Conversation conversation;
+  const MessageDetail({Key key, @required this.conversation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width * 0.4,
-      child: Container(
-        color: Color(0xFFFFFFFF),
-        child: Column(
+    return CupertinoPageScaffold(
+      navigationBar: CupertinoNavigationBar(
+        middle: Column(
           children: [
-            InfoHeader(phoneNumber: '937-340-7510'),
-            Column(
-              children: [
-                ChatMessageHeader(
-                  receivedAt: DateTime(2021, DateTime.january, 31, 15, 31),
-                ),
-                ChatMessage(
-                    alignment: Alignment.centerLeft, message: 'Happy Birthday'),
-              ],
-            )
-            // Center(
-            //   child: Text("Right column"),
-            // )
+            CupertinoCircleAvatar(
+                size: 25, url: conversation.contact.avatarUrl),
+            Expanded(child: Text(conversation.contact.contact))
           ],
+        ),
+      ),
+      child: Center(
+        child: SafeArea(
+          child: Column(
+            children: conversation.messages
+                .map((message) => Column(
+                      children: [
+                        ChatMessageHeader(
+                          receivedAt: message.receivedAt,
+                        ),
+                        ChatMessage(
+                            alignment: Alignment.centerLeft,
+                            message: message.body)
+                      ],
+                    ))
+                .toList(),
+          ),
         ),
       ),
     );
@@ -86,7 +107,13 @@ class ChatMessageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text('iMessage'), Text(formatDate(receivedAt))],
+      children: [
+        Text(
+          'iMessage',
+          style: TextStyle(color: CupertinoColors.systemGrey),
+        ),
+        Text(formatDate(receivedAt))
+      ],
     );
   }
 }
@@ -207,73 +234,16 @@ class ChatBubble extends CustomPainter {
   }
 }
 
-class InfoHeader extends StatelessWidget {
-  final String phoneNumber;
-  const InfoHeader({
-    Key key,
-    this.phoneNumber,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFFFAFCFC),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text('To: $phoneNumber'),
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Icon(Icons.info),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class LeftColumn extends StatelessWidget {
-  const LeftColumn({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width * 0.6,
-      child: Container(
-        color: Color(0xFFD3D6DA),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: Icon(Icons.create),
-              ),
-            ),
-            Search(),
-            MessagePreview()
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class MessagePreview extends StatelessWidget {
-  const MessagePreview({
-    Key key,
-  }) : super(key: key);
+  final VoidCallback onTap;
+  final Message message;
+  final Contact from;
+  const MessagePreview(
+      {Key key,
+      @required this.onTap,
+      @required this.message,
+      @required this.from})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -281,55 +251,31 @@ class MessagePreview extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(5),
-          color: Color(0xFF3478F6),
-        ),
-        child: ListTile(
-          shape: RoundedRectangleBorder(),
-          leading: CircleAvatar(),
+            borderRadius: BorderRadius.circular(5),
+            color: CupertinoColors.white),
+        child: CupertinoListTile(
+          onTap: onTap,
+          // shape: RoundedRectangleBorder(),
+
+          leading: CupertinoCircleAvatar(
+            size: 50,
+            url: from.avatarUrl,
+          ),
           title: Text(
-            '937-340-7510',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            from.contact,
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: CupertinoColors.black),
           ),
           trailing: Text(
-            '31/01/2021',
-            style:
-                TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
+            formatDate(message.receivedAt),
+            style: TextStyle(
+                fontWeight: FontWeight.bold, color: CupertinoColors.systemGrey),
           ),
           subtitle: Text(
-            'Happy birthday',
-            style:
-                TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class Search extends StatelessWidget {
-  const Search({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Container(
-        color: Color(0xFFC8CDD0),
-        child: TextField(
-          decoration: InputDecoration(
-            hintStyle: TextStyle(color: Color(0xFF8E8E93)),
-            // hoverColor: Colors.red, //Color(0xFFC8CDD0),
-            prefixIcon: Icon(Icons.search, color: Color(0xFF646567)),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFF8BAEEE), width: 5.0),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Color(0xFFC1C5C9), width: 1.0),
-            ),
-            hintText: 'Search',
+            message.body,
+            style: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: CupertinoColors.systemGrey),
           ),
         ),
       ),
@@ -338,24 +284,22 @@ class Search extends StatelessWidget {
 }
 
 class Message {
-  final String phoneNumber;
+  final DateTime receivedAt;
+  final String body;
 
-  Message(this.phoneNumber);
+  Message({@required this.receivedAt, @required this.body});
 }
 
-extension HexColor on Color {
-  /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
-  static Color fromHex(String hexString) {
-    final buffer = StringBuffer();
-    if (hexString.length == 6 || hexString.length == 7) buffer.write('ff');
-    buffer.write(hexString.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
+class Conversation {
+  final Contact contact;
+  final List<Message> messages;
+  Conversation({@required this.messages, @required this.contact});
 
-  /// Prefixes a hash sign if [leadingHashSign] is set to `true` (default is `true`).
-  String toHex({bool leadingHashSign = true}) => '${leadingHashSign ? '#' : ''}'
-      '${alpha.toRadixString(16).padLeft(2, '0')}'
-      '${red.toRadixString(16).padLeft(2, '0')}'
-      '${green.toRadixString(16).padLeft(2, '0')}'
-      '${blue.toRadixString(16).padLeft(2, '0')}';
+  lastMessage() => messages.last;
+}
+
+class Contact {
+  final String contact; //name or number
+  final String avatarUrl;
+  Contact({@required this.avatarUrl, @required this.contact});
 }
