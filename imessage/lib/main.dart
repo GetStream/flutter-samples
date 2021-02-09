@@ -57,25 +57,9 @@ class RightColumn extends StatelessWidget {
             InfoHeader(phoneNumber: "937-340-7510"),
             Column(
               children: [
-                Column(
-                  children: [Text("iMessage"), Text("mer. 20 janv. à 15:31")],
-                ),
-                Align(
-                  alignment: Alignment
-                      .centerLeft, //Change this to Alignment.topRight or Alignment.topLeft
-                  child: CustomPaint(
-                    painter: ChatBubble(
-                        color: Color(0xFFE9E9EB),
-                        alignment: Alignment.centerLeft),
-                    child: Container(
-                      margin: EdgeInsets.all(10),
-                      child: Stack(
-                        children: <Widget>[
-                          Text("Hello World"),
-                        ],
-                      ),
-                    ),
-                  ),
+                ChatMessageHeader(),
+                ChatMessage(
+                  alignment: Alignment.centerLeft,
                 ),
               ],
             )
@@ -83,6 +67,49 @@ class RightColumn extends StatelessWidget {
             //   child: Text("Right column"),
             // )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ChatMessageHeader extends StatelessWidget {
+  const ChatMessageHeader({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [Text("iMessage"), Text("mer. 20 janv. à 15:31")],
+    );
+  }
+}
+
+class ChatMessage extends StatelessWidget {
+  final Alignment alignment;
+  const ChatMessage({Key key, this.alignment}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Align(
+        alignment:
+            alignment, //Change this to Alignment.topRight or Alignment.topLeft
+        child: CustomPaint(
+          painter: ChatBubble(color: Color(0xFFE9E9EB), alignment: alignment),
+          child: Container(
+            margin: EdgeInsets.all(10),
+            child: Stack(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text("Hello World"),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
