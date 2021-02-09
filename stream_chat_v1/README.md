@@ -33,7 +33,7 @@ This project is only configured to support the following platforms:
 - Android
 - iOS
 
-Web and Desktop is not supported at this time. 
+Web and Desktop are not supported at this time. 
 
 After installing Flutter and the necessary toolchain for your device (Android or iOS), connect your device or open your emulator before running the following:
 
