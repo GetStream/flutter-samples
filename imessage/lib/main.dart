@@ -54,7 +54,7 @@ class RightColumn extends StatelessWidget {
         color: Color(0xFFFFFFFF),
         child: Column(
           children: [
-            InfoHeader(phoneNumber: "937-340-7510"),
+            InfoHeader(phoneNumber: '937-340-7510'),
             Column(
               children: [
                 ChatMessageHeader(),
@@ -81,7 +81,7 @@ class ChatMessageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text("iMessage"), Text("mer. 20 janv. à 15:31")],
+      children: [Text('iMessage'), Text('mer. 20 janv. à 15:31')],
     );
   }
 }
@@ -105,7 +105,7 @@ class ChatMessage extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text("Hello World"),
+                  child: Text('Hello World'),
                 ),
               ],
             ),
@@ -125,8 +125,8 @@ class ChatBubble extends CustomPainter {
     this.alignment,
   });
 
-  var _radius = 10.0;
-  var _x = 10.0;
+  final _radius = 10.0;
+  final _x = 10.0;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -142,9 +142,9 @@ class ChatBubble extends CustomPainter {
             topLeft: Radius.circular(_radius),
           ),
           Paint()
-            ..color = this.color
+            ..color = color
             ..style = PaintingStyle.fill);
-      var path = new Path();
+      var path = Path();
       path.moveTo(size.width - _x, size.height - 20);
       path.lineTo(size.width - _x, size.height);
       path.lineTo(size.width, size.height);
@@ -158,7 +158,7 @@ class ChatBubble extends CustomPainter {
             topRight: Radius.circular(_radius),
           ),
           Paint()
-            ..color = this.color
+            ..color = color
             ..style = PaintingStyle.fill);
     } else {
       canvas.drawRRect(
@@ -172,9 +172,9 @@ class ChatBubble extends CustomPainter {
             topLeft: Radius.circular(_radius),
           ),
           Paint()
-            ..color = this.color
+            ..color = color
             ..style = PaintingStyle.fill);
-      var path = new Path();
+      var path = Path();
       path.moveTo(0, size.height);
       path.lineTo(_x, size.height);
       path.lineTo(_x, size.height - 20);
@@ -188,7 +188,7 @@ class ChatBubble extends CustomPainter {
             topRight: Radius.circular(_radius),
           ),
           Paint()
-            ..color = this.color
+            ..color = color
             ..style = PaintingStyle.fill);
     }
   }
@@ -215,7 +215,7 @@ class InfoHeader extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text("To: $phoneNumber"),
+            child: Text('To: $phoneNumber'),
           ),
           Expanded(
             child: Padding(
@@ -280,16 +280,16 @@ class MessagePreview extends StatelessWidget {
           shape: RoundedRectangleBorder(),
           leading: CircleAvatar(),
           title: Text(
-            "937-340-7510",
+            '937-340-7510',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
           ),
           trailing: Text(
-            "31/01/2021",
+            '31/01/2021',
             style:
                 TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
           ),
           subtitle: Text(
-            "Happy birthday",
+            'Happy birthday',
             style:
                 TextStyle(fontWeight: FontWeight.normal, color: Colors.white),
           ),
@@ -311,7 +311,7 @@ class Search extends StatelessWidget {
       child: Container(
         color: Color(0xFFC8CDD0),
         child: TextField(
-          decoration: new InputDecoration(
+          decoration: InputDecoration(
             hintStyle: TextStyle(color: Color(0xFF8E8E93)),
             // hoverColor: Colors.red, //Color(0xFFC8CDD0),
             prefixIcon: Icon(Icons.search, color: Color(0xFF646567)),
