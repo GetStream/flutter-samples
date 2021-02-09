@@ -14,8 +14,13 @@ class IMessage extends StatelessWidget {
       Conversation(
           messages: [
             Message(
+                isReceived: true,
                 body: "Whatsup",
-                receivedAt: DateTime(2021, DateTime.january, 20, 15, 31))
+                receivedAt: DateTime(2021, DateTime.january, 20, 15, 31)),
+            Message(
+                isReceived: false,
+                body: "I'm fine and you?",
+                receivedAt: DateTime(2021, DateTime.january, 20, 15, 32))
           ],
           contact: Contact(
               contact: "Daniel Kaluuya",
@@ -80,14 +85,22 @@ class MessageDetail extends StatelessWidget {
       child: Center(
         child: SafeArea(
           child: Column(
-            children: conversation.messages
+            children: conversation.messages //TODO: oder by
                 .map((message) => Column(
                       children: [
                         ChatMessageHeader(
                           receivedAt: message.receivedAt,
                         ),
                         ChatMessage(
-                            alignment: Alignment.centerLeft,
+                            alignment: message.isReceived
+                                ? Alignment.centerLeft
+                                : Alignment.topRight,
+                            color: message.isReceived
+                                ? CupertinoColors.systemGrey5
+                                : CupertinoColors.systemBlue,
+                            messageColor: message.isReceived
+                                ? CupertinoColors.black
+                                : CupertinoColors.white,
                             message: message.body)
                       ],
                     ))
@@ -121,8 +134,15 @@ class ChatMessageHeader extends StatelessWidget {
 class ChatMessage extends StatelessWidget {
   final Alignment alignment;
   final String message;
+  final Color color;
+  final Color messageColor;
 
-  const ChatMessage({Key key, @required this.alignment, @required this.message})
+  const ChatMessage(
+      {Key key,
+      @required this.alignment,
+      @required this.message,
+      @required this.color,
+      @required this.messageColor})
       : super(key: key);
 
   @override
@@ -133,14 +153,17 @@ class ChatMessage extends StatelessWidget {
         alignment:
             alignment, //Change this to Alignment.topRight or Alignment.topLeft
         child: CustomPaint(
-          painter: ChatBubble(color: Color(0xFFE9E9EB), alignment: alignment),
+          painter: ChatBubble(color: color, alignment: alignment),
           child: Container(
             margin: EdgeInsets.all(10),
             child: Stack(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(4.0),
-                  child: Text(message),
+                  child: Text(
+                    message,
+                    style: TextStyle(color: messageColor),
+                  ),
                 ),
               ],
             ),
@@ -284,10 +307,14 @@ class MessagePreview extends StatelessWidget {
 }
 
 class Message {
+  final bool isReceived;
   final DateTime receivedAt;
   final String body;
 
-  Message({@required this.receivedAt, @required this.body});
+  Message(
+      {@required this.receivedAt,
+      @required this.body,
+      @required this.isReceived});
 }
 
 class Conversation {
