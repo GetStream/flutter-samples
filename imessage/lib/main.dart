@@ -30,37 +30,51 @@ class IMessage extends StatelessWidget {
     return CupertinoApp(
       title: 'Flutter Demo',
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: CupertinoPageScaffold(
-        child: CustomScrollView(
-          slivers: [
-            CupertinoSliverNavigationBar(
-              largeTitle: Text('Messages'),
+      home: MessagesPage(conversations: conversations),
+    );
+  }
+}
+
+class MessagesPage extends StatelessWidget {
+  const MessagesPage({
+    Key key,
+    @required this.conversations,
+  }) : super(key: key);
+
+  final List<Conversation> conversations;
+
+  @override
+  Widget build(BuildContext context) {
+    return CupertinoPageScaffold(
+      child: CustomScrollView(
+        slivers: [
+          CupertinoSliverNavigationBar(
+            largeTitle: Text('Messages'),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return Column(
+                  children: [
+                    MessagePreview(
+                        from: conversations[index].contact,
+                        message: conversations[index].lastMessage(),
+                        onTap: () {
+                          //TODO:transition animation
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                                builder: (context) => MessageDetail(
+                                    conversation: conversations[index])),
+                          );
+                        })
+                  ],
+                );
+              },
+              childCount: conversations.length,
             ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      MessagePreview(
-                          from: conversations[index].contact,
-                          message: conversations[index].lastMessage(),
-                          onTap: () {
-                            //TODO:transition animation
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                  builder: (context) => MessageDetail(
-                                      conversation: conversations[index])),
-                            );
-                          })
-                    ],
-                  );
-                },
-                childCount: conversations.length,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -158,8 +172,7 @@ class SendMessageInput extends StatelessWidget {
                   border: Border.all(
                     color: CupertinoColors.systemGrey,
                   ),
-                  borderRadius:
-                      BorderRadius.all(Radius.circular(35))),
+                  borderRadius: BorderRadius.all(Radius.circular(35))),
             ),
           ),
         ],
