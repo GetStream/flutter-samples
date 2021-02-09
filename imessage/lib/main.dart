@@ -84,31 +84,87 @@ class MessageDetail extends StatelessWidget {
       ),
       child: Center(
         child: SafeArea(
-          child: Column(
-            children: conversation.messages //TODO: oder by
-                .map((message) => Column(
-                      children: [
-                        ChatMessageHeader(
-                          receivedAt: message.receivedAt,
-                        ),
-                        ChatMessage(
-                            alignment: message.isReceived
-                                ? Alignment.centerLeft
-                                : Alignment.topRight,
-                            color: message.isReceived
-                                ? CupertinoColors.systemGrey5
-                                : CupertinoColors.systemBlue,
-                            messageColor: message.isReceived
-                                ? CupertinoColors.black
-                                : CupertinoColors.white,
-                            message: message.body)
-                      ],
-                    ))
-                .toList(),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                ...conversation.messages //TODO: oder by
+                    .map((message) => Column(
+                          children: [
+                            ChatMessageHeader(
+                              receivedAt: message.receivedAt,
+                            ),
+                            ChatMessage(
+                                alignment: message.isReceived
+                                    ? Alignment.centerLeft
+                                    : Alignment.topRight,
+                                color: message.isReceived
+                                    ? CupertinoColors.systemGrey5
+                                    : CupertinoColors.systemBlue,
+                                messageColor: message.isReceived
+                                    ? CupertinoColors.black
+                                    : CupertinoColors.white,
+                                message: message.body)
+                          ],
+                        ))
+                    .toList(),
+                SendMessageInput()
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+}
+
+class SendMessageInput extends StatelessWidget {
+  const SendMessageInput({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+        child: Align(
+      alignment: FractionalOffset.bottomCenter,
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Icon(
+              CupertinoIcons.camera_fill,
+              color: CupertinoColors.systemGrey,
+              size: 35,
+            ),
+          ),
+          Expanded(
+            child: CupertinoTextField(
+              placeholder: "iMessage",
+              prefix: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  CupertinoIcons.add_circled,
+                  size: 35,
+                  color: CupertinoColors.systemGrey4,
+                ),
+              ),
+              suffix: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(CupertinoIcons.waveform_circle_fill,
+                    color: CupertinoColors.systemGrey, size: 35),
+              ),
+              decoration: BoxDecoration(
+                  border: Border.all(
+                    color: CupertinoColors.systemGrey,
+                  ),
+                  borderRadius:
+                      BorderRadius.all(Radius.circular(35))),
+            ),
+          ),
+        ],
+      ),
+    ));
   }
 }
 
