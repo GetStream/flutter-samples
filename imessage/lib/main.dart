@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:imessage/utils.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
   runApp(MyApp());
@@ -7,6 +10,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    initializeDateFormatting('en_US', null);
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -14,7 +18,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
           appBar: AppBar(
-            title: Text('iMessage'),
+            title: Text('Messages'),
           ),
           body: IMessage()),
     );
@@ -57,9 +61,11 @@ class RightColumn extends StatelessWidget {
             InfoHeader(phoneNumber: '937-340-7510'),
             Column(
               children: [
-                ChatMessageHeader(),
+                ChatMessageHeader(
+                  receivedAt: DateTime(2021, DateTime.january, 31, 15, 31),
+                ),
                 ChatMessage(
-                    alignment: Alignment.centerLeft, message: 'Hello World'),
+                    alignment: Alignment.centerLeft, message: 'Happy Birthday'),
               ],
             )
             // Center(
@@ -73,14 +79,14 @@ class RightColumn extends StatelessWidget {
 }
 
 class ChatMessageHeader extends StatelessWidget {
-  const ChatMessageHeader({
-    Key key,
-  }) : super(key: key);
+  final DateTime receivedAt;
+  const ChatMessageHeader({Key key, @required this.receivedAt})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [Text('iMessage'), Text('mer. 20 janv. à 15:31')],
+      children: [Text('iMessage'), Text(formatDate(receivedAt))],
     );
   }
 }
