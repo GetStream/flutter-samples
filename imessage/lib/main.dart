@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       ),
       home: Scaffold(
           appBar: AppBar(
-            title: Text('Welcome to Flutter'),
+            title: Text('iMessage'),
           ),
           body: IMessage()),
     );
