@@ -1,10 +1,10 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
-String formatDate(DateTime date) {
-    final dateFormat = DateFormat.yMd().add_jm(); //mer. 20 janv. à 15:31
-    return dateFormat.format(date);
-  }
 
+String formatDate(DateTime date) {
+  final dateFormat = DateFormat.yMd().add_jm(); //mer. 20 janv. à 15:31
+  return dateFormat.format(date);
+}
 
 extension HexColor on Color {
   /// String is in the format "aabbcc" or "ffaabbcc" with an optional leading "#".
@@ -43,22 +43,26 @@ class CupertinoListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: SizedBox(
+        height: 90,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                leading,
-                SizedBox(width: 20),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    title,
-                    subtitle,
-                  ],
-                ),
-              ],
+            Expanded(
+              child: Wrap(
+                children: <Widget>[
+                  leading,
+                  SizedBox(width: 20),
+                  Column(
+                    // clipBehavior: Clip.hardEdge,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      title,
+                      subtitle,
+                    ],
+                  ),
+                ],
+              ),
             ),
             trailing,
           ],
@@ -67,8 +71,6 @@ class CupertinoListTile extends StatelessWidget {
     );
   }
 }
-
-
 
 class CupertinoCircleAvatar extends StatelessWidget {
   final String url;

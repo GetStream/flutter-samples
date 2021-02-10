@@ -19,7 +19,6 @@ class MessageListView extends StatefulWidget {
 class _MessageListViewState extends State<MessageListView> {
   StreamSubscription _streamListener;
   List<Message> _messages = [];
-  // List<Message> _newMessageList = [];
 
   @override
   void initState() {
@@ -43,32 +42,32 @@ class _MessageListViewState extends State<MessageListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      //MessageListView
+    return ListView(
+      shrinkWrap: true,
       children: [
         ..._messages //TODO: oder by
             .map((message) => Column(
-                  children: [
-                    MessageHeader(
-                        // receivedAt: message.receivedAt,
-                        ),
-                    MessageWidget(
-                        alignment: Alignment.centerLeft, //message.isReceived
-                        // ? Alignment.centerLeft
-                        // : Alignment.topRight,
-                        color: CupertinoColors.systemGrey5,
-                        // color: message.isReceived
-                        //     ? CupertinoColors.systemGrey5
-                        //     : CupertinoColors.systemBlue,
-                        messageColor: CupertinoColors.black,
-                        // messageColor: message
-                        //     ? CupertinoColors.black
-                        //     : CupertinoColors.white,
-                        message: message.text)
-                  ],
-                ))
+              children: [
+                MessageHeader(
+                  receivedAt: message.updatedAt,
+                ),
+                MessageWidget(//TODO: handle isReceived
+                    alignment: Alignment.centerLeft, //message.isReceived
+                    // ? Alignment.centerLeft
+                    // : Alignment.topRight,
+                    color: CupertinoColors.systemGrey5,
+                    // color: message.isReceived
+                    //     ? CupertinoColors.systemGrey5
+                    //     : CupertinoColors.systemBlue,
+                    messageColor: CupertinoColors.black,
+                    // messageColor: message
+                    //     ? CupertinoColors.black
+                    //     : CupertinoColors.white,
+                    message: message.text)
+              ],
+            ))
             .toList(),
-        MessageInput()
+        MessageInput()//TODO: make this sticky
       ],
     );
   }

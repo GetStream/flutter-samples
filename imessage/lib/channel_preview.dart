@@ -17,20 +17,22 @@ class ChannelPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final lastMessage = channel.state.messages.isNotEmpty
-        ? channel.state.messages.last
-        : null;
-    final prefix = lastMessage.attachments
-        .map((e) {
-          if (e.type == 'image') {
-            return '📷';
-          } else if (e.type == 'video') {
-            return '🎬';
-          }
-          return null;
-        })
-        .where((e) => e != null)
-        .join(' ');
+    final lastMessage =
+        channel.state.messages.isNotEmpty ? channel.state.messages.last : null;
+
+    final prefix = lastMessage?.attachments != null
+        ? lastMessage?.attachments //TODO: ugly
+            .map((e) {
+              if (e.type == 'image') {
+                return '📷';
+              } else if (e.type == 'video') {
+                return '🎬';
+              }
+              return null;
+            })
+            .where((e) => e != null)
+            .join(' ')
+        : '';
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
@@ -41,15 +43,16 @@ class ChannelPreview extends StatelessWidget {
           onTap: onTap,
           // shape: RoundedRectangleBorder(),
 
-          leading: ChannelImage(channel: channel),
+          leading: ChannelImage(channel: channel, size: 50),
           title: ChannelNameText(channel: channel),
           trailing: Text(
-            formatDate(channel.lastMessageAt),
+            channel.lastMessageAt
+                .toString(), //formatDate(channel.lastMessageAt),
             style: TextStyle(
                 fontWeight: FontWeight.bold, color: CupertinoColors.systemGrey),
           ),
           subtitle: Text(
-            '$prefix ${lastMessage.text ?? ''}',
+            '$prefix ${lastMessage?.text ?? ''}',
             style: TextStyle(
                 fontWeight: FontWeight.normal,
                 color: CupertinoColors.systemGrey),

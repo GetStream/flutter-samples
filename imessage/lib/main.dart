@@ -1,8 +1,20 @@
 import 'package:flutter/cupertino.dart';
-import 'package:imessage/channel_list_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show PaginationParams, SortOption, StreamChat, StreamChatClient, User;
+    show
+        Channel,
+        ChannelListCore,
+        ChannelsBloc,
+        PaginationParams,
+        SortOption,
+        StreamChat,
+        StreamChatClient,
+        StreamChatCore,
+        User;
+
+import 'package:imessage/channel_list_view.dart';
+
+import 'channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +36,7 @@ class IMessage extends StatelessWidget {
     return CupertinoApp(
       title: 'Flutter Demo',
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: StreamChat(client: client, child: ChatLoader()),
+      home: StreamChatCore(client: client, child: ChatLoader()),
     );
   }
 }
@@ -32,47 +44,42 @@ class IMessage extends StatelessWidget {
 class ChatLoader extends StatelessWidget {
   const ChatLoader({
     Key key,
-    // @required this.conversations,
   }) : super(key: key);
 
-  // final List<Conversation> conversations;
 
   @override
   Widget build(BuildContext context) {
-    final streamChat = StreamChat.of(context);
 
-    return StreamBuilder<User>(
-        stream: streamChat.userStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return CupertinoPageScaffold(
-              child: Center(
-                child: Text('${snapshot.error}'),
-              ),
-            );
-          } else if (!snapshot.hasData) {
-            return CupertinoPageScaffold(
-              child: Center(
-                child: CupertinoActivityIndicator(),
-              ),
-            );
-          } else {
-            print(snapshot.data.toJson());
-            return Text("Welcome ${snapshot.data.name}");
-            // snapshot.data.
-            // return ChannelListPage(
-            //     filter: {
-            //       'members': {
-            //         '\$in': [StreamChat.of(context).user.id],
-            //       }
-            //     },
-            //     sort: [
-            //       SortOption("last_message_at")
-            //     ],
-            //     pagination: PaginationParams(
-            //       limit: 20,
-            //     ));
-          }
-        });
+    return CupertinoPageScaffold(
+        child: ChannelsBloc(
+            child: ChannelListCore(
+                emptyBuilder: (BuildContext context) {
+                  return Center(
+                    child: Text('Looks like you are not in any channels'),
+                  );
+                },
+                loadingBuilder: (BuildContext context) {
+                  return Center(
+                    child: SizedBox(
+                      height: 100.0,
+                      width: 100.0,
+                      child: CupertinoActivityIndicator(),
+                    ),
+                  );
+                },
+                errorBuilder: (BuildContext context, dynamic error) {
+                  return Center(
+                    child: Text(
+                        'Oh no, something went wrong. Please check your config.'),
+                  );
+                },
+                listBuilder: (
+                  BuildContext context,
+                  List<Channel> channels,
+                ) =>
+                    CustomScrollView(slivers: [
+                      ChannelPageAppBar(),
+                      ChannelListView(channelsStates: channels)
+                    ]))));
   }
 }

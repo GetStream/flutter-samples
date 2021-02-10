@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 
 class MessageInput extends StatelessWidget {
@@ -8,8 +7,7 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: Align(
+    return Align(
       alignment: FractionalOffset.bottomCenter,
       child: Row(
         children: [
@@ -23,7 +21,7 @@ class MessageInput extends StatelessWidget {
           ),
           Expanded(
             child: CupertinoTextField(
-              placeholder: "iMessage",
+              placeholder: "iMessage", //TODO: send a message
               prefix: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
@@ -46,6 +44,6 @@ class MessageInput extends StatelessWidget {
           ),
         ],
       ),
-    ));
+    );
   }
 }
