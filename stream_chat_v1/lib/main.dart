@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:stream_chat_persistence/stream_chat_persistence.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -24,61 +25,75 @@ final chatPersistentClient = StreamChatPersistenceClient(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final secureStorage = FlutterSecureStorage();
 
-  final apiKey = await secureStorage.read(key: kStreamApiKey);
-  final userId = await secureStorage.read(key: kStreamUserId);
-
-  final client = StreamChatClient(
-    apiKey ?? kDefaultStreamApiKey,
-    logLevel: Level.INFO,
-  )..chatPersistenceClient = chatPersistentClient;
-
-  if (userId != null) {
-    final token = await secureStorage.read(key: kStreamToken);
-    await client.connectUser(
-      User(id: userId),
-      token,
-    );
-  }
-
-  runApp(MyApp(client));
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final StreamChatClient client;
+  Future<InitData> _initConnection() async {
+    final secureStorage = FlutterSecureStorage();
 
-  MyApp(this.client);
+    final apiKey = await secureStorage.read(key: kStreamApiKey);
+    final userId = await secureStorage.read(key: kStreamUserId);
+
+    final client = StreamChatClient(
+      apiKey ?? kDefaultStreamApiKey,
+      logLevel: Level.INFO,
+    )..chatPersistenceClient = chatPersistentClient;
+
+    if (userId != null) {
+      final token = await secureStorage.read(key: kStreamToken);
+      await client.connectUser(
+        User(id: userId),
+        token,
+      );
+    }
+
+    var prefs = await StreamingSharedPreferences.instance;
+
+    return InitData(client, prefs);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<StreamingSharedPreferences>(
-      future: StreamingSharedPreferences.instance,
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return SizedBox();
+    return FutureBuilder<InitData>(
+      future: _initConnection(),
+      builder: (context, initData) {
+        if (!initData.hasData) {
+          return MaterialApp(
+            home: Container(
+              alignment: Alignment.center,
+              color: Colors.white,
+              child: Container(
+                height: 80.0,
+                width: 80.0,
+                child: SvgPicture.asset('assets/logo.svg'),
+              ),
+            ),
+          );
         }
+
         return PreferenceBuilder<int>(
-          preference: snapshot.data.getInt(
+          preference: initData.data.preferences.getInt(
             'theme',
             defaultValue: 0,
           ),
           builder: (context, snapshot) => MaterialApp(
             builder: (context, child) {
               return StreamChat(
-                client: client,
+                client: initData.data.client,
                 onBackgroundEventReceived: (e) =>
-                    showLocalNotification(e, client.state.user.id),
+                    showLocalNotification(e, initData.data.client.state.user.id),
                 child: Builder(
                   builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
                     child: child,
                     value: SystemUiOverlayStyle(
                       systemNavigationBarColor:
-                          StreamChatTheme.of(context).colorTheme.white,
+                      StreamChatTheme.of(context).colorTheme.white,
                       systemNavigationBarIconBrightness:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Brightness.light
-                              : Brightness.dark,
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Brightness.light
+                          : Brightness.dark,
                     ),
                   ),
                 ),
@@ -94,7 +109,7 @@ class MyApp extends StatelessWidget {
             }[snapshot],
             onGenerateRoute: AppRoutes.generateRoute,
             initialRoute:
-                client.state.user == null ? Routes.CHOOSE_USER : Routes.HOME,
+            initData.data.client.state.user == null ? Routes.CHOOSE_USER : Routes.HOME,
           ),
         );
       },
@@ -832,4 +847,11 @@ class _ThreadPageState extends State<ThreadPage> {
       ),
     );
   }
+}
+
+class InitData {
+  final StreamChatClient client;
+  final StreamingSharedPreferences preferences;
+
+  InitData(this.client, this.preferences);
 }

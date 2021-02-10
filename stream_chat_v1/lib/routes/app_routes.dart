@@ -19,7 +19,7 @@ class AppRoutes {
         return MaterialPageRoute(
             settings: const RouteSettings(name: Routes.APP),
             builder: (_) {
-              return MyApp(args);
+              return MyApp();
             });
       case Routes.HOME:
         return MaterialPageRoute(
