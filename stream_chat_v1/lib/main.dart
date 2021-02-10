@@ -64,10 +64,29 @@ class MyApp extends StatelessWidget {
             home: Container(
               alignment: Alignment.center,
               color: Colors.white,
-              child: Container(
-                height: 80.0,
-                width: 80.0,
-                child: SvgPicture.asset('assets/logo.svg'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Flexible(
+                    flex: 4,
+                    child: Container(
+                      alignment: Alignment.center,
+                      constraints: BoxConstraints.expand(),
+                      child: SvgPicture.asset(
+                        'assets/logo.svg',
+                        height: 80.0,
+                        width: 80.0,
+                        alignment: Alignment.center,
+                      ),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
               ),
             ),
           );
@@ -82,18 +101,18 @@ class MyApp extends StatelessWidget {
             builder: (context, child) {
               return StreamChat(
                 client: initData.data.client,
-                onBackgroundEventReceived: (e) =>
-                    showLocalNotification(e, initData.data.client.state.user.id),
+                onBackgroundEventReceived: (e) => showLocalNotification(
+                    e, initData.data.client.state.user.id),
                 child: Builder(
                   builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
                     child: child,
                     value: SystemUiOverlayStyle(
                       systemNavigationBarColor:
-                      StreamChatTheme.of(context).colorTheme.white,
+                          StreamChatTheme.of(context).colorTheme.white,
                       systemNavigationBarIconBrightness:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Brightness.light
-                          : Brightness.dark,
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Brightness.light
+                              : Brightness.dark,
                     ),
                   ),
                 ),
@@ -108,8 +127,9 @@ class MyApp extends StatelessWidget {
               1: ThemeMode.light,
             }[snapshot],
             onGenerateRoute: AppRoutes.generateRoute,
-            initialRoute:
-            initData.data.client.state.user == null ? Routes.CHOOSE_USER : Routes.HOME,
+            initialRoute: initData.data.client.state.user == null
+                ? Routes.CHOOSE_USER
+                : Routes.HOME,
           ),
         );
       },
