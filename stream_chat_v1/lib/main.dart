@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:stream_chat_persistence/stream_chat_persistence.dart';
 import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
@@ -64,29 +64,16 @@ class MyApp extends StatelessWidget {
             home: Container(
               alignment: Alignment.center,
               color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Flexible(
-                    flex: 4,
-                    child: Container(
-                      alignment: Alignment.center,
-                      constraints: BoxConstraints.expand(),
-                      child: SvgPicture.asset(
-                        'assets/logo.svg',
-                        height: 80.0,
-                        width: 80.0,
-                        alignment: Alignment.center,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 1,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  ),
-                ],
+              child: Container(
+                alignment: Alignment.center,
+                constraints: BoxConstraints.expand(),
+                color: Color(0xff005FFF),
+                child: Lottie.asset(
+                  'assets/floating_boat.json',
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.fill,
+                ),
               ),
             ),
           );
