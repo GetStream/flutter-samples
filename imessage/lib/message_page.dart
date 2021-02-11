@@ -21,12 +21,8 @@ class MessagePage extends StatelessWidget {
           ],
         ),
       ), //ChannelHeader
-      child: SafeArea(
-        child: Center(
-          child: StreamChatCore(
-              client: streamChannel.channel.client, child: MessageListView()),
-        ),
-      ),
+      child: StreamChatCore(
+          client: streamChannel.channel.client, child: MessageListView()),
     );
   }
 }

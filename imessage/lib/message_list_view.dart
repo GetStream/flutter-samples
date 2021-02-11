@@ -11,8 +11,6 @@ class MessageListView extends StatefulWidget {
   const MessageListView({
     Key key,
   }) : super(key: key);
-
-
   @override
   _MessageListViewState createState() => _MessageListViewState();
 }
@@ -43,33 +41,40 @@ class _MessageListViewState extends State<MessageListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      shrinkWrap: true,
-      children: [
-        ..._messages //TODO: oder by
-            .map((message) => Column(
-                  children: [
-                    MessageHeader(
-                      receivedAt: message.updatedAt,
-                    ),
-                    MessageWidget(
-                        //TODO: handle isReceived
-                        alignment: isReceived(message)
-                            ? Alignment.centerLeft
-                            : Alignment.topRight,
-                        color: isReceived(message)
-                            ? CupertinoColors.systemGrey5
-                            : CupertinoColors.systemBlue,
-                        messageColor: isReceived(message)
-                            ? CupertinoColors.black
-                            : CupertinoColors.white,
-                        message: message.text)
-                  ],
-                ))
-            .toList(),
-        MessageInput() //TODO: make this sticky
-      ],
-    );
+    return Stack(children: [
+      SizedBox(
+        height: MediaQuery.of(context).size.height * 0.9,
+        child: Align(
+          alignment: FractionalOffset.topCenter,
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              ..._messages //TODO: oder by
+                  .map((message) => Column(
+                        children: [
+                          MessageHeader(
+                            receivedAt: message.updatedAt,
+                          ),
+                          MessageWidget(
+                              alignment: isReceived(message)
+                                  ? Alignment.centerLeft
+                                  : Alignment.topRight,
+                              color: isReceived(message)
+                                  ? CupertinoColors.systemGrey5
+                                  : CupertinoColors.systemBlue,
+                              messageColor: isReceived(message)
+                                  ? CupertinoColors.black
+                                  : CupertinoColors.white,
+                              message: message.text)
+                        ],
+                      ))
+                  .toList(),
+            ],
+          ),
+        ),
+      ),
+      MessageInput()
+    ]);
   }
 
   bool isReceived(Message message) {
