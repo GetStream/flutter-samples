@@ -77,7 +77,7 @@ class ChatLoader extends StatelessWidget {
                 ) =>
                     CustomScrollView(slivers: [
                       ChannelPageAppBar(),
-                      ChannelListView(channelsStates: channels )
+                      ChannelListView(channels: channels )
                     ]))));
   }
 }

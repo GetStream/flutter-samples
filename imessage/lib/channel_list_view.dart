@@ -5,12 +5,12 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Channel, StreamChannel;
 
 class ChannelListView extends StatelessWidget {
-  const ChannelListView({Key key, @required this.channelsStates})
+  const ChannelListView({Key key, @required this.channels})
       : super(key: key);
-  final List<Channel> channelsStates;
+  final List<Channel> channels;
   @override
   Widget build(BuildContext context) {
-    channelsStates.removeWhere((channel) => channel.lastMessageAt == null);
+    channels.removeWhere((channel) => channel.lastMessageAt == null);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
@@ -18,14 +18,14 @@ class ChannelListView extends StatelessWidget {
           return Column(
             children: [
               ChannelPreview(
-                  channel: channelsStates[index],
+                  channel: channels[index],
                   onTap: () {
                     //TODO:transition animation
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
                           builder: (context) => StreamChannel(
-                                channel: channelsStates[index],
+                                channel: channels[index],
                                 child: MessagePage(),
                               )),
                     );
@@ -33,7 +33,7 @@ class ChannelListView extends StatelessWidget {
             ],
           );
         },
-        childCount: channelsStates.length,
+        childCount: channels.length,
       ),
     );
   }
