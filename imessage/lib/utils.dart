@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 String formatDate(DateTime date) {
   final dateFormat =
-      DateFormat('EEE. MMM d. ' 'yy' ' HH:mm'); //mer. 20 janv. à 15:31
+      DateFormat('EEE. MMM. d ' 'yy' '  HH:mm'); //mer. 20 janv. à 15:31
   return dateFormat.format(date);
 }
 
