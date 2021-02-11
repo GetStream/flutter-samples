@@ -3,8 +3,8 @@ import 'package:imessage/message_list_view.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show MessageListCore, StreamChannel, StreamChatCore;
 
-import 'channel_image.dart';
-import 'channel_name_text.dart';
+import 'package:imessage/channel_image.dart';
+import 'package:imessage/channel_name_text.dart';
 
 class MessagePage extends StatelessWidget {
   @override

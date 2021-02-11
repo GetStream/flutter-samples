@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import 'utils.dart';
+import 'package:imessage/utils.dart';
 
 class MessageHeader extends StatelessWidget {
   final DateTime receivedAt;

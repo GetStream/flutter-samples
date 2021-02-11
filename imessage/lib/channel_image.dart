@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Channel;
 
-import 'utils.dart';
+import 'package:imessage/utils.dart';
 
 class ChannelImage extends StatelessWidget {
   const ChannelImage({

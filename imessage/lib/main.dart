@@ -5,16 +5,13 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart'
         Channel,
         ChannelListCore,
         ChannelsBloc,
-        PaginationParams,
-        SortOption,
         StreamChat,
         StreamChatClient,
-        StreamChatCore,
         User;
 
 import 'package:imessage/channel_list_view.dart';
 
-import 'channel_page_appbar.dart';
+import 'package:imessage/channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,7 +74,7 @@ class ChatLoader extends StatelessWidget {
                 ) =>
                     CustomScrollView(slivers: [
                       ChannelPageAppBar(),
-                      ChannelListView(channels: channels )
+                      ChannelListView(channels: channels)
                     ]))));
   }
 }

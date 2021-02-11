@@ -2,10 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:imessage/channel_image.dart';
 import 'package:imessage/channel_name_text.dart';
 import 'package:imessage/utils.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Channel, StreamChannel;
-
-import 'channel_name_text.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Channel;
 
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
