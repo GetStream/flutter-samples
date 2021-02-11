@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/channel_preview.dart';
 import 'package:imessage/message_page.dart';
+import 'package:animations/animations.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Channel, StreamChannel;
 
@@ -19,15 +20,26 @@ class ChannelListView extends StatelessWidget {
               ChannelPreview(
                   channel: channels[index],
                   onTap: () {
-                    //TODO:transition animation
                     Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (context) => StreamChannel(
-                                channel: channels[index],
-                                child: MessagePage(),
-                              )),
-                    );
+                        context,
+                        PageRouteBuilder(
+                          pageBuilder: (_, __, ___) => StreamChannel(
+                            channel: channels[index],
+                            child: MessagePage(),
+                          ),
+                          transitionsBuilder: (
+                            _,
+                            animation,
+                            secondaryAnimation,
+                            child,
+                          ) =>
+                              SharedAxisTransition(
+                            child: child,
+                            animation: animation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                          ),
+                        ));
                   })
             ],
           );

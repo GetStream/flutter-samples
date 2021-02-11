@@ -29,7 +29,7 @@ class MessageInput extends StatelessWidget {
                   final streamChannel = StreamChannel.of(context);
                   streamChannel.channel.sendMessage(Message(text: input));
                 },
-                placeholder: 'iMessage', //TODO: send a message
+                placeholder: 'iMessage',
                 prefix: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(
