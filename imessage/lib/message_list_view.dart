@@ -5,12 +5,13 @@ import 'package:imessage/message_header.dart';
 import 'package:imessage/message_input.dart';
 import 'package:imessage/message_widget.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Message, StreamChannel;
+    show Message, StreamChannel, StreamChat, StreamChatCore, User;
 
 class MessageListView extends StatefulWidget {
   const MessageListView({
     Key key,
   }) : super(key: key);
+
 
   @override
   _MessageListViewState createState() => _MessageListViewState();
@@ -47,29 +48,33 @@ class _MessageListViewState extends State<MessageListView> {
       children: [
         ..._messages //TODO: oder by
             .map((message) => Column(
-              children: [
-                MessageHeader(
-                  receivedAt: message.updatedAt,
-                ),
-                MessageWidget(//TODO: handle isReceived
-                    alignment: Alignment.centerLeft, //message.isReceived
-                    // ? Alignment.centerLeft
-                    // : Alignment.topRight,
-                    color: CupertinoColors.systemGrey5,
-                    // color: message.isReceived
-                    //     ? CupertinoColors.systemGrey5
-                    //     : CupertinoColors.systemBlue,
-                    messageColor: CupertinoColors.black,
-                    // messageColor: message
-                    //     ? CupertinoColors.black
-                    //     : CupertinoColors.white,
-                    message: message.text)
-              ],
-            ))
+                  children: [
+                    MessageHeader(
+                      receivedAt: message.updatedAt,
+                    ),
+                    MessageWidget(
+                        //TODO: handle isReceived
+                        alignment: isReceived(message)
+                            ? Alignment.centerLeft
+                            : Alignment.topRight,
+                        color: isReceived(message)
+                            ? CupertinoColors.systemGrey5
+                            : CupertinoColors.systemBlue,
+                        messageColor: isReceived(message)
+                            ? CupertinoColors.black
+                            : CupertinoColors.white,
+                        message: message.text)
+                  ],
+                ))
             .toList(),
-        MessageInput()//TODO: make this sticky
+        MessageInput() //TODO: make this sticky
       ],
     );
+  }
+
+  bool isReceived(Message message) {
+    final currentUserId = StreamChatCore.of(context).user.id;
+    return message.user.id == currentUserId;
   }
 
   @override

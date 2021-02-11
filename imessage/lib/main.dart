@@ -36,7 +36,7 @@ class IMessage extends StatelessWidget {
     return CupertinoApp(
       title: 'Flutter Demo',
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: StreamChatCore(client: client, child: ChatLoader()),
+      home: StreamChat(client: client, child: ChatLoader()),
     );
   }
 }
@@ -46,10 +46,8 @@ class ChatLoader extends StatelessWidget {
     Key key,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-
     return CupertinoPageScaffold(
         child: ChannelsBloc(
             child: ChannelListCore(
