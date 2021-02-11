@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+    show Message, StreamChannel;
 
 class MessageInput extends StatelessWidget {
   const MessageInput({
@@ -23,6 +25,10 @@ class MessageInput extends StatelessWidget {
             ),
             Expanded(
               child: CupertinoTextField(
+                onSubmitted: (input) {
+                  final streamChannel = StreamChannel.of(context);
+                  streamChannel.channel.sendMessage(Message(text: input));
+                },
                 placeholder: 'iMessage', //TODO: send a message
                 prefix: Padding(
                   padding: const EdgeInsets.all(8.0),
