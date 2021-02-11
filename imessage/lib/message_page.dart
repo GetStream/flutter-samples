@@ -5,7 +5,6 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart'
 
 import 'channel_image.dart';
 import 'channel_name_text.dart';
-import 'utils.dart';
 
 class MessagePage extends StatelessWidget {
   @override

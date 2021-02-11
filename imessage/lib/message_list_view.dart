@@ -20,7 +20,7 @@ class MessageListView extends StatelessWidget {
           child: ListView(
             shrinkWrap: true,
             children: [
-              ...messages //TODO: oder by
+              ...messages
                   .map((message) => Column(
                         children: [
                           MessageHeader(
