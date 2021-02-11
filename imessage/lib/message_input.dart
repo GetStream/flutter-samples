@@ -23,7 +23,7 @@ class MessageInput extends StatelessWidget {
             ),
             Expanded(
               child: CupertinoTextField(
-                placeholder: "iMessage", //TODO: send a message
+                placeholder: 'iMessage', //TODO: send a message
                 prefix: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Icon(

@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/cutom_painter.dart';
 

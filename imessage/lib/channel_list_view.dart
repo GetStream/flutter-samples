@@ -5,8 +5,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Channel, StreamChannel;
 
 class ChannelListView extends StatelessWidget {
-  const ChannelListView({Key key, @required this.channels})
-      : super(key: key);
+  const ChannelListView({Key key, @required this.channels}) : super(key: key);
   final List<Channel> channels;
   @override
   Widget build(BuildContext context) {

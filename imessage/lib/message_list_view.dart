@@ -1,10 +1,9 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_header.dart';
 import 'package:imessage/message_input.dart';
 import 'package:imessage/message_widget.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Message,  StreamChatCore;
+    show Message, StreamChatCore;
 
 class MessageListView extends StatelessWidget {
   const MessageListView({Key key, this.messages}) : super(key: key);
@@ -30,10 +29,10 @@ class MessageListView extends StatelessWidget {
                               alignment: isReceived(message, context)
                                   ? Alignment.centerLeft
                                   : Alignment.topRight,
-                              color: isReceived(message,context)
+                              color: isReceived(message, context)
                                   ? CupertinoColors.systemGrey5
                                   : CupertinoColors.systemBlue,
-                              messageColor: isReceived(message,context)
+                              messageColor: isReceived(message, context)
                                   ? CupertinoColors.black
                                   : CupertinoColors.white,
                               message: message.text)

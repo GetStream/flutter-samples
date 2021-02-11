@@ -15,10 +15,10 @@ import 'package:imessage/channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final client = StreamChatClient("b67pax5b2wdq");
+  final client = StreamChatClient('b67pax5b2wdq');
   await client.connectUser(
-    User(id: "polished-poetry-5"),
-    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicG9saXNoZWQtcG9ldHJ5LTUifQ.o8SWzSlb68EntudwjVul1rUCYGpla-CimXNKxj3wKOc",
+    User(id: 'polished-poetry-5'),
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicG9saXNoZWQtcG9ldHJ5LTUifQ.o8SWzSlb68EntudwjVul1rUCYGpla-CimXNKxj3wKOc',
   );
 
   runApp(IMessage(client: client));

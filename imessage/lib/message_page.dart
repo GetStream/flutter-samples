@@ -21,23 +21,26 @@ class MessagePage extends StatelessWidget {
         ),
       ), //ChannelHeader
       child: StreamChatCore(
-          client: streamChannel.channel.client, child: MessageListCore(
-             loadingBuilder: (context) {
-           return Center(
-             child: CupertinoActivityIndicator(),
-           );
-         },
-         errorWidgetBuilder: (context, err) {
-           return Center(
-             child: Text('Error'),
-           );
-           },
-             emptyBuilder: (context) {
-           return Center(
-             child: Text('Nothing here...'),
-           );
-         },
-            messageListBuilder:(context, messages) => MessageListView(messages: messages,))),
+          client: streamChannel.channel.client,
+          child: MessageListCore(
+              loadingBuilder: (context) {
+                return Center(
+                  child: CupertinoActivityIndicator(),
+                );
+              },
+              errorWidgetBuilder: (context, err) {
+                return Center(
+                  child: Text('Error'),
+                );
+              },
+              emptyBuilder: (context) {
+                return Center(
+                  child: Text('Nothing here...'),
+                );
+              },
+              messageListBuilder: (context, messages) => MessageListView(
+                    messages: messages,
+                  ))),
     );
   }
 }

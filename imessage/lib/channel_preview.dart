@@ -21,7 +21,7 @@ class ChannelPreview extends StatelessWidget {
 
     final prefix = lastMessage?.attachments != null
         ? lastMessage?.attachments //TODO: ugly
-            .map((e) {
+            ?.map((e) {
               if (e.type == 'image') {
                 return '📷';
               } else if (e.type == 'video') {
@@ -29,8 +29,8 @@ class ChannelPreview extends StatelessWidget {
               }
               return null;
             })
-            .where((e) => e != null)
-            .join(' ')
+            ?.where((e) => e != null)
+            ?.join(' ')
         : '';
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
