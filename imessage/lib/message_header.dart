@@ -14,7 +14,7 @@ class MessageHeader extends StatelessWidget {
           'iMessage',
           style: TextStyle(color: CupertinoColors.systemGrey),
         ),
-        Text(receivedAt.toString())//formatDate(receivedAt)
+        Text(formatDate(receivedAt)) //formatDate(receivedAt)
       ],
     );
   }

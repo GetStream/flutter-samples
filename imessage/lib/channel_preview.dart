@@ -5,6 +5,8 @@ import 'package:imessage/utils.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Channel, StreamChannel;
 
+import 'channel_name_text.dart';
+
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
   final Channel channel;
@@ -34,30 +36,60 @@ class ChannelPreview extends StatelessWidget {
             .join(' ')
         : '';
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
       child: Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: CupertinoColors.white),
-        child: CupertinoListTile(
-          onTap: onTap,
-          // shape: RoundedRectangleBorder(),
-
-          leading: ChannelImage(channel: channel, size: 50),
-          title: ChannelNameText(channel: channel),
-          trailing: Text(
-            channel.lastMessageAt
-                .toString(), //formatDate(channel.lastMessageAt),
-            style: TextStyle(
-                fontWeight: FontWeight.bold, color: CupertinoColors.systemGrey),
-          ),
-          subtitle: Text(
-            '$prefix ${lastMessage?.text ?? ''}',
-            style: TextStyle(
-                fontWeight: FontWeight.normal,
-                color: CupertinoColors.systemGrey),
-          ),
-        ),
+        child: GestureDetector(
+            onTap: onTap,
+            child: Row(
+              children: [
+                ChannelImage(channel: channel, size: 50),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: ChannelNameText(
+                                channel: channel,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(
+                                formatDate(channel.lastMessageAt),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: CupertinoColors.systemGrey),
+                              ),
+                            )
+                          ],
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            '$prefix ${lastMessage?.text ?? ''}',
+                            style: TextStyle(
+                                fontWeight: FontWeight.normal,
+                                color: CupertinoColors.systemGrey),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )),
       ),
     );
   }

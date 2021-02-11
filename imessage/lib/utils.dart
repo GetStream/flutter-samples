@@ -2,7 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
 String formatDate(DateTime date) {
-  final dateFormat = DateFormat.yMd().add_jm(); //mer. 20 janv. à 15:31
+  final dateFormat =
+      DateFormat('EEE. MMM d. ' 'yy' ' HH:mm'); //mer. 20 janv. à 15:31
   return dateFormat.format(date);
 }
 
@@ -21,55 +22,6 @@ extension HexColor on Color {
       '${red.toRadixString(16).padLeft(2, '0')}'
       '${green.toRadixString(16).padLeft(2, '0')}'
       '${blue.toRadixString(16).padLeft(2, '0')}';
-}
-
-class CupertinoListTile extends StatelessWidget {
-  final Widget leading;
-  final Widget title;
-  final Widget subtitle;
-  final Widget trailing;
-  final VoidCallback onTap;
-
-  const CupertinoListTile(
-      {Key key,
-      this.leading,
-      this.title,
-      this.subtitle,
-      this.trailing,
-      this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        height: 90,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Expanded(
-              child: Wrap(
-                children: <Widget>[
-                  leading,
-                  SizedBox(width: 20),
-                  Column(
-                    // clipBehavior: Clip.hardEdge,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      title,
-                      subtitle,
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            trailing,
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 class CupertinoCircleAvatar extends StatelessWidget {

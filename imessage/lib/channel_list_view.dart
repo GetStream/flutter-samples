@@ -10,6 +10,7 @@ class ChannelListView extends StatelessWidget {
   final List<Channel> channelsStates;
   @override
   Widget build(BuildContext context) {
+    channelsStates.removeWhere((channel) => channel.lastMessageAt == null);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
@@ -18,8 +19,6 @@ class ChannelListView extends StatelessWidget {
               ChannelPreview(
                   channel: channelsStates[index],
                   onTap: () {
-                    //StreamChannel(
-                    // channel: channelsStates[index],
                     //TODO:transition animation
                     Navigator.push(
                       context,
