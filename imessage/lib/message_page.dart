@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_list_view.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show StreamChannel, StreamChat, StreamChatCore;
+    show MessageListCore, StreamChannel, StreamChatCore;
 
 import 'channel_image.dart';
 import 'channel_name_text.dart';
@@ -22,7 +22,23 @@ class MessagePage extends StatelessWidget {
         ),
       ), //ChannelHeader
       child: StreamChatCore(
-          client: streamChannel.channel.client, child: MessageListView()),
+          client: streamChannel.channel.client, child: MessageListCore(
+             loadingBuilder: (context) {
+           return Center(
+             child: CupertinoActivityIndicator(),
+           );
+         },
+         errorWidgetBuilder: (context, err) {
+           return Center(
+             child: Text('Error'),
+           );
+           },
+             emptyBuilder: (context) {
+           return Center(
+             child: Text('Nothing here...'),
+           );
+         },
+            messageListBuilder:(context, messages) => MessageListView(messages: messages,))),
     );
   }
 }

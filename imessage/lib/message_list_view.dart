@@ -1,43 +1,14 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_header.dart';
 import 'package:imessage/message_input.dart';
 import 'package:imessage/message_widget.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Message, StreamChannel, StreamChat, StreamChatCore, User;
+    show Message,  StreamChatCore;
 
-class MessageListView extends StatefulWidget {
-  const MessageListView({
-    Key key,
-  }) : super(key: key);
-  @override
-  _MessageListViewState createState() => _MessageListViewState();
-}
-
-class _MessageListViewState extends State<MessageListView> {
-  StreamSubscription _streamListener;
-  List<Message> _messages = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    final streamChannel = StreamChannel.of(context);
-
-    final stream = streamChannel.channelStateStream.map((c) => c.messages);
-
-    _streamListener = stream.listen((newMessages) {
-      newMessages = newMessages.reversed.toList();
-      if (_messages.isEmpty || newMessages.first.id != _messages.first.id) {
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          setState(() {
-            _messages = newMessages;
-          });
-        });
-      }
-    });
-  }
+class MessageListView extends StatelessWidget {
+  const MessageListView({Key key, this.messages}) : super(key: key);
+  final List<Message> messages;
 
   @override
   Widget build(BuildContext context) {
@@ -49,20 +20,20 @@ class _MessageListViewState extends State<MessageListView> {
           child: ListView(
             shrinkWrap: true,
             children: [
-              ..._messages //TODO: oder by
+              ...messages //TODO: oder by
                   .map((message) => Column(
                         children: [
                           MessageHeader(
                             receivedAt: message.updatedAt,
                           ),
                           MessageWidget(
-                              alignment: isReceived(message)
+                              alignment: isReceived(message, context)
                                   ? Alignment.centerLeft
                                   : Alignment.topRight,
-                              color: isReceived(message)
+                              color: isReceived(message,context)
                                   ? CupertinoColors.systemGrey5
                                   : CupertinoColors.systemBlue,
-                              messageColor: isReceived(message)
+                              messageColor: isReceived(message,context)
                                   ? CupertinoColors.black
                                   : CupertinoColors.white,
                               message: message.text)
@@ -77,14 +48,8 @@ class _MessageListViewState extends State<MessageListView> {
     ]);
   }
 
-  bool isReceived(Message message) {
+  bool isReceived(Message message, BuildContext context) {
     final currentUserId = StreamChatCore.of(context).user.id;
     return message.user.id == currentUserId;
-  }
-
-  @override
-  void dispose() {
-    _streamListener.cancel();
-    super.dispose();
   }
 }

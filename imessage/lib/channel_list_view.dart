@@ -14,6 +14,7 @@ class ChannelListView extends StatelessWidget {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
+          //TODO: separators
           return Column(
             children: [
               ChannelPreview(
