@@ -29,7 +29,14 @@ void main() async {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  InitData _initData;
+
   Future<InitData> _initConnection() async {
     final secureStorage = FlutterSecureStorage();
 
@@ -55,70 +62,73 @@ class MyApp extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    _initConnection().then(
+      (initData) {
+        setState(() {
+          _initData = initData;
+        });
+      },
+    );
+    super.initState();
+  }
+
+  Widget _buildAnimation() {
+    return Container(
+      alignment: Alignment.center,
+      constraints: BoxConstraints.expand(),
+      color: Color(0xff005FFF),
+      child: Lottie.asset(
+        'assets/floating_boat.json',
+        alignment: Alignment.center,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return FutureBuilder<InitData>(
-      future: _initConnection(),
-      builder: (context, initData) {
-        if (!initData.hasData) {
-          return MaterialApp(
-            home: Container(
-              alignment: Alignment.center,
-              color: Colors.white,
-              child: Container(
-                alignment: Alignment.center,
-                constraints: BoxConstraints.expand(),
-                color: Color(0xff005FFF),
-                child: Lottie.asset(
-                  'assets/floating_boat.json',
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.fill,
+    if (_initData == null) {
+      return _buildAnimation();
+    }
+
+    return PreferenceBuilder<int>(
+      preference: _initData.preferences.getInt(
+        'theme',
+        defaultValue: 0,
+      ),
+      builder: (context, snapshot) => MaterialApp(
+        builder: (context, child) {
+          return StreamChat(
+            client: _initData.client,
+            onBackgroundEventReceived: (e) =>
+                showLocalNotification(e, _initData.client.state.user.id),
+            child: Builder(
+              builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+                child: child,
+                value: SystemUiOverlayStyle(
+                  systemNavigationBarColor:
+                      StreamChatTheme.of(context).colorTheme.white,
+                  systemNavigationBarIconBrightness:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Brightness.light
+                          : Brightness.dark,
                 ),
               ),
             ),
           );
-        }
-
-        return PreferenceBuilder<int>(
-          preference: initData.data.preferences.getInt(
-            'theme',
-            defaultValue: 0,
-          ),
-          builder: (context, snapshot) => MaterialApp(
-            builder: (context, child) {
-              return StreamChat(
-                client: initData.data.client,
-                onBackgroundEventReceived: (e) => showLocalNotification(
-                    e, initData.data.client.state.user.id),
-                child: Builder(
-                  builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
-                    child: child,
-                    value: SystemUiOverlayStyle(
-                      systemNavigationBarColor:
-                          StreamChatTheme.of(context).colorTheme.white,
-                      systemNavigationBarIconBrightness:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Brightness.light
-                              : Brightness.dark,
-                    ),
-                  ),
-                ),
-              );
-            },
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
-            themeMode: {
-              -1: ThemeMode.dark,
-              0: ThemeMode.system,
-              1: ThemeMode.light,
-            }[snapshot],
-            onGenerateRoute: AppRoutes.generateRoute,
-            initialRoute: initData.data.client.state.user == null
-                ? Routes.CHOOSE_USER
-                : Routes.HOME,
-          ),
-        );
-      },
+        },
+        theme: ThemeData.light(),
+        darkTheme: ThemeData.dark(),
+        themeMode: {
+          -1: ThemeMode.dark,
+          0: ThemeMode.system,
+          1: ThemeMode.light,
+        }[snapshot],
+        onGenerateRoute: AppRoutes.generateRoute,
+        initialRoute: _initData.client.state.user == null
+            ? Routes.CHOOSE_USER
+            : Routes.HOME,
+      ),
     );
   }
 }
@@ -860,4 +870,51 @@ class InitData {
   final StreamingSharedPreferences preferences;
 
   InitData(this.client, this.preferences);
+}
+
+class HolePainter extends CustomPainter {
+  HolePainter({
+    @required this.color,
+    @required this.holeSize,
+  });
+
+  Color color;
+  double holeSize;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    double radius = holeSize / 2;
+    Rect rect = Rect.fromLTWH(0, 0, size.width, size.height);
+    Rect outerCircleRect = Rect.fromCircle(
+        center: Offset(size.width / 2, size.height / 2), radius: radius);
+    Rect innerCircleRect = Rect.fromCircle(
+        center: Offset(size.width / 2, size.height / 2), radius: radius / 2);
+
+    Path transparentHole = Path.combine(
+      PathOperation.difference,
+      Path()..addRect(rect),
+      Path()
+        ..addOval(outerCircleRect)
+        ..close(),
+    );
+
+    Path halfTransparentRing = Path.combine(
+      PathOperation.difference,
+      Path()
+        ..addOval(outerCircleRect)
+        ..close(),
+      Path()
+        ..addOval(innerCircleRect)
+        ..close(),
+    );
+
+    canvas.drawPath(transparentHole, Paint()..color = color);
+    canvas.drawPath(
+        halfTransparentRing, Paint()..color = color.withOpacity(0.5));
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return true;
+  }
 }
