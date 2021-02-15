@@ -19,7 +19,7 @@ import 'routes/routes.dart';
 import 'search_text_field.dart';
 
 final chatPersistentClient = StreamChatPersistenceClient(
-  logLevel: Level.INFO,
+  logLevel: Level.SEVERE,
   connectionMode: ConnectionMode.background,
 );
 
@@ -45,7 +45,7 @@ class _MyAppState extends State<MyApp> {
 
     final client = StreamChatClient(
       apiKey ?? kDefaultStreamApiKey,
-      logLevel: Level.INFO,
+      logLevel: Level.SEVERE,
     )..chatPersistenceClient = chatPersistentClient;
 
     if (userId != null) {
