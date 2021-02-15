@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_list_view.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show MessageListCore, StreamChannel, StreamChatCore;
 
 import 'package:imessage/channel_image.dart';

@@ -1,13 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show
-        Channel,
-        ChannelListCore,
-        ChannelsBloc,
-        StreamChat,
-        StreamChatClient,
-        User;
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+    show Channel, ChannelListCore, ChannelsBloc, StreamChatClient, StreamChatCore, User;
 
 import 'package:imessage/channel_list_view.dart';
 
@@ -33,7 +27,7 @@ class IMessage extends StatelessWidget {
     return CupertinoApp(
       title: 'Flutter Demo',
       theme: CupertinoThemeData(brightness: Brightness.light),
-      home: StreamChat(client: client, child: ChatLoader()),
+      home: StreamChatCore(client: client, child: ChatLoader()),
     );
   }
 }

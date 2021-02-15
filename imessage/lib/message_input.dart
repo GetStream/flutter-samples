@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show Message, StreamChannel;
 
 class MessageInput extends StatelessWidget {
