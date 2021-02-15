@@ -18,6 +18,7 @@ class MessageListView extends StatelessWidget {
           alignment: FractionalOffset.topCenter,
           child: ListView(
             shrinkWrap: true,
+            reverse: true,
             children: [
               ...messages
                   .map((message) => Column(
