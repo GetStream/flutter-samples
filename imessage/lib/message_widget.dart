@@ -25,7 +25,7 @@ class MessageWidget extends StatelessWidget {
         child: CustomPaint(
           painter: ChatBubble(color: color, alignment: alignment),
           child: Container(
-            margin: const EdgeInsets.fromLTRB(16.0,8.0,8.0,8.0),
+            margin: const EdgeInsets.fromLTRB(16.0,8.0,16.0,8.0),
             child: Stack(
               children: <Widget>[
                 Padding(
