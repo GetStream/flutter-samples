@@ -23,9 +23,11 @@ class MessageListView extends StatelessWidget {
               ...messages
                   .map((message) => Column(
                         children: [
-                          MessageHeader(
-                            receivedAt: message.updatedAt,
-                          ),
+                          isSameDay(message)
+                              ? MessageHeader(
+                                  receivedAt: message.updatedAt,
+                                )
+                              : Container(),
                           MessageWidget(
                               alignment: isReceived(message, context)
                                   ? Alignment.centerLeft
@@ -52,4 +54,7 @@ class MessageListView extends StatelessWidget {
     final currentUserId = StreamChatCore.of(context).user.id;
     return message.user.id == currentUserId;
   }
+
+  bool isSameDay(Message message) =>
+      message.updatedAt.day == DateTime.now().day;
 }
