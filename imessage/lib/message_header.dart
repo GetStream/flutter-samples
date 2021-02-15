@@ -8,14 +8,6 @@ class MessageHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          'iMessage',
-          style: TextStyle(color: CupertinoColors.systemGrey),
-        ),
-        Text(formatDate(receivedAt)) //formatDate(receivedAt)
-      ],
-    );
+    return Text(formatDate(receivedAt));
   }
 }
