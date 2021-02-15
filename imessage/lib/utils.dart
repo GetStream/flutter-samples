@@ -17,6 +17,8 @@ String formatDateMessage(DateTime date) {
   return dateFormat.format(date);
 }
 
+ bool isSameWeek(DateTime timestamp ) => DateTime.now().difference(timestamp).inDays < 7;
+
 
 class CupertinoCircleAvatar extends StatelessWidget {
   final String url;

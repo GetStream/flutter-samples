@@ -26,6 +26,7 @@ dependencies:
   intl: ^0.16.1
   stream_chat_flutter_core: ^1.0.2-beta
   animations: ^1.0.0+5
+  collection: ^1.14.13
 
 
   # The following adds the Cupertino Icons font to your application.

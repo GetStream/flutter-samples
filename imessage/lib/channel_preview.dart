@@ -66,7 +66,7 @@ class ChannelPreview extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                               isSameWeek() ? formatDateSameWeek(channel.lastMessageAt):formatDate(channel.lastMessageAt),
+                               isSameWeek(channel.lastMessageAt) ? formatDateSameWeek(channel.lastMessageAt):formatDate(channel.lastMessageAt),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: CupertinoColors.systemGrey),
@@ -94,5 +94,5 @@ class ChannelPreview extends StatelessWidget {
     );
   }
 
-  bool isSameWeek() => channel.lastMessageAt.weekday == DateTime.now().weekday;
+ 
 }
