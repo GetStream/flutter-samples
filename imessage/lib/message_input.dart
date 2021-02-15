@@ -9,6 +9,7 @@ class MessageInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textController = TextEditingController();
     return Align(
       alignment: FractionalOffset.bottomCenter,
       child: Padding(
@@ -23,25 +24,39 @@ class MessageInput extends StatelessWidget {
                 size: 35,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Icon(
+                CupertinoIcons.tray_arrow_down_fill,
+                color: CupertinoColors.systemGrey,
+                size: 35,
+              ),
+            ),
             Expanded(
               child: CupertinoTextField(
-                onSubmitted: (input) {
-                  final streamChannel = StreamChannel.of(context);
-                  streamChannel.channel.sendMessage(Message(text: input));
+                controller: textController,
+                onSubmitted: (input) async {
+                 await sendMessage(context, input);
                 },
                 placeholder: 'iMessage',
                 prefix: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    CupertinoIcons.add_circled,
-                    size: 35,
-                    color: CupertinoColors.systemGrey4,
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        "") //trick to add padding around  placeholder iMessage text
+                    ),
+                suffix: GestureDetector(
+                  onTap: () async {
+                    if (textController.value.text.isNotEmpty) {
+                      await sendMessage(context, textController.value.text);
+                      textController.clear();
+                      // _updateList();
+                    }
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(CupertinoIcons.arrow_up_circle_fill,
+                        color: CupertinoColors.activeBlue, size: 35),
                   ),
-                ),
-                suffix: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(CupertinoIcons.waveform_circle_fill,
-                      color: CupertinoColors.systemGrey, size: 35),
                 ),
                 decoration: BoxDecoration(
                     border: Border.all(
@@ -54,5 +69,10 @@ class MessageInput extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> sendMessage(BuildContext context, String input) async {
+    final streamChannel = StreamChannel.of(context);
+    await streamChannel.channel.sendMessage(Message(text: input));
   }
 }

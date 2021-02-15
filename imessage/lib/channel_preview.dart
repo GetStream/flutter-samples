@@ -35,15 +35,15 @@ class ChannelPreview extends StatelessWidget {
             ?.where((e) => e != null)
             ?.join(' ')
         : '';
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: CupertinoColors.white),
-        child: GestureDetector(
-            onTap: onTap,
-            child: Row(
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(5),
+              color: CupertinoColors.white),
+          child: Row(
               children: [
                 ChannelImage(channel: channel, size: 50),
                 Expanded(
@@ -89,7 +89,8 @@ class ChannelPreview extends StatelessWidget {
                   ),
                 )
               ],
-            )),
+            ),
+        ),
       ),
     );
   }

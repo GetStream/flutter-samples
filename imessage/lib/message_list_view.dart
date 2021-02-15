@@ -12,43 +12,56 @@ class MessageListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final entries = groupBy(messages.reversed, (Message message) {
+      final msgLength = message.updatedAt.toString().length;
+      if (msgLength > 4) {
+        return message.updatedAt.toString().substring(0, 10);
+      }
+    }).entries.toList();
     return Stack(
       children: [
         SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
             child: Align(
               alignment: FractionalOffset.topCenter,
-              child: ListView(shrinkWrap: true, reverse: true, children: [
-                //trick: https://stackoverflow.com/questions/62530799/listview-group-by-date-dart
-                ...groupBy(
-                        messages,
-                        (Message message) =>
-                            message.updatedAt.toString().substring(0, 10))
-                    .entries
-                    .map((entry) => Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(
-                                  8.0, 24.0, 8.0, 8.0),
-                              child: MessageHeader(rawTimeStamp: entry.key),
-                            ),
-                            ...entry.value //messages
-                                .map((message) => MessageWidget(
-                                    alignment: isReceived(message, context)
-                                        ? Alignment.centerLeft
-                                        : Alignment.topRight,
-                                    color: isReceived(message, context)
-                                        ? CupertinoColors.systemGrey5
-                                        : CupertinoColors.systemBlue,
-                                    messageColor: isReceived(message, context)
-                                        ? CupertinoColors.black
-                                        : CupertinoColors.white,
-                                    message: message.text))
-                                .toList()
-                          ],
-                        ))
-                    .toList()
-              ]),
+              child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: entries.length,
+                  itemBuilder: (context, index) {
+                    if (index >= entries.length) {
+                      return const CupertinoActivityIndicator();
+                    }
+                    //trick: https://stackoverflow.com/questions/62530799/listview-group-by-date-dart
+                    else {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+                            child: entries[index].key != null //TODO: weird bug
+                                ? MessageHeader(
+                                    rawTimeStamp: entries[index].key)
+                                : Container(), //date
+                          ),
+                          ...entries[index]
+                              .value //messages
+                              .map((message) => MessageWidget(
+                                  alignment: isReceived(message, context)
+                                      ? Alignment.centerLeft
+                                      : Alignment.topRight,
+                                  color: isReceived(message, context)
+                                      ? CupertinoColors.systemGrey5
+                                      : CupertinoColors.systemBlue,
+                                  messageColor: isReceived(message, context)
+                                      ? CupertinoColors.black
+                                      : CupertinoColors.white,
+                                  message: message.text))
+                              .toList()
+                        ],
+                      );
+                    }
+                  }),
             )),
         MessageInput()
       ],
