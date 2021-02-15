@@ -6,8 +6,6 @@ import 'package:imessage/message_widget.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show Message, StreamChatCore;
 
-import 'utils.dart';
-
 class MessageListView extends StatelessWidget {
   const MessageListView({Key key, this.messages}) : super(key: key);
   final List<Message> messages;
@@ -34,19 +32,17 @@ class MessageListView extends StatelessWidget {
                                   8.0, 24.0, 8.0, 8.0),
                               child: MessageHeader(rawTimeStamp: entry.key),
                             ),
-                            ...entry.value//messages
+                            ...entry.value //messages
                                 .map((message) => MessageWidget(
-                                    alignment:
-                                        isReceived(message, context)
-                                            ? Alignment.centerLeft
-                                            : Alignment.topRight,
+                                    alignment: isReceived(message, context)
+                                        ? Alignment.centerLeft
+                                        : Alignment.topRight,
                                     color: isReceived(message, context)
                                         ? CupertinoColors.systemGrey5
                                         : CupertinoColors.systemBlue,
-                                    messageColor:
-                                        isReceived(message, context)
-                                            ? CupertinoColors.black
-                                            : CupertinoColors.white,
+                                    messageColor: isReceived(message, context)
+                                        ? CupertinoColors.black
+                                        : CupertinoColors.white,
                                     message: message.text))
                                 .toList()
                           ],
