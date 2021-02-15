@@ -1,7 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
-    show Channel, ChannelListCore, ChannelsBloc, StreamChatClient, StreamChatCore, User;
+    show
+        Channel,
+        ChannelListCore,
+        ChannelsBloc,
+        StreamChatClient,
+        StreamChatCore,
+        User;
 
 import 'package:imessage/channel_list_view.dart';
 

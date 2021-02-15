@@ -2,8 +2,18 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
 String formatDate(DateTime date) {
+  final dateFormat = DateFormat.yMd().add_jm();
+  return dateFormat.format(date);
+}
+
+String formatDateSameWeek(DateTime date) {
+  final dateFormat = DateFormat('EEEE, hh:mm a'); //mer. 20 janv. à 15:31
+  return dateFormat.format(date);
+}
+
+String formatDateMessage(DateTime date) {
   final dateFormat =
-      DateFormat('EEE. MMM. d ' 'yy' '  HH:mm'); //mer. 20 janv. à 15:31
+      DateFormat('EEE. MMM. d ' 'yy' '  hh:mm a'); //mer. 20 janv. à 15:31
   return dateFormat.format(date);
 }
 

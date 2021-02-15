@@ -5,6 +5,8 @@ import 'package:imessage/utils.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show Channel;
 
+import 'utils.dart';
+
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
   final Channel channel;
@@ -64,7 +66,7 @@ class ChannelPreview extends StatelessWidget {
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 8.0),
                               child: Text(
-                                formatDate(channel.lastMessageAt),
+                               isSameWeek() ? formatDateSameWeek(channel.lastMessageAt):formatDate(channel.lastMessageAt),
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: CupertinoColors.systemGrey),
@@ -91,4 +93,6 @@ class ChannelPreview extends StatelessWidget {
       ),
     );
   }
+
+  bool isSameWeek() => channel.lastMessageAt.weekday == DateTime.now().weekday;
 }
