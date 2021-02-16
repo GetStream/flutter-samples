@@ -6,6 +6,7 @@ import 'package:example/group_info_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
@@ -102,11 +103,12 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
         var now = DateTime.now().millisecondsSinceEpoch;
 
-        if (now - timeOfStartMs > 1000) {
-          _animationController.forward();
+        if (now - timeOfStartMs > 1500) {
+          SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+            _animationController.forward();
+          });
         } else {
-          var diff = 1000 - (now - timeOfStartMs);
-          Future.delayed(Duration(milliseconds: diff)).then((value) {
+          Future.delayed(Duration(milliseconds: 1500)).then((value) {
             _animationController.forward();
           });
         }
@@ -137,7 +139,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                   color: _colorAnimation == null
                       ? Color(0xff005FFF)
                       : _colorAnimation.value,
-                  child: _initData == null
+                  child: !_animationController.isAnimating
                       ? Lottie.asset(
                           'assets/floating_boat.json',
                           alignment: Alignment.center,
@@ -145,24 +147,23 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                       : Container(),
                 );
               }),
-          if (_initData != null)
-            AnimatedBuilder(
-              animation: _animation,
-              builder: (context, snapshot) {
-                return Transform.scale(
-                  scale: _animation.value,
-                  child: Container(
-                    width: 1.0,
-                    height: 1.0,
-                    decoration: BoxDecoration(
-                      color: Colors.white
-                          .withOpacity(1 - _animationController.value),
-                      shape: BoxShape.circle,
-                    ),
+          AnimatedBuilder(
+            animation: _animation,
+            builder: (context, snapshot) {
+              return Transform.scale(
+                scale: _animation.value,
+                child: Container(
+                  width: 1.0,
+                  height: 1.0,
+                  decoration: BoxDecoration(
+                    color: Colors.white
+                        .withOpacity(1 - _animationController.value),
+                    shape: BoxShape.circle,
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
@@ -170,48 +171,51 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    if (_initData == null || !_animCompleted) {
-      return _buildAnimation();
-    }
-
-    return PreferenceBuilder<int>(
-      preference: _initData.preferences.getInt(
-        'theme',
-        defaultValue: 0,
-      ),
-      builder: (context, snapshot) => MaterialApp(
-        builder: (context, child) {
-          return StreamChat(
-            client: _initData.client,
-            onBackgroundEventReceived: (e) =>
-                showLocalNotification(e, _initData.client.state.user.id),
-            child: Builder(
-              builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
-                child: child,
-                value: SystemUiOverlayStyle(
-                  systemNavigationBarColor:
-                      StreamChatTheme.of(context).colorTheme.white,
-                  systemNavigationBarIconBrightness:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Brightness.light
-                          : Brightness.dark,
-                ),
-              ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        if (_initData != null)
+          PreferenceBuilder<int>(
+            preference: _initData.preferences.getInt(
+              'theme',
+              defaultValue: 0,
             ),
-          );
-        },
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
-        themeMode: {
-          -1: ThemeMode.dark,
-          0: ThemeMode.system,
-          1: ThemeMode.light,
-        }[snapshot],
-        onGenerateRoute: AppRoutes.generateRoute,
-        initialRoute: _initData.client.state.user == null
-            ? Routes.CHOOSE_USER
-            : Routes.HOME,
-      ),
+            builder: (context, snapshot) => MaterialApp(
+              builder: (context, child) {
+                return StreamChat(
+                  client: _initData.client,
+                  onBackgroundEventReceived: (e) =>
+                      showLocalNotification(e, _initData.client.state.user.id),
+                  child: Builder(
+                    builder: (context) => AnnotatedRegion<SystemUiOverlayStyle>(
+                      child: child,
+                      value: SystemUiOverlayStyle(
+                        systemNavigationBarColor:
+                            StreamChatTheme.of(context).colorTheme.white,
+                        systemNavigationBarIconBrightness:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Brightness.light
+                                : Brightness.dark,
+                      ),
+                    ),
+                  ),
+                );
+              },
+              theme: ThemeData.light(),
+              darkTheme: ThemeData.dark(),
+              themeMode: {
+                -1: ThemeMode.dark,
+                0: ThemeMode.system,
+                1: ThemeMode.light,
+              }[snapshot],
+              onGenerateRoute: AppRoutes.generateRoute,
+              initialRoute: _initData.client.state.user == null
+                  ? Routes.CHOOSE_USER
+                  : Routes.HOME,
+            ),
+          ),
+        if (!_animCompleted) _buildAnimation(),
+      ],
     );
   }
 }
