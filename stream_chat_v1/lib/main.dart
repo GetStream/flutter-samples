@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   Animation<double> _animation;
   AnimationController _animationController;
   Animation<Color> _colorAnimation;
+  int timeOfStartMs;
 
   Future<InitData> _initConnection() async {
     final secureStorage = FlutterSecureStorage();
@@ -67,6 +68,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    timeOfStartMs = DateTime.now().millisecondsSinceEpoch;
     _animationController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _animation = Tween(begin: 0.0, end: 1000.0).animate(
@@ -97,7 +99,17 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
                     : Colors.black)
             .animate(CurvedAnimation(
                 parent: _animationController, curve: Curves.easeInOut));
-        _animationController.forward();
+
+        var now = DateTime.now().millisecondsSinceEpoch;
+
+        if (now - timeOfStartMs > 1000) {
+          _animationController.forward();
+        } else {
+          var diff = 1000 - (now - timeOfStartMs);
+          Future.delayed(Duration(milliseconds: diff)).then((value) {
+            _animationController.forward();
+          });
+        }
       },
     );
     _animationController.addStatusListener((status) {
