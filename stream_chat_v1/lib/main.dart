@@ -38,8 +38,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   InitData _initData;
   bool _animCompleted = false;
-  Animation<double> _animation;
-  AnimationController _animationController;
+  Animation<double> _animation, _scaleAnimation;
+  AnimationController _animationController, _scaleAnimationController;
   Animation<Color> _colorAnimation;
   int timeOfStartMs;
 
@@ -70,46 +70,68 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   @override
   void initState() {
     timeOfStartMs = DateTime.now().millisecondsSinceEpoch;
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
-    _animation = Tween(begin: 0.0, end: 1000.0).animate(
-        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
-    _colorAnimation =
-        ColorTween(begin: Color(0xff005FFF), end: Color(0xff005FFF)).animate(
-            CurvedAnimation(
-                parent: _animationController, curve: Curves.easeInOut));
+
+    _scaleAnimationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 500,
+      ),
+    );
+    _scaleAnimation = Tween(
+      begin: 1.0,
+      end: 1.5,
+    ).animate(CurvedAnimation(
+      parent: _scaleAnimationController,
+      curve: Curves.easeInOutBack,
+    ));
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 1000,
+      ),
+    );
+    _animation = Tween(
+      begin: 0.0,
+      end: 1000.0,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+    _colorAnimation = ColorTween(
+      begin: Color(0xff005FFF),
+      end: Color(0xff005FFF),
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
     _initConnection().then(
       (initData) {
         setState(() {
           _initData = initData;
         });
-        var theme = _initData.preferences.getInt(
-          'theme',
-          defaultValue: 0,
-        );
-
-        final isDark = Theme.of(context).brightness == Brightness.dark;
-        final colorTheme = theme.getValue() == 0
-            ? (isDark ? ColorTheme.dark() : ColorTheme.light())
-            : (theme.getValue() == 1 ? ColorTheme.light() : ColorTheme.dark());
 
         _colorAnimation = ColorTween(
-                begin: Color(0xff005FFF),
-                end: colorTheme.white == ColorTheme.light().white
-                    ? Colors.white
-                    : Colors.black)
-            .animate(CurvedAnimation(
-                parent: _animationController, curve: Curves.easeInOut));
+          begin: Color(0xff005FFF),
+          end: Colors.transparent,
+        ).animate(CurvedAnimation(
+          parent: _animationController,
+          curve: Curves.easeInOut,
+        ));
 
         var now = DateTime.now().millisecondsSinceEpoch;
 
         if (now - timeOfStartMs > 1500) {
           SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
-            _animationController.forward();
+            _scaleAnimationController.forward().whenComplete(() {
+              _animationController.forward();
+            });
           });
         } else {
           Future.delayed(Duration(milliseconds: 1500)).then((value) {
-            _animationController.forward();
+            _scaleAnimationController.forward().whenComplete(() {
+              _animationController.forward();
+            });
           });
         }
       },
@@ -131,22 +153,30 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         alignment: Alignment.center,
         children: [
           AnimatedBuilder(
-              animation: _colorAnimation,
-              builder: (context, snapshot) {
-                return Container(
-                  alignment: Alignment.center,
-                  constraints: BoxConstraints.expand(),
-                  color: _colorAnimation == null
-                      ? Color(0xff005FFF)
-                      : _colorAnimation.value,
-                  child: !_animationController.isAnimating
-                      ? Lottie.asset(
-                          'assets/floating_boat.json',
-                          alignment: Alignment.center,
-                        )
-                      : Container(),
-                );
-              }),
+            animation: _scaleAnimation,
+            builder: (context, _) {
+              return Transform.scale(
+                scale: _scaleAnimation.value,
+                child: AnimatedBuilder(
+                    animation: _colorAnimation,
+                    builder: (context, snapshot) {
+                      return Container(
+                        alignment: Alignment.center,
+                        constraints: BoxConstraints.expand(),
+                        color: _colorAnimation == null
+                            ? Color(0xff005FFF)
+                            : _colorAnimation.value,
+                        child: !_animationController.isAnimating
+                            ? Lottie.asset(
+                                'assets/floating_boat.json',
+                                alignment: Alignment.center,
+                              )
+                            : SizedBox(),
+                      );
+                    }),
+              );
+            },
+          ),
           AnimatedBuilder(
             animation: _animation,
             builder: (context, snapshot) {
