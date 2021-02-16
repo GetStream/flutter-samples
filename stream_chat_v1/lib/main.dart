@@ -70,6 +70,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   void _createAnimations() {
     _scaleAnimationController = AnimationController(
       vsync: this,
+      value: 0,
       duration: Duration(
         milliseconds: 500,
       ),
@@ -114,7 +115,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   @override
   void initState() {
     timeOfStartMs = DateTime.now().millisecondsSinceEpoch;
-    
+
     _createAnimations();
 
     _initConnection().then(
