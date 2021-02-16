@@ -39,6 +39,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   bool _animCompleted = false;
   Animation<double> _animation;
   AnimationController _animationController;
+  Animation<Color> _colorAnimation;
 
   Future<InitData> _initConnection() async {
     final secureStorage = FlutterSecureStorage();
@@ -70,11 +71,32 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(milliseconds: 300));
     _animation = Tween(begin: 0.0, end: 1000.0).animate(
         CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
+    _colorAnimation =
+        ColorTween(begin: Color(0xff005FFF), end: Color(0xff005FFF)).animate(
+            CurvedAnimation(
+                parent: _animationController, curve: Curves.easeInOut));
     _initConnection().then(
       (initData) {
         setState(() {
           _initData = initData;
         });
+        var theme = _initData.preferences.getInt(
+          'theme',
+          defaultValue: 0,
+        );
+
+        final isDark = Theme.of(context).brightness == Brightness.dark;
+        final colorTheme = theme.getValue() == 0
+            ? (isDark ? ColorTheme.dark() : ColorTheme.light())
+            : (theme.getValue() == 1 ? ColorTheme.light() : ColorTheme.dark());
+
+        _colorAnimation = ColorTween(
+                begin: Color(0xff005FFF),
+                end: colorTheme.white == ColorTheme.light().white
+                    ? Colors.white
+                    : Colors.black)
+            .animate(CurvedAnimation(
+                parent: _animationController, curve: Curves.easeInOut));
         _animationController.forward();
       },
     );
@@ -94,33 +116,41 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         clipBehavior: Clip.none,
         alignment: Alignment.center,
         children: [
-          Container(
-            alignment: Alignment.center,
-            constraints: BoxConstraints.expand(),
-            color: Color(0xff005FFF),
-            child: _initData == null
-                ? Lottie.asset(
-                    'assets/floating_boat.json',
-                    alignment: Alignment.center,
-                  )
-                : Container(),
-          ),
+          AnimatedBuilder(
+              animation: _colorAnimation,
+              builder: (context, snapshot) {
+                return Container(
+                  alignment: Alignment.center,
+                  constraints: BoxConstraints.expand(),
+                  color: _colorAnimation == null
+                      ? Color(0xff005FFF)
+                      : _colorAnimation.value,
+                  child: _initData == null
+                      ? Lottie.asset(
+                          'assets/floating_boat.json',
+                          alignment: Alignment.center,
+                        )
+                      : Container(),
+                );
+              }),
           if (_initData != null)
             AnimatedBuilder(
-                animation: _animation,
-                builder: (context, snapshot) {
-                  return Transform.scale(
-                    scale: _animation.value,
-                    child: Container(
-                      width: 1.0,
-                      height: 1.0,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
-                        shape: BoxShape.circle,
-                      ),
+              animation: _animation,
+              builder: (context, snapshot) {
+                return Transform.scale(
+                  scale: _animation.value,
+                  child: Container(
+                    width: 1.0,
+                    height: 1.0,
+                    decoration: BoxDecoration(
+                      color: Colors.white
+                          .withOpacity(1 - _animationController.value),
+                      shape: BoxShape.circle,
                     ),
-                  );
-                }),
+                  ),
+                );
+              },
+            ),
         ],
       ),
     );
