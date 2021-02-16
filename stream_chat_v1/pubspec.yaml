@@ -17,12 +17,9 @@ dependencies:
   yaml: ^2.2.1
   uuid: ^2.2.2
   streaming_shared_preferences: ^1.0.2
+  lottie: ^0.7.0+1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_driver:
-    sdk: flutter
   flutter_launcher_icons: ^0.8.1
   test: any
 
