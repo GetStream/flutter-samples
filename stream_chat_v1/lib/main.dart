@@ -34,8 +34,11 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   InitData _initData;
+  bool _animCompleted = false;
+  Animation<double> _animation;
+  AnimationController _animationController;
 
   Future<InitData> _initConnection() async {
     final secureStorage = FlutterSecureStorage();
@@ -63,31 +66,69 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 300));
+    _animation = Tween(begin: 0.0, end: 1000.0).animate(
+        CurvedAnimation(parent: _animationController, curve: Curves.easeInOut));
     _initConnection().then(
       (initData) {
         setState(() {
           _initData = initData;
         });
+        _animationController.forward();
       },
     );
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() {
+          _animCompleted = true;
+        });
+      }
+    });
     super.initState();
   }
 
   Widget _buildAnimation() {
-    return Container(
-      alignment: Alignment.center,
-      constraints: BoxConstraints.expand(),
-      color: Color(0xff005FFF),
-      child: Lottie.asset(
-        'assets/floating_boat.json',
+    return MaterialApp(
+      home: Stack(
+        clipBehavior: Clip.none,
         alignment: Alignment.center,
+        children: [
+          Container(
+            alignment: Alignment.center,
+            constraints: BoxConstraints.expand(),
+            color: Color(0xff005FFF),
+            child: _initData == null
+                ? Lottie.asset(
+                    'assets/floating_boat.json',
+                    alignment: Alignment.center,
+                  )
+                : Container(),
+          ),
+          if (_initData != null)
+            AnimatedBuilder(
+                animation: _animation,
+                builder: (context, snapshot) {
+                  return Transform.scale(
+                    scale: _animation.value,
+                    child: Container(
+                      width: 1.0,
+                      height: 1.0,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.7),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  );
+                }),
+        ],
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_initData == null) {
+    if (_initData == null || !_animCompleted) {
       return _buildAnimation();
     }
 
