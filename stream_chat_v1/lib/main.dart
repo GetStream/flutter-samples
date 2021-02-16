@@ -67,10 +67,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     return InitData(client, prefs);
   }
 
-  @override
-  void initState() {
-    timeOfStartMs = DateTime.now().millisecondsSinceEpoch;
-
+  void _createAnimations() {
     _scaleAnimationController = AnimationController(
       vsync: this,
       duration: Duration(
@@ -105,19 +102,26 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
       parent: _animationController,
       curve: Curves.easeInOut,
     ));
+    _colorAnimation = ColorTween(
+      begin: Color(0xff005FFF),
+      end: Colors.transparent,
+    ).animate(CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeInOut,
+    ));
+  }
+
+  @override
+  void initState() {
+    timeOfStartMs = DateTime.now().millisecondsSinceEpoch;
+    
+    _createAnimations();
+
     _initConnection().then(
       (initData) {
         setState(() {
           _initData = initData;
         });
-
-        _colorAnimation = ColorTween(
-          begin: Color(0xff005FFF),
-          end: Colors.transparent,
-        ).animate(CurvedAnimation(
-          parent: _animationController,
-          curve: Curves.easeInOut,
-        ));
 
         var now = DateTime.now().millisecondsSinceEpoch;
 
