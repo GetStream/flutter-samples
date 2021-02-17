@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_header.dart';
 import 'package:imessage/message_input.dart';
 import 'package:imessage/message_widget.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Message, StreamChatCore;
 
 class MessageListView extends StatelessWidget {
@@ -18,6 +18,7 @@ class MessageListView extends StatelessWidget {
         .toList();
     return Stack(
       children: [
+        
         SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
             child: Align(

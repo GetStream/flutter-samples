@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:imessage/channel_preview.dart';
 import 'package:imessage/message_page.dart';
 import 'package:animations/animations.dart';
-import 'package:stream_chat_flutter_core/src/channel_list_core.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Channel, StreamChannel;
 
 class ChannelListView extends StatelessWidget {

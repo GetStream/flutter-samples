@@ -1,7 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/message_list_view.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
-    show MessageListCore, StreamChannel, StreamChatCore;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+    show
+        LazyLoadScrollView,
+        MessageListController,
+        MessageListCore,
+        StreamChannel,
+        StreamChatCore;
 
 import 'package:imessage/channel_image.dart';
 import 'package:imessage/channel_name_text.dart';
@@ -11,6 +16,7 @@ class MessagePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final streamChannel = StreamChannel.of(context);
 
+    var messageListController = MessageListController();
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         middle: Column(
@@ -23,6 +29,7 @@ class MessagePage extends StatelessWidget {
       child: StreamChatCore(
           client: streamChannel.channel.client,
           child: MessageListCore(
+              messageListController: messageListController,
               loadingBuilder: (context) {
                 return Center(
                   child: CupertinoActivityIndicator(),
@@ -38,8 +45,13 @@ class MessagePage extends StatelessWidget {
                   child: Text('Nothing here...'),
                 );
               },
-              messageListBuilder: (context, messages) => MessageListView(
-                    messages: messages,
+              messageListBuilder: (context, messages) => LazyLoadScrollView(
+                    onStartOfPage: () async {
+                      messageListController.paginateData();
+                    },
+                    child: MessageListView(
+                      messages: messages,
+                    ),
                   ))),
     );
   }

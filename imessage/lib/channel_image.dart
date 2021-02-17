@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
-    show Channel;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Channel;
 
 import 'package:imessage/utils.dart';
 

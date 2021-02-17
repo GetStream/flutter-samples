@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Message, StreamChannel;
 
 class MessageInput extends StatelessWidget {
@@ -36,7 +36,7 @@ class MessageInput extends StatelessWidget {
               child: CupertinoTextField(
                 controller: textController,
                 onSubmitted: (input) async {
-                 await sendMessage(context, input);
+                  await sendMessage(context, input);
                 },
                 placeholder: 'iMessage',
                 prefix: Padding(

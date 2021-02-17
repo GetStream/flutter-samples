@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show
         Channel,
         ChannelListController,
         ChannelListCore,
         ChannelsBloc,
+        LazyLoadScrollView,
         Level,
         PaginationParams,
         SortOption,
@@ -29,16 +30,6 @@ Future<void> main() async {
     ),
     'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZW1wdHktcXVlZW4tNSJ9.RJw-XeaPnUBKbbh71rV1bYAKXp6YaPARh68O08oRnOU',
   );
-
-  // final channel = client.channel(
-  //   "messaging",
-  //   extraData: {
-  //     "name": "Founder Chat",
-  //     "image": "http://bit.ly/2O35mws",
-  //     "members": ["polished-poetry-5"],
-  //   },
-  // );
-  // await channel.create();
 
   runApp(IMessage(client: client));
 }
@@ -112,12 +103,17 @@ class ChatLoader extends StatelessWidget {
                   BuildContext context,
                   List<Channel> channels,
                 ) =>
-                    CustomScrollView(slivers: [
-                      CupertinoSliverRefreshControl(onRefresh: () async {
-                        channelListController.loadData();
-                      }),
-                      ChannelPageAppBar(),
-                      ChannelListView(channels: channels)
-                    ]))));
+                    LazyLoadScrollView(
+                      onEndOfPage: () async {
+                        return channelListController.paginateData();
+                      },
+                      child: CustomScrollView(slivers: [
+                        CupertinoSliverRefreshControl(onRefresh: () async {
+                          channelListController.loadData();
+                        }),
+                        ChannelPageAppBar(),
+                        ChannelListView(channels: channels)
+                      ]),
+                    ))));
   }
 }
