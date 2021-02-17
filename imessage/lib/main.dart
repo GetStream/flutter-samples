@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show
         Channel,
+        ChannelListController,
         ChannelListCore,
         ChannelsBloc,
         Level,
@@ -64,26 +65,26 @@ class ChatLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = StreamChatCore.of(context).user;
+    var channelListController = ChannelListController();
     return CupertinoPageScaffold(
         child: ChannelsBloc(
             child: ChannelListCore(
+                channelListController: channelListController,
                 filter: {
-          r'$and': [
-            {
-              'members': {
-                r'$in': [user.id],
-              }
-            },
-            {
-              'type': {
-                r'$eq': 'messaging',
-              }
-            }
-          ]
-        },
-                sort: [
-          SortOption('last_message_at')
-        ],
+                  r'$and': [
+                    {
+                      'members': {
+                        r'$in': [user.id],
+                      }
+                    },
+                    {
+                      'type': {
+                        r'$eq': 'messaging',
+                      }
+                    }
+                  ]
+                },
+                sort: [SortOption('last_message_at')],
                 pagination: PaginationParams(
                   limit: 20,
                 ),
@@ -112,6 +113,9 @@ class ChatLoader extends StatelessWidget {
                   List<Channel> channels,
                 ) =>
                     CustomScrollView(slivers: [
+                      CupertinoSliverRefreshControl(onRefresh: () async {
+                        channelListController.loadData();
+                      }),
                       ChannelPageAppBar(),
                       ChannelListView(channels: channels)
                     ]))));
