@@ -18,7 +18,6 @@ class MessageListView extends StatelessWidget {
         .toList();
     return Stack(
       children: [
-        
         SizedBox(
             height: MediaQuery.of(context).size.height * 0.9,
             child: Align(
@@ -37,20 +36,20 @@ class MessageListView extends StatelessWidget {
                           child: MessageHeader(
                               rawTimeStamp: entries[index].key), //date
                         ),
-                        ...entries[index]
-                            .value //messages
-                            .map((message) => MessageWidget(
-                                alignment: isReceived(message, context)
-                                    ? Alignment.centerLeft
-                                    : Alignment.topRight,
-                                color: isReceived(message, context)
-                                    ? CupertinoColors.systemGrey5
-                                    : CupertinoColors.systemBlue,
-                                messageColor: isReceived(message, context)
-                                    ? CupertinoColors.black
-                                    : CupertinoColors.white,
-                                message: message.text))
-                            .toList()
+                        ...entries[index].value //messages
+                            .map((message) {
+                          return MessageWidget(
+                              alignment: isReceived(message, context)
+                                  ? Alignment.centerLeft
+                                  : Alignment.topRight,
+                              color: isReceived(message, context)
+                                  ? CupertinoColors.systemGrey5
+                                  : CupertinoColors.systemBlue,
+                              messageColor: isReceived(message, context)
+                                  ? CupertinoColors.black
+                                  : CupertinoColors.white,
+                              message: message);
+                        }).toList()
                       ],
                     );
                   }),

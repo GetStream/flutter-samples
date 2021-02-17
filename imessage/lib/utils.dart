@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -29,15 +30,16 @@ class CupertinoCircleAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(size / 2),
-      child: Image.network(
-        url.contains(
-                "https://images-na.ssl-images-amazon.com") //issues with images starting wth this url
-            ? "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg"
-            : url,
-        height: size,
-        width: size,
-        fit: BoxFit.cover,
-      ),
+      child: CachedNetworkImage(
+          imageUrl: url,
+          height: size,
+          width: size,
+          fit: BoxFit.cover,
+          errorWidget: (context, url, error) { //TODO: this crash the app when getting 404 and in debug mode, see :https://github.com/Baseflow/flutter_cached_network_image/issues/504 
+            return CachedNetworkImage(
+                imageUrl:
+                    "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg");
+          }),
     );
   }
 }

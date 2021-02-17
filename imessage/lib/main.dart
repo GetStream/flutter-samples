@@ -20,15 +20,16 @@ import 'package:imessage/channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final client = StreamChatClient('s2dxdhpxd94g', logLevel: Level.INFO);
+  final client = StreamChatClient('b67pax5b2wdq', logLevel: Level.INFO);
   await client.connectUser(
     User(
-      id: 'empty-queen-5',
+      id: 'cool-shadow-7',
       extraData: {
-        'name': 'Paranoid Android',
+        'image':
+            'https://getstream.io/random_png/?id=cool-shadow-7&amp;name=Cool+shadow',
       },
     ),
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZW1wdHktcXVlZW4tNSJ9.RJw-XeaPnUBKbbh71rV1bYAKXp6YaPARh68O08oRnOU',
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiY29vbC1zaGFkb3ctNyJ9.gkOlCRb1qgy4joHPaxFwPOdXcGvSPvp6QY0S4mpRkVo',
   );
 
   runApp(IMessage(client: client));
@@ -105,7 +106,7 @@ class ChatLoader extends StatelessWidget {
                 ) =>
                     LazyLoadScrollView(
                       onEndOfPage: () async {
-                        return channelListController.paginateData();
+                        channelListController.paginateData();
                       },
                       child: CustomScrollView(slivers: [
                         CupertinoSliverRefreshControl(onRefresh: () async {
