@@ -5,6 +5,9 @@ import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
         Channel,
         ChannelListCore,
         ChannelsBloc,
+        Level,
+        PaginationParams,
+        SortOption,
         StreamChatClient,
         StreamChatCore,
         User;
@@ -15,11 +18,26 @@ import 'package:imessage/channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final client = StreamChatClient('b67pax5b2wdq');
+  final client = StreamChatClient('s2dxdhpxd94g', logLevel: Level.INFO);
   await client.connectUser(
-    User(id: 'polished-poetry-5'),
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoicG9saXNoZWQtcG9ldHJ5LTUifQ.o8SWzSlb68EntudwjVul1rUCYGpla-CimXNKxj3wKOc',
+    User(
+      id: 'empty-queen-5',
+      extraData: {
+        'name': 'Paranoid Android',
+      },
+    ),
+    'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiZW1wdHktcXVlZW4tNSJ9.RJw-XeaPnUBKbbh71rV1bYAKXp6YaPARh68O08oRnOU',
   );
+
+  // final channel = client.channel(
+  //   "messaging",
+  //   extraData: {
+  //     "name": "Founder Chat",
+  //     "image": "http://bit.ly/2O35mws",
+  //     "members": ["polished-poetry-5"],
+  //   },
+  // );
+  // await channel.create();
 
   runApp(IMessage(client: client));
 }
@@ -45,9 +63,30 @@ class ChatLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = StreamChatCore.of(context).user;
     return CupertinoPageScaffold(
         child: ChannelsBloc(
             child: ChannelListCore(
+                filter: {
+          r'$and': [
+            {
+              'members': {
+                r'$in': [user.id],
+              }
+            },
+            {
+              'type': {
+                r'$eq': 'messaging',
+              }
+            }
+          ]
+        },
+                sort: [
+          SortOption('last_message_at')
+        ],
+                pagination: PaginationParams(
+                  limit: 20,
+                ),
                 emptyBuilder: (BuildContext context) {
                   return Center(
                     child: Text('Looks like you are not in any channels'),

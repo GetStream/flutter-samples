@@ -17,8 +17,8 @@ String formatDateMessage(DateTime date) {
   return dateFormat.format(date);
 }
 
- bool isSameWeek(DateTime timestamp ) => DateTime.now().difference(timestamp).inDays < 7;
-
+bool isSameWeek(DateTime timestamp) =>
+    DateTime.now().difference(timestamp).inDays < 7;
 
 class CupertinoCircleAvatar extends StatelessWidget {
   final String url;
@@ -30,7 +30,10 @@ class CupertinoCircleAvatar extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(size / 2),
       child: Image.network(
-        url,
+        url.contains(
+                "https://images-na.ssl-images-amazon.com") //issues with images starting wth this url
+            ? "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg"
+            : url,
         height: size,
         width: size,
         fit: BoxFit.cover,
