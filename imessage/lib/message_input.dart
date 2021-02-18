@@ -1,27 +1,56 @@
-import 'package:flutter/cupertino.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Message, StreamChannel;
+import 'dart:io';
 
-class MessageInput extends StatelessWidget {
+import 'package:flutter/cupertino.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+    show Attachment, AttachmentFile, Message, MultipartFile, StreamChannel;
+
+class MessageInput extends StatefulWidget {
   const MessageInput({
     Key key,
   }) : super(key: key);
 
   @override
+  _MessageInputState createState() => _MessageInputState();
+}
+
+class _MessageInputState extends State<MessageInput> {
+  final textController = TextEditingController();
+  File _image;
+  final picker = ImagePicker();
+
+  @override
   Widget build(BuildContext context) {
-    final textController = TextEditingController();
     return Align(
       alignment: FractionalOffset.bottomCenter,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
         child: Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                CupertinoIcons.camera_fill,
-                color: CupertinoColors.systemGrey,
-                size: 35,
+            GestureDetector(
+              onTap: () async {
+                final pickedFile =
+                    await picker.getImage(source: ImageSource.gallery);
+                final bytes = await File(pickedFile.path).readAsBytes();
+                final channel = StreamChannel.of(context).channel;
+                final message = Message(text: 'Hello', extraData: {
+                  "file_size": bytes.elementSizeInBytes
+                }, attachments: [
+                  Attachment(
+                    type: 'image',
+                    file: AttachmentFile(
+                        bytes: bytes, size: bytes.elementSizeInBytes), //
+                  ),
+                ]);
+                await channel.sendMessage(message);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  CupertinoIcons.camera_fill,
+                  color: CupertinoColors.systemGrey,
+                  size: 35,
+                ),
               ),
             ),
             Padding(

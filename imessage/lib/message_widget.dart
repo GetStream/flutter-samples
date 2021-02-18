@@ -21,14 +21,16 @@ class MessageWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (message.attachments.isNotEmpty &&
         message.attachments.first.type == "image") {
+      print("type : ${message.attachments.first.assetUrl}");
       if (message.text != null) {
+        print(message.attachments.first.toJson());
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              message.text.contains("http")
-                  ? Container()
-                  : message.text, //no need to display link
+              // message.text.contains("http")
+              //     ? Container()
+              //     : Text(message.text), //no need to display link
               ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Container(
@@ -36,7 +38,9 @@ class MessageWidget extends StatelessWidget {
                   child: Column(
                     children: [
                       CachedNetworkImage(
-                        imageUrl: message.attachments.first.thumbUrl,
+                        imageUrl: message.attachments.first.thumbUrl ??
+                            message.attachments.first.imageUrl ??
+                            message.attachments.first.assetUrl,
                       ),
                       Padding(
                         padding: const EdgeInsets.all(8.0),

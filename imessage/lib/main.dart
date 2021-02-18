@@ -20,7 +20,7 @@ import 'package:imessage/channel_page_appbar.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final client = StreamChatClient('b67pax5b2wdq', logLevel: Level.INFO);
+  final client = StreamChatClient('b67pax5b2wdq', logLevel: Level.INFO); //
   await client.connectUser(
     User(
       id: 'cool-shadow-7',

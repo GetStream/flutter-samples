@@ -38,6 +38,7 @@ class MessageListView extends StatelessWidget {
                         ),
                         ...entries[index].value //messages
                             .map((message) {
+                          print("message.type ${message.type is Widget} ");
                           return MessageWidget(
                               alignment: isReceived(message, context)
                                   ? Alignment.centerLeft
