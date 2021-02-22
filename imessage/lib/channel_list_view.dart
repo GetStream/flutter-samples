@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:imessage/channel_preview.dart';
 import 'package:imessage/message_page.dart';
 import 'package:animations/animations.dart';
@@ -13,35 +14,35 @@ class ChannelListView extends StatelessWidget {
     channels.removeWhere((channel) => channel.lastMessageAt == null);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          //TODO: separators
-          return Column(
-            children: [
-              ChannelPreview(
-                  channel: channels[index],
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => StreamChannel(
-                            channel: channels[index],
-                            child: MessagePage(),
-                          ),
-                          transitionsBuilder: (
-                            _,
-                            animation,
-                            secondaryAnimation,
-                            child,
-                          ) =>
-                              SharedAxisTransition(
-                            child: child,
-                            animation: animation,
-                            secondaryAnimation: secondaryAnimation,
-                            transitionType: SharedAxisTransitionType.horizontal,
-                          ),
-                        ));
-                  })
-            ],
+        (
+          BuildContext context,
+          int index,
+        ) {
+          return ChannelPreview(
+            channel: channels[index],
+            onTap: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (_, __, ___) => StreamChannel(
+                    channel: channels[index],
+                    child: MessagePage(),
+                  ),
+                  transitionsBuilder: (
+                    _,
+                    animation,
+                    secondaryAnimation,
+                    child,
+                  ) =>
+                      SharedAxisTransition(
+                    child: child,
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                  ),
+                ),
+              );
+            },
           );
         },
         childCount: channels.length,

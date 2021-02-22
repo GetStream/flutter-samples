@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/cutom_painter.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Message, AttachmentUploadStateBuilder;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart'
+    show Message, AttachmentUploadStateBuilder;
 
 class MessageWidget extends StatelessWidget {
   final Alignment alignment;
@@ -19,7 +20,7 @@ class MessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (message.attachments.isNotEmpty &&
+    if (message.attachments?.isNotEmpty == true &&
         message.attachments.first.type == "image") {
       return MessageImage(
           color: color, message: message, messageColor: messageColor);
@@ -58,8 +59,8 @@ class MessageImage extends StatelessWidget {
                 color: color,
                 child: Column(
                   children: [
-                   
-                    FutureBuilder<String>( //hack:  //AttachmentUploadStateBuilder once https://github.com/GetStream/stream-chat-flutter/pull/276 is merged
+                    FutureBuilder<String>(
+                        //hack:  //AttachmentUploadStateBuilder once https://github.com/GetStream/stream-chat-flutter/pull/276 is merged
                         future: Future.delayed(
                             const Duration(seconds: 5),
                             () =>
