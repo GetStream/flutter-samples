@@ -33,13 +33,11 @@ class _MessageInputState extends State<MessageInput> {
                     await picker.getImage(source: ImageSource.gallery);
                 final bytes = await File(pickedFile.path).readAsBytes();
                 final channel = StreamChannel.of(context).channel;
-                final message = Message(text: 'Hello', extraData: {
-                  "file_size": bytes.elementSizeInBytes
-                }, attachments: [
+                final message =
+                    Message(text: textController.value.text, attachments: [
                   Attachment(
                     type: 'image',
-                    file: AttachmentFile(
-                        bytes: bytes, size: bytes.elementSizeInBytes), //
+                    file: AttachmentFile(bytes: bytes, path: pickedFile.path),
                   ),
                 ]);
                 await channel.sendMessage(message);
