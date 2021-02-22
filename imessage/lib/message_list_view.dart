@@ -26,7 +26,6 @@ class MessageListView extends StatelessWidget {
                   shrinkWrap: true,
                   itemCount: entries.length,
                   itemBuilder: (context, index) {
-                    //trick: https://stackoverflow.com/questions/62530799/listview-group-by-date-dart
 
                     return Column(
                       children: [
@@ -38,7 +37,6 @@ class MessageListView extends StatelessWidget {
                         ),
                         ...entries[index].value //messages
                             .map((message) {
-                          print("message.type ${message.type is Widget} ");
                           return MessageWidget(
                             alignment: isReceived(message, context)
                                 ? Alignment.centerLeft

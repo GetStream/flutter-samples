@@ -9,7 +9,6 @@ import 'utils.dart';
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
   final Channel channel;
-  // final Contact from;
   const ChannelPreview({
     Key key,
     @required this.onTap,

@@ -68,7 +68,6 @@ class _MessageInputState extends State<MessageInput> {
                     if (textController.value.text.isNotEmpty) {
                       await sendMessage(context, textController.value.text);
                       textController.clear();
-                      // _updateList();
                     }
                   },
                   child: Padding(

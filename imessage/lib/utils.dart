@@ -8,13 +8,13 @@ String formatDate(DateTime date) {
 }
 
 String formatDateSameWeek(DateTime date) {
-  final dateFormat = DateFormat('EEEE, hh:mm a'); //mer. 20 janv. à 15:31
+  final dateFormat = DateFormat('EEEE, hh:mm a'); 
   return dateFormat.format(date);
 }
 
 String formatDateMessage(DateTime date) {
   final dateFormat =
-      DateFormat('EEE. MMM. d ' 'yy' '  hh:mm a'); //mer. 20 janv. à 15:31
+      DateFormat('EEE. MMM. d ' 'yy' '  hh:mm a');
   return dateFormat.format(date);
 }
 
