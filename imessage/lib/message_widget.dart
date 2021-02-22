@@ -42,11 +42,12 @@ class MessageWidget extends StatelessWidget {
                             message.attachments.first.imageUrl ??
                             message.attachments.first.assetUrl,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(message.attachments.first.title,
-                            style: TextStyle(color: messageColor)),
-                      ),
+                      if (message.attachments.first?.title != null)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(message.attachments.first.title,
+                              style: TextStyle(color: messageColor)),
+                        ),
                       message.attachments.first.pretext != null
                           ? Text(message.attachments.first.pretext)
                           : Container()

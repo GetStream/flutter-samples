@@ -40,16 +40,17 @@ class MessageListView extends StatelessWidget {
                             .map((message) {
                           print("message.type ${message.type is Widget} ");
                           return MessageWidget(
-                              alignment: isReceived(message, context)
-                                  ? Alignment.centerLeft
-                                  : Alignment.topRight,
-                              color: isReceived(message, context)
-                                  ? CupertinoColors.systemGrey5
-                                  : CupertinoColors.systemBlue,
-                              messageColor: isReceived(message, context)
-                                  ? CupertinoColors.black
-                                  : CupertinoColors.white,
-                              message: message);
+                            alignment: isReceived(message, context)
+                                ? Alignment.centerLeft
+                                : Alignment.topRight,
+                            color: isReceived(message, context)
+                                ? CupertinoColors.systemGrey5
+                                : CupertinoColors.systemBlue,
+                            messageColor: isReceived(message, context)
+                                ? CupertinoColors.black
+                                : CupertinoColors.white,
+                            message: message,
+                          );
                         }).toList()
                       ],
                     );
