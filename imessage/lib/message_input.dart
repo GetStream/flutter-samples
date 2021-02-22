@@ -53,21 +53,13 @@ class _MessageInputState extends State<MessageInput> {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                CupertinoIcons.tray_arrow_down_fill,
-                color: CupertinoColors.systemGrey,
-                size: 35,
-              ),
-            ),
             Expanded(
               child: CupertinoTextField(
                 controller: textController,
                 onSubmitted: (input) async {
                   await sendMessage(context, input);
                 },
-                placeholder: 'iMessage',
+                placeholder: 'Text Message',
                 prefix: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
@@ -84,7 +76,7 @@ class _MessageInputState extends State<MessageInput> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(CupertinoIcons.arrow_up_circle_fill,
-                        color: CupertinoColors.activeBlue, size: 35),
+                        color: CupertinoColors.activeGreen, size: 35),
                   ),
                 ),
                 decoration: BoxDecoration(
