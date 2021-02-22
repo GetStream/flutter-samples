@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:imessage/channel_preview.dart';
 import 'package:imessage/message_page.dart';
 import 'package:animations/animations.dart';

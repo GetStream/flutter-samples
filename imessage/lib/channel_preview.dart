@@ -36,6 +36,8 @@ class ChannelPreview extends StatelessWidget {
         : '';
     return GestureDetector(
       onTap: onTap,
+      
+      
       behavior: HitTestBehavior.opaque,
       child: Container(
         constraints: BoxConstraints.tightFor(

@@ -3,6 +3,7 @@
 .idea/
 .fvm/
 .vscode/
+**/.fvm/
 
 .packages
 .pub/

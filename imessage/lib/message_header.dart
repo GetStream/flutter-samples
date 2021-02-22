@@ -9,7 +9,7 @@ class MessageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final receivedAt = DateTime.parse(rawTimeStamp);
-    var textStyle = TextStyle(
+    final textStyle = TextStyle(
       color: CupertinoColors.systemGrey,
       fontSize: 14,
     );

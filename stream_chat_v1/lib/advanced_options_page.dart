@@ -33,7 +33,6 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: StreamChatTheme.of(context).colorTheme.whiteSnow,
-      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         backgroundColor: StreamChatTheme.of(context).colorTheme.white,
         elevation: 1,
