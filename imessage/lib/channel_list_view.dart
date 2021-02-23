@@ -17,31 +17,34 @@ class ChannelListView extends StatelessWidget {
           BuildContext context,
           int index,
         ) {
-          return ChannelPreview(
-            channel: channels[index],
-            onTap: () {
-              Navigator.push(
-                context,
-                PageRouteBuilder(
-                  pageBuilder: (_, __, ___) => StreamChannel(
-                    channel: channels[index],
-                    child: MessagePage(),
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: ChannelPreview(
+              channel: channels[index],
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => StreamChannel(
+                      channel: channels[index],
+                      child: MessagePage(),
+                    ),
+                    transitionsBuilder: (
+                      _,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    ) =>
+                        SharedAxisTransition(
+                      child: child,
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                    ),
                   ),
-                  transitionsBuilder: (
-                    _,
-                    animation,
-                    secondaryAnimation,
-                    child,
-                  ) =>
-                      SharedAxisTransition(
-                    child: child,
-                    animation: animation,
-                    secondaryAnimation: secondaryAnimation,
-                    transitionType: SharedAxisTransitionType.horizontal,
-                  ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         },
         childCount: channels.length,

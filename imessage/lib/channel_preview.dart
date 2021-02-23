@@ -36,8 +36,6 @@ class ChannelPreview extends StatelessWidget {
         : '';
     return GestureDetector(
       onTap: onTap,
-      
-      
       behavior: HitTestBehavior.opaque,
       child: Container(
         constraints: BoxConstraints.tightFor(
@@ -50,9 +48,13 @@ class ChannelPreview extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChannelImage(
-                channel: channel,
-                size: 50,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: ChannelImage(
+                  channel: channel,
+                  size: 50,
+                ),
               ),
               Expanded(
                 child: Column(
