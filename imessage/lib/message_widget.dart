@@ -59,21 +59,17 @@ class MessageImage extends StatelessWidget {
                 color: color,
                 child: Column(
                   children: [
-                    FutureBuilder<String>(
-                        //hack:  //AttachmentUploadStateBuilder once https://github.com/GetStream/stream-chat-flutter/pull/276 is merged
-                        future: Future.delayed(
-                            const Duration(seconds: 5),
-                            () =>
-                                message.attachments.first.thumbUrl ??
-                                message.attachments.first.imageUrl ??
-                                message.attachments.first.assetUrl),
-                        builder: (context, snapshot) {
-                          return snapshot.hasData
-                              ? CachedNetworkImage(
-                                  imageUrl: snapshot.data,
-                                )
-                              : CupertinoActivityIndicator();
-                        }),
+                    if (message.attachments.first.file != null)
+                      Image.memory(
+                        message.attachments.first.file.bytes,
+                        fit: BoxFit.cover,
+                      )
+                    else
+                      CachedNetworkImage(
+                        imageUrl: message.attachments.first.thumbUrl ??
+                            message.attachments.first.imageUrl ??
+                            message.attachments.first.assetUrl,
+                      ),
                     if (message.attachments.first?.title != null)
                       Padding(
                         padding: const EdgeInsets.all(8.0),

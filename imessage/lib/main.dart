@@ -43,6 +43,7 @@ class IMessage extends StatelessWidget {
     initializeDateFormatting('en_US', null);
     return CupertinoApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(brightness: Brightness.light),
       home: StreamChatCore(client: client, child: ChatLoader()),
     );
