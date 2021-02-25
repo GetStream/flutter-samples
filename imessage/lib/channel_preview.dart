@@ -80,6 +80,7 @@ class ChannelPreview extends StatelessWidget {
                                     ? formatDateSameWeek(channel.lastMessageAt)
                                     : formatDate(channel.lastMessageAt),
                                 style: TextStyle(
+                                  fontSize: 15,
                                   color: CupertinoColors.systemGrey,
                                 ),
                               ),
@@ -105,15 +106,7 @@ class ChannelPreview extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Expanded(
-                      child: Align(
-                        child: Container(
-                          height: 1,
-                          color: CupertinoColors.systemGrey5,
-                        ),
-                        alignment: Alignment.bottomCenter,
-                      ),
-                    ),
+                    Divider(),
                   ],
                 ),
               )

@@ -48,3 +48,23 @@ class CupertinoCircleAvatar extends StatelessWidget {
     );
   }
 }
+
+
+class Divider extends StatelessWidget {
+  const Divider({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+        child: Container(
+          height: 1,
+          color: CupertinoColors.systemGrey5,
+        ),
+        alignment: Alignment.bottomCenter,
+      ),
+    );
+  }
+}
