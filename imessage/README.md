@@ -1,16 +1,53 @@
-# imessage
+# iMessage Clone
 
-A new Flutter project.
+![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/imessage_clone_hero_v1.png)
+
+iMessage Clone is a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using core packages. 
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Before running this project please ensure Flutter is installed and configured on your machine. If you're new to Flutter, please checkout the [official guide](https://flutter.dev/docs/get-started/install) with installation instructions for your OS. 
 
-A few resources to get you started if this is your first Flutter project:
+ 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+This project is only configured to support the following platforms:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Android
+- iOS
+
+Web and Desktop are not supported at this time. 
+
+After installing Flutter and the necessary toolchain for your device (Android or iOS), connect your device or open your emulator before running the following:
+
+**Clone the repo**
+
+```bash
+git clone https://github.com/GetStream/flutter-samples
+```
+
+**Open the app folder** 
+
+```bash
+cd flutter-samples/imessage
+```
+
+**Install package dependencies:**
+
+```bash
+flutter packages get 
+```
+
+**Open or create an emulator**
+
+```bash
+# To run an emulator, run 'flutter emulators --launch <emulator id>'.
+# To create a new emulator, run 'flutter emulators --create [--name xyz]'.
+# You can find more information on managing emulators at the links below:
+# [https://developer.android.com/studio/run/managing-avds](https://developer.android.com/studio/run/managing-avds)[https://developer.android.com/studio/command-line/avdmanager](https://developer.android.com/studio/command-line/avdmanager)
+```
+
+**Run the project on your device or emulator:**
+
+```bash
+flutter run 
+```
