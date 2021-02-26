@@ -142,7 +142,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
               ),
               centerTitle: true,
               actions: [
-                if (!channel.channel.isDistinct)
+                if (!channel.channel.isDistinct && isOwner)
                   StreamNeumorphicButton(
                     child: InkWell(
                       onTap: () {
