@@ -91,6 +91,6 @@ class _MessageInputState extends State<MessageInput> {
 
   Future<void> sendMessage(BuildContext context, String input) async {
     final streamChannel = StreamChannel.of(context);
-    await streamChannel.channel.sendMessage(Message(text: input));
+    await streamChannel.channel.sendMessage(Message(text: input.trim()));
   }
 }
