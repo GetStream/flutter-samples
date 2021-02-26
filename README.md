@@ -30,6 +30,8 @@ This repo contains projects and samples developed by the team and Stream communi
 
 - [Stream Chat v1](https://github.com/GetStream/flutter-samples/tree/main/stream_chat_v1): a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using a combination of our pre-made widgets and custom Flutter widgets.
 
+- [iMessage clone](https://github.com/GetStream/flutter-samples/tree/main/imessage): an iMessage clone implemented using Flutter and the `stream_chat_flutter_core` package.
+
 ## Requirements 🛠
 
 Before running this project please ensure Flutter is installed and configured on your machine. If you're new to Flutter, please checkout the [official guide](https://flutter.dev/docs/get-started/install) with installation instructions for your OS. 
