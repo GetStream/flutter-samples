@@ -20,6 +20,15 @@ class _MessageInputState extends State<MessageInput> {
   final picker = ImagePicker();
 
   @override
+  void initState() {
+    super.initState();
+
+    textController.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Align(
       alignment: FractionalOffset.bottomCenter,
@@ -72,8 +81,11 @@ class _MessageInputState extends State<MessageInput> {
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Icon(CupertinoIcons.arrow_up_circle_fill,
-                        color: CupertinoColors.activeGreen, size: 35),
+                    child: textController.text.isNotEmpty
+                        ? Icon(CupertinoIcons.arrow_up_circle_fill,
+                            color: CupertinoColors.activeGreen, size: 35)
+                        : Icon(CupertinoIcons.exclamationmark_circle_fill,
+                            color: CupertinoColors.systemRed, size: 35),
                   ),
                 ),
                 decoration: BoxDecoration(
