@@ -21,8 +21,14 @@ class MessagePage extends StatelessWidget {
       navigationBar: CupertinoNavigationBar(
         middle: Column(
           children: [
-            ChannelImage(size: 25, channel: streamChannel.channel),
-            ChannelNameText(channel: streamChannel.channel)
+            ChannelImage(
+              size: 25,
+              channel: streamChannel.channel,
+            ),
+            ChannelNameText(
+              size: 16,
+              channel: streamChannel.channel,
+            ),
           ],
         ),
       ), //ChannelHeader

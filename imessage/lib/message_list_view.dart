@@ -12,48 +12,52 @@ class MessageListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final entries = groupBy(messages.reversed,
+    final entries = groupBy(messages,
             (Message message) => message.createdAt.toString().substring(0, 10))
         .entries
         .toList();
-    return Stack(
+    return Column(
       children: [
-        SizedBox(
-            height: MediaQuery.of(context).size.height * 0.9,
-            child: Align(
-              alignment: FractionalOffset.topCenter,
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: entries.length,
-                  itemBuilder: (context, index) {
-
-                    return Column(
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
-                          child: MessageHeader(
-                              rawTimeStamp: entries[index].key), //date
-                        ),
-                        ...entries[index].value //messages
-                            .map((message) {
-                          return MessageWidget(
-                            alignment: isReceived(message, context)
-                                ? Alignment.centerLeft
-                                : Alignment.topRight,
-                            color: isReceived(message, context)
-                                ? CupertinoColors.systemGrey5
-                                : CupertinoColors.systemBlue,
-                            messageColor: isReceived(message, context)
-                                ? CupertinoColors.black
-                                : CupertinoColors.white,
-                            message: message,
-                          );
-                        }).toList()
-                      ],
-                    );
-                  }),
-            )),
+        Expanded(
+          child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.9,
+              child: Align(
+                alignment: FractionalOffset.topCenter,
+                child: ListView.builder(
+                    reverse: true,
+                    itemCount: entries.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(8.0, 24.0, 8.0, 8.0),
+                            child: MessageHeader(
+                                rawTimeStamp: entries[index].key), //date
+                          ),
+                          ...entries[index]
+                              .value //messages
+                              .map((message) {
+                                return MessageWidget(
+                                  alignment: isReceived(message, context)
+                                      ? Alignment.centerLeft
+                                      : Alignment.topRight,
+                                  color: isReceived(message, context)
+                                      ? CupertinoColors.systemGrey5
+                                      : CupertinoColors.systemBlue,
+                                  messageColor: isReceived(message, context)
+                                      ? CupertinoColors.black
+                                      : CupertinoColors.white,
+                                  message: message,
+                                );
+                              })
+                              .toList()
+                              .reversed,
+                        ],
+                      );
+                    }),
+              )),
+        ),
         MessageInput()
       ],
     );

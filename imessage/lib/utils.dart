@@ -8,13 +8,17 @@ String formatDate(DateTime date) {
 }
 
 String formatDateSameWeek(DateTime date) {
-  final dateFormat = DateFormat('EEEE, hh:mm a'); 
+  DateFormat dateFormat;
+  if (date.day == DateTime.now().day) {
+    dateFormat = DateFormat('hh:mm a');
+  } else {
+    dateFormat = DateFormat('EEEE, hh:mm a');
+  }
   return dateFormat.format(date);
 }
 
 String formatDateMessage(DateTime date) {
-  final dateFormat =
-      DateFormat('EEE. MMM. d ' 'yy' '  hh:mm a');
+  final dateFormat = DateFormat('EEE. MMM. d ' 'yy' '  hh:mm a');
   return dateFormat.format(date);
 }
 
@@ -35,11 +39,32 @@ class CupertinoCircleAvatar extends StatelessWidget {
           height: size,
           width: size,
           fit: BoxFit.cover,
-          errorWidget: (context, url, error) { //TODO: this crash the app when getting 404 and in debug mode, see :https://github.com/Baseflow/flutter_cached_network_image/issues/504 
+          errorWidget: (context, url, error) {
+            //TODO: this crash the app when getting 404 and in debug mode, see :https://github.com/Baseflow/flutter_cached_network_image/issues/504
             return CachedNetworkImage(
                 imageUrl:
                     "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg");
           }),
+    );
+  }
+}
+
+
+class Divider extends StatelessWidget {
+  const Divider({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Align(
+        child: Container(
+          height: 1,
+          color: CupertinoColors.systemGrey5,
+        ),
+        alignment: Alignment.bottomCenter,
+      ),
     );
   }
 }

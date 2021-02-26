@@ -43,6 +43,7 @@ class IMessage extends StatelessWidget {
     initializeDateFormatting('en_US', null);
     return CupertinoApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: CupertinoThemeData(brightness: Brightness.light),
       home: StreamChatCore(client: client, child: ChatLoader()),
     );
@@ -50,31 +51,26 @@ class IMessage extends StatelessWidget {
 }
 
 class ChatLoader extends StatelessWidget {
-  const ChatLoader({
+  ChatLoader({
     Key key,
   }) : super(key: key);
+
+  final channelListController = ChannelListController();
 
   @override
   Widget build(BuildContext context) {
     final user = StreamChatCore.of(context).user;
-    var channelListController = ChannelListController();
     return CupertinoPageScaffold(
         child: ChannelsBloc(
             child: ChannelListCore(
                 channelListController: channelListController,
                 filter: {
-                  r'$and': [
-                    {
-                      'members': {
-                        r'$in': [user.id],
-                      }
-                    },
-                    {
-                      'type': {
-                        r'$eq': 'messaging',
-                      }
-                    }
-                  ]
+                  'members': {
+                    r'$in': [user.id],
+                  },
+                  'type': {
+                    r'$eq': 'messaging',
+                  },
                 },
                 sort: [SortOption('last_message_at')],
                 pagination: PaginationParams(
@@ -108,13 +104,18 @@ class ChatLoader extends StatelessWidget {
                       onEndOfPage: () async {
                         channelListController.paginateData();
                       },
-                      child: CustomScrollView(slivers: [
-                        CupertinoSliverRefreshControl(onRefresh: () async {
-                          channelListController.loadData();
-                        }),
-                        ChannelPageAppBar(),
-                        ChannelListView(channels: channels)
-                      ]),
+                      child: CustomScrollView(
+                        slivers: [
+                          CupertinoSliverRefreshControl(onRefresh: () async {
+                            channelListController.loadData();
+                          }),
+                          ChannelPageAppBar(),
+                          SliverPadding(
+                            sliver: ChannelListView(channels: channels),
+                            padding: const EdgeInsets.only(top: 16),
+                          )
+                        ],
+                      ),
                     ))));
   }
 }

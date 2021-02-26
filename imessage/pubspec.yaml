@@ -24,7 +24,12 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.16.1
-  stream_chat_flutter: ^1.2.0-beta
+  #stream_chat_flutter: ^1.2.0-beta
+  stream_chat_flutter:
+    git:
+      url: git://github.com/GetStream/stream-chat-flutter.git
+      path: packages/stream_chat_flutter 
+      ref: develop
   animations: ^1.0.0+5
   collection: ^1.14.13
   cached_network_image: ^2.0.0-rc

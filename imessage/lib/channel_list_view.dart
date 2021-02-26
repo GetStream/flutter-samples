@@ -13,35 +13,38 @@ class ChannelListView extends StatelessWidget {
     channels.removeWhere((channel) => channel.lastMessageAt == null);
     return SliverList(
       delegate: SliverChildBuilderDelegate(
-        (BuildContext context, int index) {
-          //TODO: separators
-          return Column(
-            children: [
-              ChannelPreview(
-                  channel: channels[index],
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (_, __, ___) => StreamChannel(
-                            channel: channels[index],
-                            child: MessagePage(),
-                          ),
-                          transitionsBuilder: (
-                            _,
-                            animation,
-                            secondaryAnimation,
-                            child,
-                          ) =>
-                              SharedAxisTransition(
-                            child: child,
-                            animation: animation,
-                            secondaryAnimation: secondaryAnimation,
-                            transitionType: SharedAxisTransitionType.horizontal,
-                          ),
-                        ));
-                  })
-            ],
+        (
+          BuildContext context,
+          int index,
+        ) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4.0),
+            child: ChannelPreview(
+              channel: channels[index],
+              onTap: () {
+                Navigator.push(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (_, __, ___) => StreamChannel(
+                      channel: channels[index],
+                      child: MessagePage(),
+                    ),
+                    transitionsBuilder: (
+                      _,
+                      animation,
+                      secondaryAnimation,
+                      child,
+                    ) =>
+                        SharedAxisTransition(
+                      child: child,
+                      animation: animation,
+                      secondaryAnimation: secondaryAnimation,
+                      transitionType: SharedAxisTransitionType.horizontal,
+                    ),
+                  ),
+                );
+              },
+            ),
           );
         },
         childCount: channels.length,

@@ -9,6 +9,7 @@ import 'utils.dart';
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
   final Channel channel;
+
   const ChannelPreview({
     Key key,
     @required this.onTap,
@@ -24,9 +25,9 @@ class ChannelPreview extends StatelessWidget {
         ? lastMessage?.attachments //TODO: ugly
             ?.map((e) {
               if (e.type == 'image') {
-                return '📷';
+                return '📷 ';
               } else if (e.type == 'video') {
-                return '🎬';
+                return '🎬 ';
               }
               return null;
             })
@@ -35,57 +36,78 @@ class ChannelPreview extends StatelessWidget {
         : '';
     return GestureDetector(
       onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-        child: Container(
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(5),
-              color: CupertinoColors.white),
+      behavior: HitTestBehavior.opaque,
+      child: Container(
+        constraints: BoxConstraints.tightFor(
+          height: 90,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 8.0,
+          ),
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ChannelImage(channel: channel, size: 50),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                child: ChannelImage(
+                  channel: channel,
+                  size: 50,
+                ),
+              ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ChannelNameText(
-                              channel: channel,
-                            ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ChannelNameText(
+                            channel: channel,
                           ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              isSameWeek(channel.lastMessageAt)
-                                  ? formatDateSameWeek(channel.lastMessageAt)
-                                  : formatDate(channel.lastMessageAt),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: CupertinoColors.systemGrey),
-                            ),
-                          )
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          '$prefix ${lastMessage?.text ?? ''}',
-                          style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: CupertinoColors.systemGrey),
-                          overflow: TextOverflow.ellipsis,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Row(
+                            children: [
+                              Text(
+                                isSameWeek(channel.lastMessageAt)
+                                    ? formatDateSameWeek(channel.lastMessageAt)
+                                    : formatDate(channel.lastMessageAt),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: CupertinoColors.systemGrey,
+                                ),
+                              ),
+                              Icon(
+                                CupertinoIcons.right_chevron,
+                                color: CupertinoColors.systemGrey3,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '$prefix${lastMessage?.text ?? ''}',
+                        style: TextStyle(
+                          fontWeight: FontWeight.normal,
+                          color: CupertinoColors.systemGrey,
+                          fontSize: 16,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
+                    ),
+                    Divider(),
+                  ],
                 ),
               )
             ],
