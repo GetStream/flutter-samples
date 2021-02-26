@@ -65,7 +65,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
       if (_messageInputFocusNode.hasFocus && _selectedUsers.isNotEmpty) {
         final chatState = StreamChat.of(context);
 
-        final res = await chatState.client.queryChannels(
+        final res = await chatState.client.queryChannelsOnline(
           options: {
             'state': false,
             'watch': false,
