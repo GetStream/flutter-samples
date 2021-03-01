@@ -29,6 +29,8 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
 
   bool listExpanded = false;
 
+  ValueNotifier<bool> mutedBool = ValueNotifier(false);
+
   void _userNameListener() {
     if (_searchController.text == _userNameQuery) {
       return;
@@ -54,6 +56,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
     _nameController.addListener(() {
       setState(() {});
     });
+    mutedBool = ValueNotifier(StreamChannel.of(context).channel.isMuted);
   }
 
   @override
@@ -434,6 +437,8 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
         StreamBuilder<bool>(
             stream: StreamChannel.of(context).channel.isMutedStream,
             builder: (context, snapshot) {
+              mutedBool.value = snapshot.data;
+
               return OptionListTile(
                 tileColor: StreamChatTheme.of(context).colorTheme.whiteSnow,
                 separatorColor:
@@ -452,16 +457,22 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
                 ),
                 trailing: snapshot.data == null
                     ? CircularProgressIndicator()
-                    : CupertinoSwitch(
-                        value: snapshot.data,
-                        onChanged: (val) {
-                          if (snapshot.data) {
-                            channel.channel.unmute();
-                          } else {
-                            channel.channel.mute();
-                          }
-                        },
-                      ),
+                    : ValueListenableBuilder<bool>(
+                        valueListenable: mutedBool,
+                        builder: (context, value, _) {
+                          return CupertinoSwitch(
+                            value: value,
+                            onChanged: (val) {
+                              mutedBool.value = val;
+
+                              if (snapshot.data) {
+                                channel.channel.unmute();
+                              } else {
+                                channel.channel.mute();
+                              }
+                            },
+                          );
+                        }),
                 onTap: () {},
               );
             }),
