@@ -18,6 +18,14 @@ class ChatInfoScreen extends StatefulWidget {
 }
 
 class _ChatInfoScreenState extends State<ChatInfoScreen> {
+  ValueNotifier<bool> mutedBool = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    mutedBool = ValueNotifier(StreamChannel.of(context).channel.isMuted);
+  }
+
   @override
   Widget build(BuildContext context) {
     final channel = StreamChannel.of(context).channel;
@@ -134,6 +142,8 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
         StreamBuilder<bool>(
             stream: StreamChannel.of(context).channel.isMutedStream,
             builder: (context, snapshot) {
+              mutedBool.value = snapshot.data;
+
               return OptionListTile(
                 tileColor: StreamChatTheme.of(context).colorTheme.whiteSnow,
                 title: 'Mute user',
@@ -150,16 +160,22 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
                 ),
                 trailing: snapshot.data == null
                     ? CircularProgressIndicator()
-                    : CupertinoSwitch(
-                        value: snapshot.data,
-                        onChanged: (val) {
-                          if (snapshot.data) {
-                            channel.channel.unmute();
-                          } else {
-                            channel.channel.mute();
-                          }
-                        },
-                      ),
+                    : ValueListenableBuilder<bool>(
+                        valueListenable: mutedBool,
+                        builder: (context, value, _) {
+                          return CupertinoSwitch(
+                            value: value,
+                            onChanged: (val) {
+                              mutedBool.value = val;
+
+                              if (snapshot.data) {
+                                channel.channel.unmute();
+                              } else {
+                                channel.channel.mute();
+                              }
+                            },
+                          );
+                        }),
                 onTap: () {},
               );
             }),
