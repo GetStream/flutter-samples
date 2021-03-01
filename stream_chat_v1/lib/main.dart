@@ -721,7 +721,12 @@ class _ChannelListPageState extends State<ChannelListPage> {
                                 builder: (context) => StreamChannel(
                                   channel: channel,
                                   child: ChatInfoScreen(
-                                    user: channel.state.members.first.user,
+                                    user: channel.state.members
+                                        .where((m) =>
+                                            m.userId !=
+                                            channel.client.state.user.id)
+                                        .first
+                                        .user,
                                   ),
                                 ),
                               ),

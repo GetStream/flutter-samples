@@ -357,6 +357,7 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
     if (res == true) {
       await channel.delete().then((value) {
         Navigator.pop(context);
+        Navigator.pop(context);
       });
     }
   }
