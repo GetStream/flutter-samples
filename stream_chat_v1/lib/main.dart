@@ -51,8 +51,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     final client = StreamChatClient(
       apiKey ?? kDefaultStreamApiKey,
-      logLevel: Level.SEVERE,
-    )..chatPersistenceClient = chatPersistentClient;
+      logLevel: Level.INFO,
+    );
 
     if (userId != null) {
       final token = await secureStorage.read(key: kStreamToken);
