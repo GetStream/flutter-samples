@@ -4,39 +4,12 @@ on:
   push:
     branches:
       - main
-  release:
-    types:
-      - created
+  workflow_dispatch:
 defaults:
   run:
     working-directory: stream_chat_v1
 
 jobs:
-  build_and_deploy_ios:
-    runs-on: [macos-latest]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install RubyGems
-        run: |
-          cd ios
-          bundle install
-      - uses: subosito/flutter-action@v1.4.0
-        with:
-          channel: 'stable'
-      - name: Install firebase-tools
-        run: npm install -g firebase-tools
-      - name: Flutter setup
-        run: |
-          flutter pub get
-      - name: Build and release
-        env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: |
-          flutter build ios --release --no-codesign
-          cd ios
-          bundle exec fastlane deploy_to_firebase
   build_and_deploy_android:
     runs-on: ubuntu-latest
     steps:
@@ -49,21 +22,9 @@ jobs:
           channel: 'stable'
       - run: |
           flutter pub get
-      - name: Decode google-services.json
-        env:
-          ANDROID_GOOGLE_SERVICES: ${{ secrets.ANDROID_GOOGLE_SERVICES }}
-        run: echo $ANDROID_GOOGLE_SERVICES > ./android/app/google-services.json
       - name: Build
         run: |
           flutter build apk
-      - name: Deploy
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
-        with:
-          appId: ${{secrets.FIREBASE_ANDROID_APPID}}
-          token: ${{secrets.FIREBASE_TOKEN}}
-          groups: stream-testers
-          debug: true
-          file: stream_chat_v1/build/app/outputs/apk/release/app-release.apk
       - name: upload apk
         uses: actions/upload-artifact@v2
         with:
