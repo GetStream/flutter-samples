@@ -44,10 +44,14 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
   int timeOfStartMs;
 
   Future<InitData> _initConnection() async {
-    final secureStorage = FlutterSecureStorage();
+    String apiKey, userId, token;
 
-    final apiKey = await secureStorage.read(key: kStreamApiKey);
-    final userId = await secureStorage.read(key: kStreamUserId);
+    if (!kIsWeb) {
+      final secureStorage = FlutterSecureStorage();
+      apiKey = await secureStorage.read(key: kStreamApiKey);
+      userId = await secureStorage.read(key: kStreamUserId);
+      token = await secureStorage.read(key: kStreamToken);
+    }
 
     final client = StreamChatClient(
       apiKey ?? kDefaultStreamApiKey,
@@ -55,14 +59,13 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
     )..chatPersistenceClient = chatPersistentClient;
 
     if (userId != null) {
-      final token = await secureStorage.read(key: kStreamToken);
       await client.connectUser(
         User(id: userId),
         token,
       );
     }
 
-    var prefs = await StreamingSharedPreferences.instance;
+    final prefs = await StreamingSharedPreferences.instance;
 
     return InitData(client, prefs);
   }

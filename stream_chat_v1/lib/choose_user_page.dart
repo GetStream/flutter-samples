@@ -1,4 +1,5 @@
 import 'package:example/stream_version.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -165,26 +166,28 @@ class ChooseUserPage extends StatelessWidget {
                               ),
                             );
 
-                            final secureStorage = FlutterSecureStorage();
                             final client = StreamChat.of(context).client;
                             client.apiKey = kDefaultStreamApiKey;
-                            await client.setUser(
+                            await client.connectUser(
                               user,
                               token,
                             );
 
-                            secureStorage.write(
-                              key: kStreamApiKey,
-                              value: kDefaultStreamApiKey,
-                            );
-                            secureStorage.write(
-                              key: kStreamUserId,
-                              value: user.id,
-                            );
-                            secureStorage.write(
-                              key: kStreamToken,
-                              value: token,
-                            );
+                            if (!kIsWeb) {
+                              final secureStorage = FlutterSecureStorage();
+                              secureStorage.write(
+                                key: kStreamApiKey,
+                                value: kDefaultStreamApiKey,
+                              );
+                              secureStorage.write(
+                                key: kStreamUserId,
+                                value: user.id,
+                              );
+                              secureStorage.write(
+                                key: kStreamToken,
+                                value: token,
+                              );
+                            }
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               Routes.HOME,
