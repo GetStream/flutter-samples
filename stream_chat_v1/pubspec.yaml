@@ -11,12 +11,12 @@ dependencies:
     sdk: flutter
   stream_chat_flutter: 
     git: 
-      url: git@github.com:GetStream/stream-chat-flutter.git
+      url: https://github.com/GetStream/stream-chat-flutter.git
       ref: develop
       path: packages/stream_chat_flutter
   stream_chat_persistence:
     git: 
-      url: git@github.com:GetStream/stream-chat-flutter.git
+      url: https://github.com/GetStream/stream-chat-flutter.git
       ref: develop
       path: packages/stream_chat_persistence
   flutter_local_notifications: ^2.0.2
