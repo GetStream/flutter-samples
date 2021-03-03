@@ -55,8 +55,8 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
     final client = StreamChatClient(
       apiKey ?? kDefaultStreamApiKey,
-      logLevel: Level.SEVERE,
-    )..chatPersistenceClient = chatPersistentClient;
+      logLevel: Level.INFO,
+    );
 
     if (userId != null) {
       await client.connectUser(
@@ -426,8 +426,10 @@ class _HomePageState extends State<HomePage> {
                       onTap: () async {
                         Navigator.pop(context);
 
-                        final secureStorage = FlutterSecureStorage();
-                        await secureStorage.deleteAll();
+                        if (!kIsWeb) {
+                          final secureStorage = FlutterSecureStorage();
+                          await secureStorage.deleteAll();
+                        }
 
                         StreamChat.of(context).client.disconnect(
                               clearUser: true,
