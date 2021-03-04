@@ -22,7 +22,7 @@ class ChooseUserPage extends StatelessWidget {
         extraData: {
           'name': 'Salvatore Giordano',
           'image':
-              'https://ca.slack-edge.com/T02RM6X6B-USKK9FFRT-30c415e207a9-512',
+              'https://avatars.githubusercontent.com/u/20601437?s=460&u=3f66c22a7483980624804054ae7f357cf102c784&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoic2FoaWwifQ.WnIUoB5gR2kcAsFhiDvkiD6zdHXZ-VSU2aQWWkhsvfo':
@@ -31,7 +31,7 @@ class ChooseUserPage extends StatelessWidget {
         extraData: {
           'name': 'Sahil Kumar',
           'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U01EYU51M89-bbc152b40321-512',
+              'https://avatars.githubusercontent.com/u/25670178?s=400&u=30ded3784d8d2310c5748f263fd5e6433c119aa1&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYmVuIn0.nAz2sNFGQwY7rl2Og2z3TGHUsdpnN53tOsUglJFvLmg':
@@ -39,8 +39,7 @@ class ChooseUserPage extends StatelessWidget {
         id: 'ben',
         extraData: {
           'name': 'Ben Golden',
-          'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U01AXAF23MG-f57403a3cb0d-512',
+          'image': 'https://avatars.githubusercontent.com/u/1581974?s=400&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidGhpZXJyeSJ9.lEq6TrZtHzjoNtf7HHRufUPyGo_pa8vg4_XhEBp4ckY':
@@ -49,7 +48,7 @@ class ChooseUserPage extends StatelessWidget {
         extraData: {
           'name': 'Thierry Schellenbach',
           'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U02RM6X6D-g28a1278a98e-512',
+              'https://avatars.githubusercontent.com/u/265409?s=400&u=2d0e3bb1820db992066196bff7b004f0eee8e28d&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoidG9tbWFzbyJ9.GLSI0ESshERMo2WjUpysD709NEtn1zmGimUN2an7g9o':
@@ -57,8 +56,7 @@ class ChooseUserPage extends StatelessWidget {
         id: 'tommaso',
         extraData: {
           'name': 'Tommaso Barbugli',
-          'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U02U7SJP4-0f65a5997877-512',
+          'image': 'https://avatars.githubusercontent.com/u/88735?s=400&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZGV2ZW4ifQ.z3zI4PqJnNhc-1o-VKcmb6BnnQ0oxFNCRHwEulHqcWc':
@@ -67,7 +65,7 @@ class ChooseUserPage extends StatelessWidget {
         extraData: {
           'name': 'Deven Joshi',
           'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U01AM7ELPTL-8a60da32704c-512',
+              'https://avatars.githubusercontent.com/u/26357843?s=400&u=0c61d890866e67bf69f58878be58915e9bfd39ee&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibmVldmFzaCJ9.3EdHegTxibrz3A9cTiKmpEyawwcCVB8FXnoFzr4eKvw':
@@ -76,7 +74,7 @@ class ChooseUserPage extends StatelessWidget {
         extraData: {
           'name': 'Neevash Ramdial',
           'image':
-              'https://ca.slack-edge.com/T02RM6X6B-U01DZ046DS8-b00d321d2880-512',
+              'https://avatars.githubusercontent.com/u/25674767?s=400&u=1d7333baf7dd9d143db8bfcdb31a838b89cfff9c&v=4',
         },
       ),
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoicWF0ZXN0MSJ9.fnelU7HcP7QoEEsCGteNlF1fppofzNlrnpDQuIgeKCU':
