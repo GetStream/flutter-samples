@@ -77,7 +77,6 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
                     showOnlineStatus: false,
                   ),
                 ),
-                //SizedBox(height: 4.0),
                 Text(
                   widget.user.name,
                   style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
@@ -105,16 +104,10 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
               ],
             ),
             Positioned(
-              top: 21,
-              left: 16,
-              child: InkWell(
-                child: StreamSvgIcon.left(
-                  color: StreamChatTheme.of(context).colorTheme.black,
-                ),
-                onTap: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+              top: 0,
+              left: 0,
+              width: 58,
+              child: StreamBackButton(),
             ),
           ],
         ),
@@ -445,21 +438,7 @@ class __SharedGroupsScreenState extends State<_SharedGroupsScreen> {
               color: StreamChatTheme.of(context).colorTheme.black,
               fontSize: 16.0),
         ),
-        leading: Center(
-          child: InkWell(
-            onTap: () {
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              child: StreamSvgIcon.left(
-                color: StreamChatTheme.of(context).colorTheme.black,
-                size: 24.0,
-              ),
-              width: 24.0,
-              height: 24.0,
-            ),
-          ),
-        ),
+        leading: StreamBackButton(),
         backgroundColor: StreamChatTheme.of(context).colorTheme.white,
       ),
       body: StreamBuilder<List<Channel>>(

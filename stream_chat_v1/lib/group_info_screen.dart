@@ -84,18 +84,7 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
               elevation: 1.0,
               toolbarHeight: 56.0,
               backgroundColor: StreamChatTheme.of(context).colorTheme.white,
-              leading: InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: StreamSvgIcon.left(
-                    color: StreamChatTheme.of(context).colorTheme.black,
-                  ),
-                ),
-              ),
-              leadingWidth: 36.0,
+              leading: StreamBackButton(),
               title: Column(
                 children: [
                   StreamBuilder<ChannelState>(
