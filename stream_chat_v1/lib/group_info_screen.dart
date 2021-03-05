@@ -73,9 +73,11 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
             );
           }
 
-          var userMember = snapshot.data
-              .firstWhere((e) => e.user.id == StreamChat.of(context).user.id);
-          var isOwner = userMember.role == 'owner';
+          var userMember = snapshot.data.firstWhere(
+            (e) => e.user.id == StreamChat.of(context).user.id,
+            orElse: () => null,
+          );
+          var isOwner = userMember?.role == 'owner';
 
           return Scaffold(
             backgroundColor: StreamChatTheme.of(context).colorTheme.whiteSnow,
@@ -192,9 +194,11 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
             return Material(
               child: InkWell(
                 onTap: () {
-                  var userMember = groupMembers.firstWhere(
-                      (e) => e.user.id == StreamChat.of(context).user.id);
-                  _showUserInfoModal(member.user, userMember.role == 'owner');
+                  final userMember = groupMembers.firstWhere(
+                    (e) => e.user.id == StreamChat.of(context).user.id,
+                    orElse: () => null,
+                  );
+                  _showUserInfoModal(member.user, userMember?.role == 'owner');
                 },
                 child: Container(
                   height: 65.0,
@@ -586,10 +590,21 @@ class _GroupInfoScreenState extends State<GroupInfoScreen> {
               width: 24.0,
             ),
             onTap: () async {
-              await channel.channel
-                  .removeMembers([StreamChat.of(context).user.id]);
-              Navigator.pop(context);
-              Navigator.pop(context);
+              final res = await showConfirmationDialog(
+                context,
+                title: 'Leave conversation',
+                okText: 'LEAVE',
+                question: 'Are you sure you want to leave this conversation?',
+                cancelText: 'CANCEL',
+                icon: StreamSvgIcon.userRemove(
+                  color: StreamChatTheme.of(context).colorTheme.accentRed,
+                ),
+              );
+              if (res == true) {
+                final channel = StreamChannel.of(context).channel;
+                await channel.removeMembers([StreamChat.of(context).user.id]);
+                Navigator.pop(context);
+              }
             },
           ),
       ],
