@@ -719,6 +719,7 @@ class _ChannelListPageState extends State<ChannelListPage> {
                         ),
                         channelWidget: ChannelPage(),
                         onViewInfoTap: (channel) {
+                          Navigator.pop(context);
                           if (channel.memberCount == 2 && channel.isDistinct) {
                             Navigator.push(
                               context,
