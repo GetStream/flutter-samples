@@ -140,6 +140,7 @@ class ChooseUserPage extends StatelessWidget {
                         final token = entry.key;
                         final user = entry.value;
                         return ListTile(
+                          visualDensity: VisualDensity.compact,
                           onTap: () async {
                             showDialog(
                               barrierDismissible: false,
