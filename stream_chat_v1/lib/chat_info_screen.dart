@@ -499,12 +499,20 @@ class __SharedGroupsScreenState extends State<_SharedGroupsScreen> {
             );
           }
 
+          final channels = snapshot.data
+              .where((c) =>
+                  c.state.members.any((m) =>
+                      m.userId != widget.mainUser.id &&
+                      m.userId != widget.otherUser.id) ||
+                  !c.isDistinct)
+              .toList();
+
           return ListView.builder(
-            itemCount: snapshot.data.length,
+            itemCount: channels.length,
             itemBuilder: (context, position) {
               return StreamChannel(
-                channel: snapshot.data[position],
-                child: _buildListTile(snapshot.data[position]),
+                channel: channels[position],
+                child: _buildListTile(channels[position]),
               );
             },
           );
