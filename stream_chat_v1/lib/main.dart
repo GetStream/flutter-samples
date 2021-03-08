@@ -8,6 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:lottie/lottie.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
@@ -142,6 +143,16 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
             });
           });
         }
+
+        if (!kIsWeb) {
+          _initData.client.state?.totalUnreadCountStream?.listen((count) {
+            if (count > 0) {
+              FlutterAppBadger.updateBadgeCount(count);
+            } else {
+              FlutterAppBadger.removeBadge();
+            }
+          });
+        }
       },
     );
     _animationController.addStatusListener((status) {
@@ -151,6 +162,7 @@ class _MyAppState extends State<MyApp> with TickerProviderStateMixin {
         });
       }
     });
+
     super.initState();
   }
 

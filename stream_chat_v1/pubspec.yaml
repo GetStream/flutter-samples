@@ -7,6 +7,7 @@ environment:
   sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
+  flutter_app_badger: ^1.1.2
   flutter:
     sdk: flutter
   stream_chat_flutter: 
