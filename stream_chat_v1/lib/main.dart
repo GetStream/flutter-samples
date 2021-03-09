@@ -648,11 +648,12 @@ class _ChannelListPageState extends State<ChannelListPage> {
                 onPanDown: (_) => FocusScope.of(context).unfocus(),
                 child: _isSearchActive
                     ? MessageSearchListView(
+                        showErrorTile: true,
                         messageQuery: _channelQuery,
                         filters: {
                           'members': {
                             r'$in': [user.id]
-                          }
+                          },
                         },
                         sortOptions: [
                           SortOption(
