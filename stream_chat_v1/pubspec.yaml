@@ -10,16 +10,8 @@ dependencies:
   flutter_app_badger: ^1.1.2
   flutter:
     sdk: flutter
-  stream_chat_flutter: 
-    git: 
-      url: https://github.com/GetStream/stream-chat-flutter.git
-      ref: develop
-      path: packages/stream_chat_flutter
-  stream_chat_persistence:
-    git: 
-      url: https://github.com/GetStream/stream-chat-flutter.git
-      ref: develop
-      path: packages/stream_chat_persistence
+  stream_chat_flutter: ^1.4.0-beta
+  stream_chat_persistence: ^1.4.0-beta
   flutter_local_notifications: ^2.0.2
   flutter_svg: ^0.19.3
   flutter_secure_storage: ^3.3.5
