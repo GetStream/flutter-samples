@@ -20,7 +20,7 @@ Stream Chatty was created by [Diego Velasquez](http://www.twitter.com/diegovelop
 - https://dribbble.com/shots/15263978-Fluchat
 - https://projects.invisionapp.com/prototype/Chat-App-cklk8tiia002tqz01u0q1u3cl/play/9ef3ca44
 
-# My Networks
+# Diego's Networks
 
 - www.twitter.com/diegoveloper
 - www.youtube.com/diegoveloper
@@ -33,9 +33,9 @@ Stream Chatty was created by [Diego Velasquez](http://www.twitter.com/diegovelop
 - Dark mode/Light mode
 - State Management using flutter_bloc and cubits
 
-## Instalation
+## Installation
 
 - Clone project
-- Configure Firebase stuff (google-services.json and Google-Service.info.plist files)
+- Configure Firebase (google-services.json and Google-Service.info.plist files)
 - Configure Google Sign In 
 - Configure your Stream project
