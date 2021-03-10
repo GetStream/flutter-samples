@@ -1,10 +1,6 @@
 import 'package:stream_chatter/data/auth_repository.dart';
 import 'package:stream_chatter/data/image_picker_repository.dart';
-import 'package:stream_chatter/data/local/auth_local_impl.dart';
 import 'package:stream_chatter/data/local/image_picker_impl.dart';
-import 'package:stream_chatter/data/local/persistent_storage_local_impl.dart';
-import 'package:stream_chatter/data/local/stream_api_local_impl.dart';
-import 'package:stream_chatter/data/local/upload_storage_local_impl.dart';
 import 'package:stream_chatter/data/persistent_storage_repository.dart';
 import 'package:stream_chatter/data/prod/auth_impl.dart';
 import 'package:stream_chatter/data/prod/persistent_storage_impl.dart';

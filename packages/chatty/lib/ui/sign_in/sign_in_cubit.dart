@@ -1,4 +1,3 @@
-import 'package:stream_chatter/domain/exceptions/auth_exception.dart';
 import 'package:stream_chatter/domain/usecases/login_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

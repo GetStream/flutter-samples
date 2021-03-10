@@ -21,7 +21,7 @@ class MessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (message.attachments?.isNotEmpty == true &&
-        message.attachments.first.type == "image") {
+        message.attachments.first.type == 'image') {
       return MessageImage(
           color: color, message: message, messageColor: messageColor);
     } else {
