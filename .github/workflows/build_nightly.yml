@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 defaults:
   run:
-    working-directory: stream_chat_v1
+    working-directory: packages/stream_chat_v1
 
 jobs:
   cleanup-runs:
