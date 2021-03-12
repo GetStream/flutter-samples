@@ -74,7 +74,9 @@ platform :ios do
             clean: true,
             xcargs: settings_to_override,
             include_symbols: true,
-            output_directory: "./dist"
+            output_directory: "./dist",
+            groups: ['Public'],
+            distribute_external: true
         )
 
         upload_to_testflight
