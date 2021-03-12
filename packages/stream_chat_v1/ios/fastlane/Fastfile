@@ -60,6 +60,11 @@ platform :ios do
     lane :deploy_to_testflight do
         match_appstore
 
+        settings_to_override = {
+          :BUNDLE_IDENTIFIER => "io.getstream.flutter",
+          :PROVISIONING_PROFILE_SPECIFIER => "match AppStore io.getstream.flutter"
+        }
+
         gym(
             workspace: "./Runner.xcworkspace",
             scheme: "Runner",
@@ -67,6 +72,7 @@ platform :ios do
             export_options: "./fastlane/testflight_gym_export_options.plist",
             silent: true,
             clean: true,
+            xcargs: settings_to_override,
             include_symbols: true,
             output_directory: "./dist"
         )
