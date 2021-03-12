@@ -13,10 +13,20 @@ lane :match_me do
     type: "adhoc",
     app_identifier: [
         "io.getstream.flutter",
-        "io.getstream.flutter.Notifications"
     ],
     readonly: is_ci,
     force_for_new_devices: true
+  )
+end
+
+desc "Installs all Certs and Profiles necessary for appstore"
+lane :match_appstore do
+  match(
+    type: "appstore",
+    app_identifier: [
+        "io.getstream.flutter",
+    ],
+    readonly: is_ci
   )
 end
 
@@ -42,5 +52,25 @@ platform :ios do
             app: "1:674907137625:ios:cafb9fb076a453c4d7f348",
             groups: "ios-stream-testers"
         )
+    end
+end
+
+platform :ios do
+    desc "Deploy build to TestFlight"
+    lane :deploy_to_testflight do
+        match_appstore
+
+        gym(
+            workspace: "./Runner.xcworkspace",
+            scheme: "Runner",
+            export_method: "app-store",
+            export_options: "./fastlane/beta_gym_export_options.plist",
+            silent: true,
+            clean: true,
+            include_symbols: true,
+            output_directory: "./dist"
+        )
+
+        upload_to_testflight
     end
 end
