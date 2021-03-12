@@ -83,7 +83,7 @@ platform :ios do
             groups: ['Public'],
             distribute_external: true,
             changelog: message,
-            reject_previously_submitted_build: true
+            reject_build_waiting_for_review: true
         )
     end
 end
