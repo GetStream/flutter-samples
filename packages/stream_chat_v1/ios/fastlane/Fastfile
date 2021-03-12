@@ -77,9 +77,12 @@ platform :ios do
             output_directory: "./dist",
         )
 
+        message = changelog_from_git_commits(commits_count: 10)
+
         upload_to_testflight(
             groups: ['Public'],
-            distribute_external: true
+            distribute_external: true,
+            changelog: message
         )
     end
 end
