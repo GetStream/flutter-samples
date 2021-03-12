@@ -77,6 +77,8 @@ platform :ios do
             output_directory: "./dist"
         )
 
-        upload_to_testflight
+        upload_to_testflight(
+          username: "salvatore@getstream.io"
+        )
     end
 end
