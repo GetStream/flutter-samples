@@ -75,10 +75,11 @@ platform :ios do
             xcargs: settings_to_override,
             include_symbols: true,
             output_directory: "./dist",
+        )
+
+        upload_to_testflight(
             groups: ['Public'],
             distribute_external: true
         )
-
-        upload_to_testflight
     end
 end
