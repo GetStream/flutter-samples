@@ -82,7 +82,8 @@ platform :ios do
         upload_to_testflight(
             groups: ['Public'],
             distribute_external: true,
-            changelog: message
+            changelog: message,
+            reject_previously_submitted_build: true
         )
     end
 end
