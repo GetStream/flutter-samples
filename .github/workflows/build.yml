@@ -2,8 +2,8 @@ name: build
 
 on:
   push:
-    branches:
-      - main
+   branches:
+     - main
   workflow_dispatch:
 defaults:
   run:
@@ -16,6 +16,32 @@ jobs:
     - uses: rokroskar/workflow-run-cleanup-action@master
       env:
         GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+  build_and_deploy_ios:
+    runs-on: [macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install RubyGems
+        run: |
+          cd ios
+          bundle install
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'stable'
+      - name: Flutter setup
+        run: |
+          flutter pub get
+      - name: Build and release
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+          FASTLANE_USER: ${{ secrets.FASTLANE_USER }}
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
+          FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: ${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}
+        run: |
+          flutter build ios --release --no-codesign
+          cd ios
+          bundle exec fastlane deploy_to_testflight
   build_and_deploy_android:
     runs-on: ubuntu-latest
     steps:
