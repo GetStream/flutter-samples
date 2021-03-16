@@ -24,13 +24,16 @@ With Stream's chat components, developers quickly add chat to their app for a va
 
 ## Repo Overview 😎
 
-This repo contains projects and samples developed by the team and Stream community. Projects are broke up into directories containing the source code for each project. 
+This repo contains projects and samples developed by the team and Stream community. Projects are broke up into directories under the `packages` folder.
+Each project contains a README with build and execution instructions. 
 
 ## **Projects 🚀**
 
-- [Stream Chat v1](https://github.com/GetStream/flutter-samples/tree/main/stream_chat_v1): a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using a combination of our pre-made widgets and custom Flutter widgets.
+- [Stream Chat v1](https://github.com/GetStream/flutter-samples/tree/main/packages/stream_chat_v1): a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using a combination of our pre-made widgets and custom Flutter widgets.
 
-- [iMessage clone](https://github.com/GetStream/flutter-samples/tree/main/imessage): an iMessage clone implemented using Flutter and the `stream_chat_flutter_core` package.
+- [Stream Chatty](https://github.com/GetStream/flutter-samples/tree/main/packages/chatty) Stream Chatty is a sample chat app made in Flutter using Stream Chat, Firebase, and flutter_bloc. It has full light and dark mode support, real-time chat, and full authentication using Firebase auth.
+
+- [iMessage clone](https://github.com/GetStream/flutter-samples/tree/main/packages/imessage): an iMessage clone implemented using Flutter and the `stream_chat_flutter_core` package.
 
 ## Requirements 🛠
 
