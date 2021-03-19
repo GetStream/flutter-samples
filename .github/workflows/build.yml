@@ -70,7 +70,7 @@ jobs:
           aws-region: us-east-1
       - name: Upload APK
         run: |
-          cp packages/stream_chat_v1/build/app/outputs/apk/release/app-release.apk flutter-sample-app.apk
+          cp build/app/outputs/apk/release/app-release.apk flutter-sample-app.apk
           aws s3 cp flutter-sample-app.apk s3://${{ secrets.AWS_S3_BUCKET }} --sse AES256
 
         
