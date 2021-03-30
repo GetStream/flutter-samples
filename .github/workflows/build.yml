@@ -30,6 +30,8 @@ jobs:
       - name: Flutter setup
         run: |
           flutter pub get
+      - name: Copy production config
+        run: echo ${{ secrets.PRODUCTION_CONFIG }} > lib/app_config.dart
       - name: Build and release
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
@@ -54,6 +56,8 @@ jobs:
           channel: 'stable'
       - run: |
           flutter pub get
+      - name: Copy production config
+        run: echo ${{ secrets.PRODUCTION_CONFIG }} > lib/app_config.dart
       - name: Build
         run: |
           flutter build apk
