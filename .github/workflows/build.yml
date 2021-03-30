@@ -57,7 +57,9 @@ jobs:
       - run: |
           flutter pub get
       - name: Copy production config
-        run: echo '${{ secrets.PRODUCTION_CONFIG }}' > lib/app_config.dart
+        env: 
+          PRODUCTION_CONFIG: ${{ secrets.PRODUCTION_CONFIG }}
+        run: echo "${{ PRODUCTION_CONFIG }}" > lib/app_config.dart
       - name: Build
         run: |
           flutter build apk
