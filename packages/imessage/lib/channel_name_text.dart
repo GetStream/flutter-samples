@@ -3,8 +3,8 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Channel;
 
 class ChannelNameText extends StatelessWidget {
   const ChannelNameText({
-    Key key,
-    @required this.channel,
+    Key? key,
+    required this.channel,
     this.size = 17,
   }) : super(key: key);
 
@@ -14,7 +14,7 @@ class ChannelNameText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(
-      channel.extraData['name'] as String ?? 'No name',
+      channel.extraData['name'] as String? ?? 'No name',
       style: TextStyle(
         fontSize: size,
         fontWeight: FontWeight.bold,

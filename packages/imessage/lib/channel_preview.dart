@@ -11,19 +11,20 @@ class ChannelPreview extends StatelessWidget {
   final Channel channel;
 
   const ChannelPreview({
-    Key key,
-    @required this.onTap,
-    @required this.channel,
+    Key? key,
+    required this.onTap,
+    required this.channel,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final lastMessage =
-        channel.state.messages.isNotEmpty ? channel.state.messages.last : null;
+    final lastMessage = channel.state!.messages.isNotEmpty
+        ? channel.state!.messages.last
+        : null;
 
     final prefix = lastMessage?.attachments != null
         ? lastMessage?.attachments //TODO: ugly
-            ?.map((e) {
+            .map((e) {
               if (e.type == 'image') {
                 return '📷 ';
               } else if (e.type == 'video') {
@@ -31,8 +32,8 @@ class ChannelPreview extends StatelessWidget {
               }
               return null;
             })
-            ?.where((e) => e != null)
-            ?.join(' ')
+            .where((e) => e != null)
+            .join(' ')
         : '';
     return GestureDetector(
       onTap: onTap,
@@ -76,9 +77,9 @@ class ChannelPreview extends StatelessWidget {
                           child: Row(
                             children: [
                               Text(
-                                isSameWeek(channel.lastMessageAt)
-                                    ? formatDateSameWeek(channel.lastMessageAt)
-                                    : formatDate(channel.lastMessageAt),
+                                isSameWeek(channel.lastMessageAt!)
+                                    ? formatDateSameWeek(channel.lastMessageAt!)
+                                    : formatDate(channel.lastMessageAt!),
                                 style: TextStyle(
                                   fontSize: 15,
                                   color: CupertinoColors.systemGrey,

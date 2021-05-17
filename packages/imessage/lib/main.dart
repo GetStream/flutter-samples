@@ -26,7 +26,7 @@ Future<void> main() async {
 
 class IMessage extends StatelessWidget {
   final StreamChatClient client;
-  IMessage({@required this.client});
+  IMessage({required this.client});
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('en_US', null);
@@ -41,14 +41,14 @@ class IMessage extends StatelessWidget {
 
 class ChatLoader extends StatelessWidget {
   ChatLoader({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   final channelListController = ChannelListController();
 
   @override
   Widget build(BuildContext context) {
-    final user = StreamChatCore.of(context).user;
+    final user = StreamChatCore.of(context).user!;
     return CupertinoPageScaffold(
       child: ChannelsBloc(
         child: ChannelListCore(
@@ -87,12 +87,12 @@ class ChatLoader extends StatelessWidget {
           ) =>
               LazyLoadScrollView(
             onEndOfPage: () async {
-              return channelListController.paginateData();
+              return channelListController.paginateData!();
             },
             child: CustomScrollView(
               slivers: [
                 CupertinoSliverRefreshControl(onRefresh: () async {
-                  return channelListController.loadData();
+                  return channelListController.loadData!();
                 }),
                 ChannelPageAppBar(),
                 SliverPadding(

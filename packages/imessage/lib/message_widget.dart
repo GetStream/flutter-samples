@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:imessage/cutom_painter.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Message, AttachmentUploadStateBuilder;
+import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Message;
 
 class MessageWidget extends StatelessWidget {
   final Alignment alignment;
@@ -11,16 +10,16 @@ class MessageWidget extends StatelessWidget {
   final Color messageColor;
 
   const MessageWidget(
-      {Key key,
-      @required this.alignment,
-      @required this.message,
-      @required this.color,
-      @required this.messageColor})
+      {Key? key,
+      required this.alignment,
+      required this.message,
+      required this.color,
+      required this.messageColor})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (message.attachments?.isNotEmpty == true &&
+    if (message.attachments.isNotEmpty == true &&
         message.attachments.first.type == 'image') {
       return MessageImage(
           color: color, message: message, messageColor: messageColor);
@@ -36,10 +35,10 @@ class MessageWidget extends StatelessWidget {
 
 class MessageImage extends StatelessWidget {
   const MessageImage({
-    Key key,
-    @required this.color,
-    @required this.message,
-    @required this.messageColor,
+    Key? key,
+    required this.color,
+    required this.message,
+    required this.messageColor,
   }) : super(key: key);
 
   final Color color;
@@ -61,23 +60,23 @@ class MessageImage extends StatelessWidget {
                   children: [
                     if (message.attachments.first.file != null)
                       Image.memory(
-                        message.attachments.first.file.bytes,
+                        message.attachments.first.file!.bytes!,
                         fit: BoxFit.cover,
                       )
                     else
                       CachedNetworkImage(
                         imageUrl: message.attachments.first.thumbUrl ??
                             message.attachments.first.imageUrl ??
-                            message.attachments.first.assetUrl,
+                            message.attachments.first.assetUrl!,
                       ),
-                    if (message.attachments.first?.title != null)
+                    if (message.attachments.first.title != null)
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(message.attachments.first.title,
+                        child: Text(message.attachments.first.title!,
                             style: TextStyle(color: messageColor)),
                       ),
                     message.attachments.first.pretext != null
-                        ? Text(message.attachments.first.pretext)
+                        ? Text(message.attachments.first.pretext!)
                         : Container()
                   ],
                 ),
@@ -92,7 +91,7 @@ class MessageImage extends StatelessWidget {
         child: Container(
             color: color,
             child: CachedNetworkImage(
-              imageUrl: message.attachments.first.thumbUrl,
+              imageUrl: message.attachments.first.thumbUrl!,
             )),
       );
     }
@@ -101,11 +100,11 @@ class MessageImage extends StatelessWidget {
 
 class MessageText extends StatelessWidget {
   const MessageText({
-    Key key,
-    @required this.alignment,
-    @required this.color,
-    @required this.message,
-    @required this.messageColor,
+    Key? key,
+    required this.alignment,
+    required this.color,
+    required this.message,
+    required this.messageColor,
   }) : super(key: key);
 
   final Alignment alignment;
@@ -133,7 +132,7 @@ class MessageText extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Text(
-                      message.text,
+                      message.text!,
                       style: TextStyle(color: messageColor),
                     ),
                   ),
