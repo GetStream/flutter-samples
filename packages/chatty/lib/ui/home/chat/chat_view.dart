@@ -43,8 +43,10 @@ class ChatView extends StatelessWidget {
                     name = channel.extraData['name'];
                     image = channel.extraData['image'];
                   } else {
-                    final friend =
-                        channel.state.members.where((element) => element.userId != currentUser.id).first.user;
+                    final friend = channel.state.members
+                        .where((element) => element.userId != currentUser.id)
+                        .first
+                        .user;
                     name = friend.name;
                     image = friend.extraData['image'];
                   }

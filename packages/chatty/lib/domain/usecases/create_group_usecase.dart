@@ -25,7 +25,8 @@ class CreateGroupUseCase {
     final channelId = Uuid().v4();
     String image;
     if (input.imageFile != null) {
-      image = await _uploadStorageRepository.uploadPhoto(input.imageFile, 'channels/$channelId');
+      image = await _uploadStorageRepository.uploadPhoto(
+          input.imageFile, 'channels/$channelId');
     }
     final channel = await _streamApiRepository.createGroupChat(
       channelId,

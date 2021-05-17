@@ -34,7 +34,8 @@ class MyApp extends StatelessWidget {
               return StreamChat(
                 child: child,
                 client: _streamChatClient,
-                streamChatThemeData: StreamChatThemeData.fromTheme(Theme.of(context)).copyWith(
+                streamChatThemeData:
+                    StreamChatThemeData.fromTheme(Theme.of(context)).copyWith(
                   ownMessageTheme: MessageTheme(
                     messageBackgroundColor: Theme.of(context).accentColor,
                     messageText: TextStyle(color: Colors.white),

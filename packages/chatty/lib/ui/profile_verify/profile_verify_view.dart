@@ -13,7 +13,8 @@ class ProfileVerifyView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProfileVerifyCubit(context.read(), context.read()),
-      child: BlocConsumer<ProfileVerifyCubit, ProfileState>(listener: (context, snapshot) {
+      child: BlocConsumer<ProfileVerifyCubit, ProfileState>(
+          listener: (context, snapshot) {
         if (snapshot.success) {
           pushAndReplaceToPage(context, HomeView());
         }
@@ -59,9 +60,12 @@ class ProfileVerifyView extends StatelessWidget {
                       vertical: 20,
                     ),
                     child: TextField(
-                      controller: context.read<ProfileVerifyCubit>().nameController,
+                      controller:
+                          context.read<ProfileVerifyCubit>().nameController,
                       decoration: InputDecoration(
-                        fillColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                        fillColor: Theme.of(context)
+                            .bottomNavigationBarTheme
+                            .backgroundColor,
                         hintText: 'Or just how people now you',
                         hintStyle: TextStyle(
                           fontSize: 13,

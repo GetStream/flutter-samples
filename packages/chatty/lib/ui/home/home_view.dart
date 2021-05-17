@@ -61,7 +61,9 @@ class HomeNavigationBar extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .backgroundColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -122,8 +124,10 @@ class _HomeNavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor = Theme.of(context).bottomNavigationBarTheme.selectedItemColor;
-    final unselectedColor = Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
+    final selectedColor =
+        Theme.of(context).bottomNavigationBarTheme.selectedItemColor;
+    final unselectedColor =
+        Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
     final color = selected ? selectedColor : unselectedColor;
     return GestureDetector(
       onTap: onTap,

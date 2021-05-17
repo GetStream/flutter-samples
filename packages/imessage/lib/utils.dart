@@ -49,7 +49,6 @@ class CupertinoCircleAvatar extends StatelessWidget {
   }
 }
 
-
 class Divider extends StatelessWidget {
   const Divider({
     Key key,
