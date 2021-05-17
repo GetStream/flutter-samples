@@ -27,8 +27,10 @@ class ProfileSignInUseCase {
     final token = await _streamApiRepository.getToken(auth.id);
     String image;
     if (input.imageFile != null) {
-      image = await _uploadStorageRepository.uploadPhoto(input.imageFile, 'users/${auth.id}');
+      image = await _uploadStorageRepository.uploadPhoto(
+          input.imageFile, 'users/${auth.id}');
     }
-    await _streamApiRepository.connectUser(ChatUser(name: input.name, id: auth.id, image: image), token);
+    await _streamApiRepository.connectUser(
+        ChatUser(name: input.name, id: auth.id, image: image), token);
   }
 }

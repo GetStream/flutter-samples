@@ -18,10 +18,13 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 List<RepositoryProvider> buildRepositories(StreamChatClient client) {
   //TODO: Here you can use your local implementations of your repositories
   return [
-    RepositoryProvider<StreamApiRepository>(create: (_) => StreamApiImpl(client)),
-    RepositoryProvider<PersistentStorageRepository>(create: (_) => PersistentStorageImpl()),
+    RepositoryProvider<StreamApiRepository>(
+        create: (_) => StreamApiImpl(client)),
+    RepositoryProvider<PersistentStorageRepository>(
+        create: (_) => PersistentStorageImpl()),
     RepositoryProvider<AuthRepository>(create: (_) => AuthImpl()),
-    RepositoryProvider<UploadStorageRepository>(create: (_) => UploadStorageImpl()),
+    RepositoryProvider<UploadStorageRepository>(
+        create: (_) => UploadStorageImpl()),
     RepositoryProvider<ImagePickerRepository>(create: (_) => ImagePickerImpl()),
     RepositoryProvider<ProfileSignInUseCase>(
       create: (context) => ProfileSignInUseCase(

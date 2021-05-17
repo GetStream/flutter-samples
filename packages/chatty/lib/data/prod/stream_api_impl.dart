@@ -62,7 +62,8 @@ class StreamApiImpl extends StreamApiRepository {
   }
 
   @override
-  Future<Channel> createGroupChat(String id, String name, List<String> members, {String image}) async {
+  Future<Channel> createGroupChat(String id, String name, List<String> members,
+      {String image}) async {
     final channel = _client.channel('messaging', id: id, extraData: {
       'name': name,
       'image': image,
@@ -74,13 +75,14 @@ class StreamApiImpl extends StreamApiRepository {
 
   @override
   Future<Channel> createSimpleChat(String friendId) async {
-    final channel =
-        _client.channel('messaging', id: '${_client.state.user.id.hashCode}${friendId.hashCode}', extraData: {
-      'members': [
-        friendId,
-        _client.state.user.id,
-      ],
-    });
+    final channel = _client.channel('messaging',
+        id: '${_client.state.user.id.hashCode}${friendId.hashCode}',
+        extraData: {
+          'members': [
+            friendId,
+            _client.state.user.id,
+          ],
+        });
     await channel.watch();
     return channel;
   }

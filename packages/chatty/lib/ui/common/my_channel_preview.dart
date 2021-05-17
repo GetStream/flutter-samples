@@ -90,7 +90,8 @@ class MyChannelPreview extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: ChannelName(
-                      textStyle: StreamChatTheme.of(context).channelPreviewTheme.title,
+                      textStyle:
+                          StreamChatTheme.of(context).channelPreviewTheme.title,
                     ),
                   ),
                   StreamBuilder<List<Member>>(
@@ -99,7 +100,8 @@ class MyChannelPreview extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (!snapshot.hasData ||
                             snapshot.data.isEmpty ||
-                            !snapshot.data.any((Member e) => e.user.id == channel.client.state.user.id)) {
+                            !snapshot.data.any((Member e) =>
+                                e.user.id == channel.client.state.user.id)) {
                           return SizedBox();
                         }
                         return ChannelUnreadIndicator(
@@ -118,15 +120,21 @@ class MyChannelPreview extends StatelessWidget {
                         (m) => !m.isDeleted && m.shadowed != true,
                         orElse: () => null,
                       );
-                      if (lastMessage?.user?.id == StreamChat.of(context).user.id) {
+                      if (lastMessage?.user?.id ==
+                          StreamChat.of(context).user.id) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: SendingIndicator(
                             message: lastMessage,
-                            size: StreamChatTheme.of(context).channelPreviewTheme.indicatorIconSize,
+                            size: StreamChatTheme.of(context)
+                                .channelPreviewTheme
+                                .indicatorIconSize,
                             isMessageRead: channel.state.read
-                                    ?.where((element) => element.user.id != channel.client.state.user.id)
-                                    ?.where((element) => element.lastRead.isAfter(lastMessage.createdAt))
+                                    ?.where((element) =>
+                                        element.user.id !=
+                                        channel.client.state.user.id)
+                                    ?.where((element) => element.lastRead
+                                        .isAfter(lastMessage.createdAt))
                                     ?.isNotEmpty ==
                                 true,
                           ),
@@ -158,7 +166,8 @@ class MyChannelPreview extends StatelessWidget {
 
         var startOfDay = DateTime(now.year, now.month, now.day);
 
-        if (lastMessageAt.millisecondsSinceEpoch >= startOfDay.millisecondsSinceEpoch) {
+        if (lastMessageAt.millisecondsSinceEpoch >=
+            startOfDay.millisecondsSinceEpoch) {
           stringDate = Jiffy(lastMessageAt.toLocal()).format('HH:mm');
         } else if (lastMessageAt.millisecondsSinceEpoch >=
             startOfDay.subtract(Duration(days: 1)).millisecondsSinceEpoch) {
@@ -187,8 +196,14 @@ class MyChannelPreview extends StatelessWidget {
           ),
           Text(
             '  Channel is muted',
-            style: StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
-                  color: StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
+            style: StreamChatTheme.of(context)
+                .channelPreviewTheme
+                .subtitle
+                .copyWith(
+                  color: StreamChatTheme.of(context)
+                      .channelPreviewTheme
+                      .subtitle
+                      .color,
                 ),
           ),
         ],
@@ -198,7 +213,8 @@ class MyChannelPreview extends StatelessWidget {
       channel: channel,
       alternativeWidget: _buildLastMessage(context),
       style: StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
-            color: StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
+            color:
+                StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
           ),
     );
   }
@@ -208,7 +224,9 @@ class MyChannelPreview extends StatelessWidget {
       stream: channel.state.messagesStream,
       initialData: channel.state.messages,
       builder: (context, snapshot) {
-        final lastMessage = snapshot.data?.lastWhere((m) => m.shadowed != true && !m.isDeleted, orElse: () => null);
+        final lastMessage = snapshot.data?.lastWhere(
+            (m) => m.shadowed != true && !m.isDeleted,
+            orElse: () => null);
         if (lastMessage == null) {
           return SizedBox();
         }
@@ -224,7 +242,9 @@ class MyChannelPreview extends StatelessWidget {
               } else if (e.type == 'giphy') {
                 return '[GIF]';
               }
-              return e == lastMessage.attachments.last ? (e.title ?? 'File') : '${e.title ?? 'File'} , ';
+              return e == lastMessage.attachments.last
+                  ? (e.title ?? 'File')
+                  : '${e.title ?? 'File'} , ';
             }).where((e) => e != null),
             lastMessage.text ?? '',
           ];
@@ -238,11 +258,21 @@ class MyChannelPreview extends StatelessWidget {
             lastMessage.mentionedUsers,
             lastMessage.attachments,
             StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
-                color: StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted) ? FontStyle.italic : FontStyle.normal),
+                color: StreamChatTheme.of(context)
+                    .channelPreviewTheme
+                    .subtitle
+                    .color,
+                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
+                    ? FontStyle.italic
+                    : FontStyle.normal),
             StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
-                color: StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted) ? FontStyle.italic : FontStyle.normal,
+                color: StreamChatTheme.of(context)
+                    .channelPreviewTheme
+                    .subtitle
+                    .color,
+                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
+                    ? FontStyle.italic
+                    : FontStyle.normal,
                 fontWeight: FontWeight.bold),
           ),
           maxLines: 1,
@@ -252,19 +282,27 @@ class MyChannelPreview extends StatelessWidget {
     );
   }
 
-  TextSpan _getDisplayText(String text, List<User> mentions, List<Attachment> attachments, TextStyle normalTextStyle,
+  TextSpan _getDisplayText(
+      String text,
+      List<User> mentions,
+      List<Attachment> attachments,
+      TextStyle normalTextStyle,
       TextStyle mentionsTextStyle) {
     var textList = text.split(' ');
     var resList = <TextSpan>[];
     for (var e in textList) {
-      if (mentions != null && mentions.isNotEmpty && mentions.any((element) => '@${element.name}' == e)) {
+      if (mentions != null &&
+          mentions.isNotEmpty &&
+          mentions.any((element) => '@${element.name}' == e)) {
         resList.add(TextSpan(
           text: '$e ',
           style: mentionsTextStyle,
         ));
       } else if (attachments != null &&
           attachments.isNotEmpty &&
-          attachments.where((e) => e.title != null).any((element) => element.title == e)) {
+          attachments
+              .where((e) => e.title != null)
+              .any((element) => element.title == e)) {
         resList.add(TextSpan(
           text: '$e ',
           style: normalTextStyle.copyWith(fontStyle: FontStyle.italic),
@@ -301,7 +339,9 @@ class ChannelUnreadIndicator extends StatelessWidget {
 
         return Material(
           borderRadius: BorderRadius.circular(8),
-          color: StreamChatTheme.of(context).channelPreviewTheme.unreadCounterColor,
+          color: StreamChatTheme.of(context)
+              .channelPreviewTheme
+              .unreadCounterColor,
           child: Padding(
             padding: const EdgeInsets.only(
               left: 5.0,
