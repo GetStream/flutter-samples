@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:jiffy/jiffy.dart';
@@ -30,22 +31,22 @@ import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 /// Modify it to change the widget appearance.
 class MyChannelPreview extends StatelessWidget {
   /// Function called when tapping this widget
-  final void Function(Channel) onTap;
+  final void Function(Channel)? onTap;
 
   /// Function called when long pressing this widget
-  final void Function(Channel) onLongPress;
+  final void Function(Channel)? onLongPress;
 
   /// Channel displayed
   final Channel channel;
 
   /// The function called when the image is tapped
-  final VoidCallback onImageTap;
+  final VoidCallback? onImageTap;
 
-  final String heroTag;
+  final String? heroTag;
 
   MyChannelPreview({
-    @required this.channel,
-    Key key,
+    required this.channel,
+    Key? key,
     this.onTap,
     this.onLongPress,
     this.onImageTap,
@@ -59,24 +60,24 @@ class MyChannelPreview extends StatelessWidget {
         initialData: channel.isMuted,
         builder: (context, snapshot) {
           return Opacity(
-            opacity: snapshot.data ? 0.5 : 1,
+            opacity: snapshot.data! ? 0.5 : 1,
             child: ListTile(
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 8,
               ),
               onTap: () {
                 if (onTap != null) {
-                  onTap(channel);
+                  onTap!(channel);
                 }
               },
               onLongPress: () {
                 if (onLongPress != null) {
-                  onLongPress(channel);
+                  onLongPress!(channel);
                 }
               },
               leading: Material(
                 child: Hero(
-                  tag: heroTag,
+                  tag: heroTag!,
                   child: StreamChannel(
                     channel: channel,
                     child: ChannelImage(
@@ -95,13 +96,13 @@ class MyChannelPreview extends StatelessWidget {
                     ),
                   ),
                   StreamBuilder<List<Member>>(
-                      stream: channel.state.membersStream,
-                      initialData: channel.state.members,
+                      stream: channel.state!.membersStream,
+                      initialData: channel.state!.members,
                       builder: (context, snapshot) {
                         if (!snapshot.hasData ||
-                            snapshot.data.isEmpty ||
-                            !snapshot.data.any((Member e) =>
-                                e.user.id == channel.client.state.user.id)) {
+                            snapshot.data!.isEmpty ||
+                            !snapshot.data!.any((Member e) =>
+                                e.user!.id == channel.client.state.user!.id)) {
                           return SizedBox();
                         }
                         return ChannelUnreadIndicator(
@@ -116,26 +117,26 @@ class MyChannelPreview extends StatelessWidget {
                   Flexible(child: _buildSubtitle(context)),
                   Builder(
                     builder: (context) {
-                      final lastMessage = channel.state.messages.lastWhere(
+                      final lastMessage =
+                          channel.state!.messages.lastWhereOrNull(
                         (m) => !m.isDeleted && m.shadowed != true,
-                        orElse: () => null,
                       );
                       if (lastMessage?.user?.id ==
-                          StreamChat.of(context).user.id) {
+                          StreamChat.of(context).user!.id) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: SendingIndicator(
-                            message: lastMessage,
+                            message: lastMessage!,
                             size: StreamChatTheme.of(context)
                                 .channelPreviewTheme
                                 .indicatorIconSize,
-                            isMessageRead: channel.state.read
+                            isMessageRead: channel.state!.read
                                     ?.where((element) =>
                                         element.user.id !=
-                                        channel.client.state.user.id)
-                                    ?.where((element) => element.lastRead
+                                        channel.client.state.user!.id)
+                                    .where((element) => element.lastRead
                                         .isAfter(lastMessage.createdAt))
-                                    ?.isNotEmpty ==
+                                    .isNotEmpty ==
                                 true,
                           ),
                         );
@@ -152,14 +153,14 @@ class MyChannelPreview extends StatelessWidget {
   }
 
   Widget _buildDate(BuildContext context) {
-    return StreamBuilder<DateTime>(
+    return StreamBuilder<DateTime?>(
       stream: channel.lastMessageAtStream,
       initialData: channel.lastMessageAt,
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return SizedBox();
         }
-        final lastMessageAt = snapshot.data.toLocal();
+        final lastMessageAt = snapshot.data!.toLocal();
 
         String stringDate;
         final now = DateTime.now();
@@ -198,11 +199,11 @@ class MyChannelPreview extends StatelessWidget {
             '  Channel is muted',
             style: StreamChatTheme.of(context)
                 .channelPreviewTheme
-                .subtitle
+                .subtitle!
                 .copyWith(
                   color: StreamChatTheme.of(context)
                       .channelPreviewTheme
-                      .subtitle
+                      .subtitle!
                       .color,
                 ),
           ),
@@ -212,21 +213,20 @@ class MyChannelPreview extends StatelessWidget {
     return TypingIndicator(
       channel: channel,
       alternativeWidget: _buildLastMessage(context),
-      style: StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
+      style: StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
             color:
-                StreamChatTheme.of(context).channelPreviewTheme.subtitle.color,
+                StreamChatTheme.of(context).channelPreviewTheme.subtitle!.color,
           ),
     );
   }
 
   Widget _buildLastMessage(BuildContext context) {
-    return StreamBuilder<List<Message>>(
-      stream: channel.state.messagesStream,
-      initialData: channel.state.messages,
+    return StreamBuilder<List<Message>?>(
+      stream: channel.state!.messagesStream,
+      initialData: channel.state!.messages,
       builder: (context, snapshot) {
-        final lastMessage = snapshot.data?.lastWhere(
-            (m) => m.shadowed != true && !m.isDeleted,
-            orElse: () => null);
+        final lastMessage = snapshot.data
+            ?.lastWhereOrNull((m) => m.shadowed != true && !m.isDeleted);
         if (lastMessage == null) {
           return SizedBox();
         }
@@ -254,21 +254,21 @@ class MyChannelPreview extends StatelessWidget {
 
         return Text.rich(
           _getDisplayText(
-            text,
+            text!,
             lastMessage.mentionedUsers,
             lastMessage.attachments,
-            StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
+            StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
                 color: StreamChatTheme.of(context)
                     .channelPreviewTheme
-                    .subtitle
+                    .subtitle!
                     .color,
                 fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
                     ? FontStyle.italic
                     : FontStyle.normal),
-            StreamChatTheme.of(context).channelPreviewTheme.subtitle.copyWith(
+            StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
                 color: StreamChatTheme.of(context)
                     .channelPreviewTheme
-                    .subtitle
+                    .subtitle!
                     .color,
                 fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
                     ? FontStyle.italic
@@ -321,8 +321,8 @@ class MyChannelPreview extends StatelessWidget {
 
 class ChannelUnreadIndicator extends StatelessWidget {
   const ChannelUnreadIndicator({
-    Key key,
-    @required this.channel,
+    Key? key,
+    required this.channel,
   }) : super(key: key);
 
   final Channel channel;
@@ -330,8 +330,8 @@ class ChannelUnreadIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<int>(
-      stream: channel.state.unreadCountStream,
-      initialData: channel.state.unreadCount,
+      stream: channel.state!.unreadCountStream,
+      initialData: channel.state!.unreadCount,
       builder: (context, snapshot) {
         if (!snapshot.hasData || snapshot.data == 0) {
           return SizedBox();
@@ -351,7 +351,7 @@ class ChannelUnreadIndicator extends StatelessWidget {
             ),
             child: Center(
               child: Text(
-                '${snapshot.data > 99 ? '99+' : snapshot.data}',
+                '${snapshot.data! > 99 ? '99+' : snapshot.data}',
                 style: TextStyle(
                   fontSize: 11,
                   color: Colors.white,

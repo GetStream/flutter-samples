@@ -4,22 +4,23 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  flutter_bloc: 6.1.2
-  stream_chat_flutter: 1.3.0-beta
-  uuid: 2.2.2
+  flutter_bloc: ^7.0.0
+  stream_chat_flutter: ^2.0.0-nullsafety.3
+  uuid: ^3.0.4
 
-  firebase_core: 0.7.0
-  google_sign_in: 4.5.9
-  firebase_auth: 0.20.0+1
-  firebase_storage: 7.0.0
-  shared_preferences: 0.5.12+4
+  firebase_core: ^1.2.0
+  google_sign_in: ^5.0.3
+  firebase_auth: ^1.2.0
+  firebase_storage: ^8.1.0
+  shared_preferences: ^2.0.5
   http: any
+  collection: ^1.15.0-nullsafety.4
 
 dev_dependencies:
   flutter_test:

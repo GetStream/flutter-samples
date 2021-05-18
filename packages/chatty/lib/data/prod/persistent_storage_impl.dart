@@ -13,6 +13,6 @@ class PersistentStorageImpl extends PersistentStorageRepository {
   @override
   Future<void> updateDarkMode(bool isDarkMode) async {
     final preference = await SharedPreferences.getInstance();
-    return await preference.setBool(_isDarkMode, isDarkMode);
+    await preference.setBool(_isDarkMode, isDarkMode);
   }
 }

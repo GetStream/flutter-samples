@@ -5,8 +5,8 @@ class LoadingView extends StatelessWidget {
   final Widget child;
 
   const LoadingView({
-    Key key,
-    @required this.child,
+    Key? key,
+    required this.child,
     this.isLoading = false,
   }) : super(key: key);
 

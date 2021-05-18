@@ -10,8 +10,8 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = StreamChat.of(context).client.state.user;
-    final image = user?.extraData['image'];
+    final user = StreamChat.of(context).client.state.user!;
+    final image = user.extraData['image'];
     final textColor = Theme.of(context).appBarTheme.color;
     return MultiBlocProvider(
       providers: [
@@ -48,7 +48,7 @@ class SettingsView extends StatelessWidget {
                   onTap: () => null,
                   child: image != null
                       ? Image.network(
-                          image,
+                          image as String,
                           fit: BoxFit.cover,
                         )
                       : Icon(
