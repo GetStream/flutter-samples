@@ -7,12 +7,12 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart'
     show Message, StreamChatCore;
 
 class MessageListView extends StatelessWidget {
-  const MessageListView({Key key, this.messages}) : super(key: key);
-  final List<Message> messages;
+  const MessageListView({Key? key, this.messages}) : super(key: key);
+  final List<Message>? messages;
 
   @override
   Widget build(BuildContext context) {
-    final entries = groupBy(messages,
+    final entries = groupBy(messages!,
             (Message message) => message.createdAt.toString().substring(0, 10))
         .entries
         .toList();
@@ -64,8 +64,8 @@ class MessageListView extends StatelessWidget {
   }
 
   bool isReceived(Message message, BuildContext context) {
-    final currentUserId = StreamChatCore.of(context).user.id;
-    return message.user.id == currentUserId;
+    final currentUserId = StreamChatCore.of(context).user!.id;
+    return message.user!.id == currentUserId;
   }
 
   bool isSameDay(Message message) =>

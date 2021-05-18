@@ -4,7 +4,7 @@ import 'package:imessage/utils.dart';
 
 class MessageHeader extends StatelessWidget {
   final String rawTimeStamp;
-  const MessageHeader({Key key, @required this.rawTimeStamp}) : super(key: key);
+  const MessageHeader({Key? key, required this.rawTimeStamp}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

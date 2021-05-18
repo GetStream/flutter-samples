@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    show Attachment, AttachmentFile, Message, MultipartFile, StreamChannel;
+    show Attachment, AttachmentFile, Message, StreamChannel;
 
 class MessageInput extends StatefulWidget {
   const MessageInput({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -16,7 +16,6 @@ class MessageInput extends StatefulWidget {
 
 class _MessageInputState extends State<MessageInput> {
   final textController = TextEditingController();
-  File _image;
   final picker = ImagePicker();
 
   @override
@@ -39,16 +38,25 @@ class _MessageInputState extends State<MessageInput> {
             GestureDetector(
               onTap: () async {
                 final pickedFile =
-                    await picker.getImage(source: ImageSource.gallery);
+                    await (picker.getImage(source: ImageSource.gallery));
+                if (pickedFile == null) {
+                  return;
+                }
                 final bytes = await File(pickedFile.path).readAsBytes();
                 final channel = StreamChannel.of(context).channel;
-                final message =
-                    Message(text: textController.value.text, attachments: [
-                  Attachment(
-                    type: 'image',
-                    file: AttachmentFile(bytes: bytes, path: pickedFile.path),
-                  ),
-                ]);
+                final message = Message(
+                  text: textController.value.text,
+                  attachments: [
+                    Attachment(
+                      type: 'image',
+                      file: AttachmentFile(
+                        bytes: bytes,
+                        path: pickedFile.path,
+                        size: bytes.length,
+                      ),
+                    ),
+                  ],
+                );
                 await channel.sendMessage(message);
               },
               child: Padding(
@@ -68,10 +76,11 @@ class _MessageInputState extends State<MessageInput> {
                 },
                 placeholder: 'Text Message',
                 prefix: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                        "") //trick to add padding around  placeholder iMessage text
-                    ),
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    '',
+                  ), //trick to add padding around  placeholder iMessage text
+                ),
                 suffix: GestureDetector(
                   onTap: () async {
                     if (textController.value.text.isNotEmpty) {

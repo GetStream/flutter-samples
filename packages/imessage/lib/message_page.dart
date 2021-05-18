@@ -53,7 +53,7 @@ class MessagePage extends StatelessWidget {
               },
               messageListBuilder: (context, messages) => LazyLoadScrollView(
                     onStartOfPage: () async {
-                      messageListController.paginateData();
+                      await messageListController.paginateData!();
                     },
                     child: MessageListView(
                       messages: messages,
