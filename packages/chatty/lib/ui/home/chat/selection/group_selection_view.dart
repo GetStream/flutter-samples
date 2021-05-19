@@ -28,7 +28,7 @@ class GroupSelectionView extends StatelessWidget {
             context,
             Scaffold(
               body: StreamChannel(
-                channel: snapshot.channel,
+                channel: snapshot.channel!,
                 child: ChannelPage(),
               ),
             ),
@@ -60,9 +60,9 @@ class GroupSelectionView extends StatelessWidget {
               children: [
                 AvatarImageView(
                   onTap: context.read<GroupSelectionCubit>().pickImage,
-                  child: snapshot?.file != null
+                  child: snapshot.file != null
                       ? Image.file(
-                          snapshot?.file,
+                          snapshot.file!,
                           fit: BoxFit.cover,
                         )
                       : Icon(
@@ -104,9 +104,9 @@ class GroupSelectionView extends StatelessWidget {
                           CircleAvatar(
                             radius: 30,
                             backgroundImage:
-                                NetworkImage(chatUserState.chatUser.image),
+                                NetworkImage(chatUserState.chatUser.image!),
                           ),
-                          Text(chatUserState.chatUser.name),
+                          Text(chatUserState.chatUser.name!),
                         ],
                       ),
                     );

@@ -23,11 +23,10 @@ class ChatView extends StatelessWidget {
       ),
       body: ChannelsBloc(
         child: ChannelListView(
-          filter: {
-            'members': {
-              '\$in': [StreamChat.of(context).user?.id],
-            }
-          },
+          filter: Filter.in_(
+            'members',
+            [StreamChat.of(context).user!.id],
+          ),
           sort: [SortOption('last_message_at')],
           channelPreviewBuilder: (context, channel) {
             return Container(
@@ -36,22 +35,22 @@ class ChatView extends StatelessWidget {
                 channel: channel,
                 heroTag: channel.id,
                 onImageTap: () {
-                  String name;
-                  String image;
+                  String? name;
+                  String? image;
                   final currentUser = StreamChat.of(context).client.state.user;
                   if (channel.isGroup) {
                     name = channel.extraData['name'];
                     image = channel.extraData['image'];
                   } else {
-                    final friend = channel.state.members
-                        .where((element) => element.userId != currentUser.id)
+                    final friend = channel.state!.members
+                        .where((element) => element.userId != currentUser!.id)
                         .first
-                        .user;
+                        .user!;
                     name = friend.name;
-                    image = friend.extraData['image'];
+                    image = friend.extraData['image'] as String?;
                   }
 
-                  return Navigator.of(context).push(
+                  Navigator.of(context).push(
                     PageRouteBuilder(
                         barrierColor: Colors.black45,
                         barrierDismissible: true,
@@ -110,15 +109,15 @@ class ChannelPage extends StatelessWidget {
 
 class ChatDetailView extends StatelessWidget {
   const ChatDetailView({
-    Key key,
+    Key? key,
     this.image,
     this.name,
     this.channelId,
   }) : super(key: key);
 
-  final String image;
-  final String name;
-  final String channelId;
+  final String? image;
+  final String? name;
+  final String? channelId;
 
   @override
   Widget build(BuildContext context) {
@@ -135,10 +134,10 @@ class ChatDetailView extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Hero(
-                  tag: channelId,
+                  tag: channelId!,
                   child: ClipOval(
                     child: Image.network(
-                      image,
+                      image!,
                       height: 180,
                       width: 180,
                       fit: BoxFit.cover,
@@ -146,7 +145,7 @@ class ChatDetailView extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  name,
+                  name!,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 22,

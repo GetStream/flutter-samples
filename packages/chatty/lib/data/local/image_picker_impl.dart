@@ -4,10 +4,17 @@ import 'package:stream_chatter/data/image_picker_repository.dart';
 
 class ImagePickerImpl extends ImagePickerRepository {
   @override
-  Future<File> pickImage() async {
+  Future<File?> pickImage() async {
     final picker = ImagePicker();
-    final pickedFile =
-        await picker.getImage(source: ImageSource.gallery, maxWidth: 400);
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      maxWidth: 400,
+    );
+
+    if (pickedFile == null) {
+      return null;
+    }
+
     return File(pickedFile.path);
   }
 }

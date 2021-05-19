@@ -7,7 +7,7 @@ class AuthImpl extends AuthRepository {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
-  Future<AuthUser> getAuthUser() async {
+  Future<AuthUser?> getAuthUser() async {
     final user = _auth.currentUser;
     if (user != null) {
       return AuthUser(user.uid);
@@ -19,16 +19,21 @@ class AuthImpl extends AuthRepository {
   Future<AuthUser> signIn() async {
     try {
       UserCredential userCredential;
-      final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      if (googleUser == null) {
+        throw Exception('login error');
+      }
+
       final GoogleSignInAuthentication googleAuth =
           await googleUser.authentication;
       final GoogleAuthCredential googleAuthCredential =
           GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
-      );
+      ) as GoogleAuthCredential;
       userCredential = await _auth.signInWithCredential(googleAuthCredential);
-      final user = userCredential.user;
+      final user = userCredential.user!;
       return AuthUser(user.uid);
     } catch (e) {
       print(e);

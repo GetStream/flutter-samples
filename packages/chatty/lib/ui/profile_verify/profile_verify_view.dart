@@ -39,7 +39,7 @@ class ProfileVerifyView extends StatelessWidget {
                     onTap: context.read<ProfileVerifyCubit>().pickImage,
                     child: snapshot.file != null
                         ? Image.file(
-                            snapshot.file,
+                            snapshot.file!,
                             fit: BoxFit.cover,
                           )
                         : Icon(

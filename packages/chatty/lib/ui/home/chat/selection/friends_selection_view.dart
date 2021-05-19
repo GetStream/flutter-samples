@@ -143,9 +143,9 @@ class FriendsSelectionView extends StatelessWidget {
                                         CircleAvatar(
                                           radius: 30,
                                           backgroundImage: NetworkImage(
-                                              chatUserState.chatUser.image),
+                                              chatUserState.chatUser.image!),
                                         ),
-                                        Text(chatUserState.chatUser.name),
+                                        Text(chatUserState.chatUser.name!),
                                       ],
                                     ),
                                     Positioned(
@@ -178,9 +178,9 @@ class FriendsSelectionView extends StatelessWidget {
                           },
                           leading: CircleAvatar(
                             backgroundImage:
-                                NetworkImage(chatUserState.chatUser.image),
+                                NetworkImage(chatUserState.chatUser.image!),
                           ),
-                          title: Text(chatUserState.chatUser.name),
+                          title: Text(chatUserState.chatUser.name!),
                           trailing: isGroup
                               ? Checkbox(
                                   value: chatUserState.selected,

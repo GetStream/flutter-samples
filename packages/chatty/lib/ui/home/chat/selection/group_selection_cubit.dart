@@ -13,8 +13,8 @@ class GroupSelectionState {
     this.channel,
     this.isLoading = false,
   });
-  final File file;
-  final Channel channel;
+  final File? file;
+  final Channel? channel;
   final bool isLoading;
 }
 
