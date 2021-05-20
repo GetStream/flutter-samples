@@ -84,6 +84,6 @@ class StreamApiLocalImpl extends StreamApiRepository {
       User(id: userId),
       token,
     );
-    return _client.state.user!.name != null && _client.state.user!.name != userId;
+    return _client.state.user!.name != userId;
   }
 }

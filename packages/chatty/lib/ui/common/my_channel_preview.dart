@@ -232,29 +232,27 @@ class MyChannelPreview extends StatelessWidget {
         }
 
         var text = lastMessage.text;
-        if (lastMessage.attachments != null) {
-          final parts = <String>[
-            ...lastMessage.attachments.map((e) {
-              if (e.type == 'image') {
-                return '📷';
-              } else if (e.type == 'video') {
-                return '🎬';
-              } else if (e.type == 'giphy') {
-                return '[GIF]';
-              }
-              return e == lastMessage.attachments.last
-                  ? (e.title ?? 'File')
-                  : '${e.title ?? 'File'} , ';
-            }).where((e) => e != null),
-            lastMessage.text ?? '',
-          ];
+        final parts = <String>[
+          ...lastMessage.attachments.map((e) {
+            if (e.type == 'image') {
+              return '📷';
+            } else if (e.type == 'video') {
+              return '🎬';
+            } else if (e.type == 'giphy') {
+              return '[GIF]';
+            }
+            return e == lastMessage.attachments.last
+                ? (e.title ?? 'File')
+                : '${e.title ?? 'File'} , ';
+          }),
+          lastMessage.text ?? '',
+        ];
 
-          text = parts.join(' ');
-        }
+        text = parts.join(' ');
 
         return Text.rich(
           _getDisplayText(
-            text!,
+            text,
             lastMessage.mentionedUsers,
             lastMessage.attachments,
             StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
@@ -291,15 +289,13 @@ class MyChannelPreview extends StatelessWidget {
     var textList = text.split(' ');
     var resList = <TextSpan>[];
     for (var e in textList) {
-      if (mentions != null &&
-          mentions.isNotEmpty &&
+      if (mentions.isNotEmpty &&
           mentions.any((element) => '@${element.name}' == e)) {
         resList.add(TextSpan(
           text: '$e ',
           style: mentionsTextStyle,
         ));
-      } else if (attachments != null &&
-          attachments.isNotEmpty &&
+      } else if (attachments.isNotEmpty &&
           attachments
               .where((e) => e.title != null)
               .any((element) => element.title == e)) {
