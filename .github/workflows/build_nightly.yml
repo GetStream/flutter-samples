@@ -69,3 +69,17 @@ jobs:
         with:
           name: android-stream-chat-v1
           path: packages/stream_chat_v1/build/app/outputs/apk/release/app-release.apk
+  build_and_deploy_web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1.4.0
+        with:
+          channel: 'stable'
+      - name: Copy production config
+        run: echo ${{ secrets.PRODUCTION_CONFIG }} > lib/app_config.dart
+      - run: flutter pub get
+      - run: pub global activate peanut
+      - run: flutter pub global run peanut:peanut
+      - run: git push origin --set-upstream gh-pages
+
