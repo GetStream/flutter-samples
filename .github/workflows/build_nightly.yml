@@ -84,7 +84,8 @@ jobs:
       - run: flutter pub get
       - name: Copy production config
         run: echo "${{ secrets.PRODUCTION_CONFIG }}" > lib/app_config.dart
-      - run: flutter pub global activate peanut
-      - run: flutter pub global run peanut:peanut --web-renderer=canvaskit
-      - run: git push origin --set-upstream gh-pages
+      - uses: erickzanardo/flutter-gh-pages@v3
+        with:
+          webRenderer: canvaskit
+
 
