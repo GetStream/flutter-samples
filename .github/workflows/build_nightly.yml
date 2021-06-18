@@ -87,5 +87,6 @@ jobs:
       - uses: erickzanardo/flutter-gh-pages@v3
         with:
           webRenderer: canvaskit
+          workingDir: packages/stream_chat_v1
 
 
