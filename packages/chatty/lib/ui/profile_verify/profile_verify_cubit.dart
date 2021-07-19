@@ -27,8 +27,8 @@ class ProfileVerifyCubit extends Cubit<ProfileState> {
   final ProfileSignInUseCase _profileSignInUseCase;
 
   void startChatting() async {
-    emit(ProfileState(null, loading: true));
     final file = state.file;
+    emit(ProfileState(file, loading: true));
     final name = nameController.text;
     await _profileSignInUseCase.verify(ProfileInput(
       imageFile: file,
