@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
 
 class HomeNavigationBar extends StatelessWidget {
   const HomeNavigationBar({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -61,7 +61,9 @@ class HomeNavigationBar extends StatelessWidget {
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
-                    color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .backgroundColor,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -108,22 +110,24 @@ class HomeNavigationBar extends StatelessWidget {
 
 class _HomeNavItem extends StatelessWidget {
   const _HomeNavItem({
-    Key key,
+    Key? key,
     this.iconData,
     this.text,
     this.onTap,
     this.selected = false,
   }) : super(key: key);
 
-  final IconData iconData;
-  final String text;
-  final VoidCallback onTap;
+  final IconData? iconData;
+  final String? text;
+  final VoidCallback? onTap;
   final bool selected;
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor = Theme.of(context).bottomNavigationBarTheme.selectedItemColor;
-    final unselectedColor = Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
+    final selectedColor =
+        Theme.of(context).bottomNavigationBarTheme.selectedItemColor;
+    final unselectedColor =
+        Theme.of(context).bottomNavigationBarTheme.unselectedItemColor;
     final color = selected ? selectedColor : unselectedColor;
     return GestureDetector(
       onTap: onTap,
@@ -131,7 +135,7 @@ class _HomeNavItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(iconData, color: color),
-          Text(text, style: TextStyle(color: color)),
+          Text(text!, style: TextStyle(color: color)),
         ],
       ),
     );

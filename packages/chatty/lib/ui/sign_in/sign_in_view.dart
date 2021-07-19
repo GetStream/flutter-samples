@@ -11,7 +11,8 @@ class SignInView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => SignInCubit(context.read()),
-      child: BlocConsumer<SignInCubit, SignInState>(listener: (context, snapshot) {
+      child:
+          BlocConsumer<SignInCubit, SignInState>(listener: (context, snapshot) {
         if (snapshot == SignInState.none) {
           pushAndReplaceToPage(context, ProfileVerifyView());
         } else {
@@ -59,7 +60,9 @@ class SignInView extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    color: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                    color: Theme.of(context)
+                        .bottomNavigationBarTheme
+                        .backgroundColor,
                     child: InkWell(
                       onTap: () {
                         context.read<SignInCubit>().signIn();

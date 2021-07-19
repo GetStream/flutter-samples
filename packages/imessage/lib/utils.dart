@@ -26,44 +26,45 @@ bool isSameWeek(DateTime timestamp) =>
     DateTime.now().difference(timestamp).inDays < 7;
 
 class CupertinoCircleAvatar extends StatelessWidget {
-  final String url;
-  final double size;
-  const CupertinoCircleAvatar({Key key, this.url, this.size}) : super(key: key);
+  final String? url;
+  final double? size;
+  const CupertinoCircleAvatar({Key? key, this.url, this.size})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(size / 2),
+      borderRadius: BorderRadius.circular(size! / 2),
       child: CachedNetworkImage(
-          imageUrl: url,
+          imageUrl: url!,
           height: size,
           width: size,
           fit: BoxFit.cover,
           errorWidget: (context, url, error) {
             //TODO: this crash the app when getting 404 and in debug mode, see :https://github.com/Baseflow/flutter_cached_network_image/issues/504
             return CachedNetworkImage(
-                imageUrl:
-                    "https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jpg");
+              imageUrl:
+                  'https://4.bp.blogspot.com/-Jx21kNqFSTU/UXemtqPhZCI/AAAAAAAAh74/BMGSzpU6F48/s1600/funny-cat-pictures-047-001.jp',
+            );
           }),
     );
   }
 }
 
-
 class Divider extends StatelessWidget {
   const Divider({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Align(
+        alignment: Alignment.bottomCenter,
         child: Container(
           height: 1,
           color: CupertinoColors.systemGrey5,
         ),
-        alignment: Alignment.bottomCenter,
       ),
     );
   }

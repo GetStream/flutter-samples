@@ -7,8 +7,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class FriendsSelectionView extends StatelessWidget {
-  void _createFriendChannel(BuildContext context, ChatUserState chatUserState) async {
-    final channel = await context.read<FriendsSelectionCubit>().createFriendChannel(chatUserState);
+  void _createFriendChannel(
+      BuildContext context, ChatUserState chatUserState) async {
+    final channel = await context
+        .read<FriendsSelectionCubit>()
+        .createFriendChannel(chatUserState);
     pushAndReplaceToPage(
       context,
       Scaffold(
@@ -26,19 +29,23 @@ class FriendsSelectionView extends StatelessWidget {
     final accentColor = Theme.of(context).accentColor;
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => FriendsSelectionCubit(context.read())..init()),
+        BlocProvider(
+            create: (context) => FriendsSelectionCubit(context.read())..init()),
         BlocProvider(create: (_) => FriendsGroupCubit()),
       ],
       child: BlocBuilder<FriendsGroupCubit, bool>(builder: (context, isGroup) {
-        return BlocBuilder<FriendsSelectionCubit, List<ChatUserState>>(builder: (context, snapshot) {
-          final selectedUsers = context.read<FriendsSelectionCubit>().selectedUsers;
+        return BlocBuilder<FriendsSelectionCubit, List<ChatUserState>>(
+            builder: (context, snapshot) {
+          final selectedUsers =
+              context.read<FriendsSelectionCubit>().selectedUsers;
 
           return Scaffold(
             floatingActionButton: isGroup && selectedUsers.isNotEmpty
                 ? FloatingActionButton(
                     child: Icon(Icons.arrow_right_alt_rounded),
                     onPressed: () {
-                      pushAndReplaceToPage(context, GroupSelectionView(selectedUsers));
+                      pushAndReplaceToPage(
+                          context, GroupSelectionView(selectedUsers));
                     })
                 : null,
             backgroundColor: Theme.of(context).canvasColor,
@@ -91,12 +98,14 @@ class FriendsSelectionView extends StatelessWidget {
                         backgroundColor: accentColor,
                         child: Icon(Icons.group_outlined),
                       ),
-                      title: Text('Create group', style: TextStyle(fontWeight: FontWeight.w700)),
+                      title: Text('Create group',
+                          style: TextStyle(fontWeight: FontWeight.w700)),
                       subtitle: Text('Talk with 2 or more contacts'),
                     )
                   else if (isGroup && selectedUsers.isEmpty)
                     Padding(
-                      padding: const EdgeInsets.only(top: 15.0, left: 20.0, bottom: 20),
+                      padding: const EdgeInsets.only(
+                          top: 15.0, left: 20.0, bottom: 20),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -123,7 +132,8 @@ class FriendsSelectionView extends StatelessWidget {
                             itemBuilder: (context, index) {
                               final chatUserState = selectedUsers[index];
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 13.0),
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 13.0),
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
@@ -132,20 +142,24 @@ class FriendsSelectionView extends StatelessWidget {
                                       children: [
                                         CircleAvatar(
                                           radius: 30,
-                                          backgroundImage: NetworkImage(chatUserState.chatUser.image),
+                                          backgroundImage: NetworkImage(
+                                              chatUserState.chatUser.image!),
                                         ),
-                                        Text(chatUserState.chatUser.name),
+                                        Text(chatUserState.chatUser.name!),
                                       ],
                                     ),
                                     Positioned(
                                       bottom: 40,
                                       right: -4,
                                       child: InkWell(
-                                        onTap: () => context.read<FriendsSelectionCubit>().selectUser(chatUserState),
+                                        onTap: () => context
+                                            .read<FriendsSelectionCubit>()
+                                            .selectUser(chatUserState),
                                         child: CircleAvatar(
                                           radius: 9,
                                           backgroundColor: accentColor,
-                                          child: Icon(Icons.close_rounded, size: 12),
+                                          child: Icon(Icons.close_rounded,
+                                              size: 12),
                                         ),
                                       ),
                                     ),
@@ -163,15 +177,18 @@ class FriendsSelectionView extends StatelessWidget {
                             _createFriendChannel(context, chatUserState);
                           },
                           leading: CircleAvatar(
-                            backgroundImage: NetworkImage(chatUserState.chatUser.image),
+                            backgroundImage:
+                                NetworkImage(chatUserState.chatUser.image!),
                           ),
-                          title: Text(chatUserState.chatUser.name),
+                          title: Text(chatUserState.chatUser.name!),
                           trailing: isGroup
                               ? Checkbox(
                                   value: chatUserState.selected,
                                   onChanged: (val) {
                                     print('select user for group');
-                                    context.read<FriendsSelectionCubit>().selectUser(chatUserState);
+                                    context
+                                        .read<FriendsSelectionCubit>()
+                                        .selectUser(chatUserState);
                                   },
                                 )
                               : null,

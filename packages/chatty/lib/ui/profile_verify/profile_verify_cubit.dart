@@ -11,7 +11,7 @@ class ProfileState {
     this.success = false,
     this.loading = false,
   });
-  final File file;
+  final File? file;
   final bool success;
   final bool loading;
 }

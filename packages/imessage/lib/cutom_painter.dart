@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 
 class ChatBubble extends CustomPainter {
   final Color color;
-  final Alignment alignment;
+  final Alignment? alignment;
 
   ChatBubble({
-    @required this.color,
+    required this.color,
     this.alignment,
   });
 

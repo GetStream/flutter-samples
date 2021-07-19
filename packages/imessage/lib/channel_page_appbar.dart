@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class ChannelPageAppBar extends StatelessWidget {
   const ChannelPageAppBar({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

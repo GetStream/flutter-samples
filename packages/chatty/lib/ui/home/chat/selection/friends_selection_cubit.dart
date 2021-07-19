@@ -13,21 +13,27 @@ class FriendsSelectionCubit extends Cubit<List<ChatUserState>> {
   FriendsSelectionCubit(this._streamApiRepository) : super([]);
   final StreamApiRepository _streamApiRepository;
 
-  List<ChatUserState> get selectedUsers => state.where((element) => element.selected).toList();
+  List<ChatUserState> get selectedUsers =>
+      state.where((element) => element.selected).toList();
 
   Future<void> init() async {
-    final chatUsers = (await _streamApiRepository.getChatUsers()).map((e) => ChatUserState(e)).toList();
+    final chatUsers = (await _streamApiRepository.getChatUsers())
+        .map((e) => ChatUserState(e))
+        .toList();
     emit(chatUsers);
   }
 
   void selectUser(ChatUserState chatUser) {
-    final index = state.indexWhere((element) => element.chatUser.id == chatUser.chatUser.id);
-    state[index] = ChatUserState(state[index].chatUser, selected: !chatUser.selected);
+    final index = state
+        .indexWhere((element) => element.chatUser.id == chatUser.chatUser.id);
+    state[index] =
+        ChatUserState(state[index].chatUser, selected: !chatUser.selected);
     emit(List<ChatUserState>.from(state));
   }
 
   Future<Channel> createFriendChannel(ChatUserState chatUserState) async {
-    return await _streamApiRepository.createSimpleChat(chatUserState.chatUser.id);
+    return await _streamApiRepository
+        .createSimpleChat(chatUserState.chatUser.id);
   }
 }
 

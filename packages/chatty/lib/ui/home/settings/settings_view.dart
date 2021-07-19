@@ -10,13 +10,14 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = StreamChat.of(context).client.state.user;
-    final image = user?.extraData['image'];
+    final user = StreamChat.of(context).client.state.user!;
+    final image = user.extraData['image'];
     final textColor = Theme.of(context).appBarTheme.color;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => SettingsSwitchCubit(context.read<AppThemeCubit>().isDark),
+          create: (_) =>
+              SettingsSwitchCubit(context.read<AppThemeCubit>().isDark),
         ),
         BlocProvider(
           create: (_) => SettingsLogoutCubit(context.read()),
@@ -47,7 +48,7 @@ class SettingsView extends StatelessWidget {
                   onTap: () => null,
                   child: image != null
                       ? Image.network(
-                          image,
+                          image as String,
                           fit: BoxFit.cover,
                         )
                       : Icon(
@@ -75,11 +76,14 @@ class SettingsView extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    BlocBuilder<SettingsSwitchCubit, bool>(builder: (context, snapshot) {
+                    BlocBuilder<SettingsSwitchCubit, bool>(
+                        builder: (context, snapshot) {
                       return Switch(
                         value: snapshot,
                         onChanged: (val) {
-                          context.read<SettingsSwitchCubit>().onChangeDarkMode(val);
+                          context
+                              .read<SettingsSwitchCubit>()
+                              .onChangeDarkMode(val);
                           context.read<AppThemeCubit>().updateTheme(val);
                         },
                       );

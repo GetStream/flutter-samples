@@ -20,10 +20,8 @@ class SignInCubit extends Cubit<SignInState> {
         emit(SignInState.existing_user);
       }
     } catch (ex) {
-      final result = await _loginUseCase.signIn();
-      if (result != null) {
-        emit(SignInState.none);
-      }
+      _loginUseCase.signIn();
+      emit(SignInState.none);
     }
   }
 }

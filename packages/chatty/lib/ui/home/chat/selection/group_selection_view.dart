@@ -21,13 +21,14 @@ class GroupSelectionView extends StatelessWidget {
         context.read(),
         context.read(),
       ),
-      child: BlocConsumer<GroupSelectionCubit, GroupSelectionState>(listener: (context, snapshot) {
+      child: BlocConsumer<GroupSelectionCubit, GroupSelectionState>(
+          listener: (context, snapshot) {
         if (snapshot.channel != null) {
           pushAndReplaceToPage(
             context,
             Scaffold(
               body: StreamChannel(
-                channel: snapshot.channel,
+                channel: snapshot.channel!,
                 child: ChannelPage(),
               ),
             ),
@@ -59,9 +60,9 @@ class GroupSelectionView extends StatelessWidget {
               children: [
                 AvatarImageView(
                   onTap: context.read<GroupSelectionCubit>().pickImage,
-                  child: snapshot?.file != null
+                  child: snapshot.file != null
                       ? Image.file(
-                          snapshot?.file,
+                          snapshot.file!,
                           fit: BoxFit.cover,
                         )
                       : Icon(
@@ -76,9 +77,12 @@ class GroupSelectionView extends StatelessWidget {
                     vertical: 20,
                   ),
                   child: TextField(
-                    controller: context.read<GroupSelectionCubit>().nameTextController,
+                    controller:
+                        context.read<GroupSelectionCubit>().nameTextController,
                     decoration: InputDecoration(
-                      fillColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,
+                      fillColor: Theme.of(context)
+                          .bottomNavigationBarTheme
+                          .backgroundColor,
                       hintText: 'Name of the group',
                       hintStyle: TextStyle(
                         fontSize: 13,
@@ -99,9 +103,10 @@ class GroupSelectionView extends StatelessWidget {
                         children: [
                           CircleAvatar(
                             radius: 30,
-                            backgroundImage: NetworkImage(chatUserState.chatUser.image),
+                            backgroundImage:
+                                NetworkImage(chatUserState.chatUser.image!),
                           ),
-                          Text(chatUserState.chatUser.name),
+                          Text(chatUserState.chatUser.name!),
                         ],
                       ),
                     );
