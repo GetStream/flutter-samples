@@ -18,7 +18,7 @@ import 'routes/routes.dart';
 
 final chatPersistentClient = StreamChatPersistenceClient(
   logLevel: Level.SEVERE,
-  connectionMode: ConnectionMode.regular,
+  connectionMode: ConnectionMode.background,
 );
 
 void main() async {
