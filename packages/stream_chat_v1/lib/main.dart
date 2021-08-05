@@ -42,6 +42,9 @@ class _MyAppState extends State<MyApp>
       apiKey = await secureStorage.read(key: kStreamApiKey);
       userId = await secureStorage.read(key: kStreamUserId);
       token = await secureStorage.read(key: kStreamToken);
+    } else {
+      userId = defaultUsers.entries.first.value.id;
+      token = defaultUsers.entries.first.key;
     }
 
     final client = StreamChatClient(
