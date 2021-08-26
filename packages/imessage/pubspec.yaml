@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   intl: ^0.17.0
-  stream_chat_flutter: ^2.0.0-nullsafety.3
+  stream_chat_flutter: ^2.2.0
   animations: ^2.0.0
   collection: ^1.15.0
   cached_network_image: ^3.0.0

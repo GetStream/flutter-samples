@@ -38,7 +38,7 @@ class _MessageInputState extends State<MessageInput> {
             GestureDetector(
               onTap: () async {
                 final pickedFile =
-                    await (picker.getImage(source: ImageSource.gallery));
+                    await (picker.pickImage(source: ImageSource.gallery));
                 if (pickedFile == null) {
                   return;
                 }
