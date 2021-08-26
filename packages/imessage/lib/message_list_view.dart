@@ -64,7 +64,7 @@ class MessageListView extends StatelessWidget {
   }
 
   bool isReceived(Message message, BuildContext context) {
-    final currentUserId = StreamChatCore.of(context).user!.id;
+    final currentUserId = StreamChatCore.of(context).currentUser!.id;
     return message.user!.id == currentUserId;
   }
 

@@ -48,7 +48,7 @@ class ChatLoader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = StreamChatCore.of(context).user!;
+    final user = StreamChatCore.of(context).currentUser!;
     return CupertinoPageScaffold(
       child: ChannelsBloc(
         child: ChannelListCore(

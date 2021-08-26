@@ -41,7 +41,7 @@ class MessagePage extends StatelessWidget {
                   child: CupertinoActivityIndicator(),
                 );
               },
-              errorWidgetBuilder: (context, err) {
+              errorBuilder: (context, err) {
                 return Center(
                   child: Text('Error'),
                 );
