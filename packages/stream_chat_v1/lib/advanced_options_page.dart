@@ -1,6 +1,7 @@
 import 'package:example/home_page.dart';
 import 'package:example/routes/routes.dart';
 import 'package:example/stream_version.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -304,19 +305,21 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
                             userToken,
                           );
 
-                          final secureStorage = FlutterSecureStorage();
-                          secureStorage.write(
-                            key: kStreamApiKey,
-                            value: apiKey,
-                          );
-                          secureStorage.write(
-                            key: kStreamUserId,
-                            value: userId,
-                          );
-                          secureStorage.write(
-                            key: kStreamToken,
-                            value: userToken,
-                          );
+                          if (!kIsWeb) {
+                            final secureStorage = FlutterSecureStorage();
+                            secureStorage.write(
+                              key: kStreamApiKey,
+                              value: apiKey,
+                            );
+                            secureStorage.write(
+                              key: kStreamUserId,
+                              value: userId,
+                            );
+                            secureStorage.write(
+                              key: kStreamToken,
+                              value: userToken,
+                            );
+                          }
                         } catch (e) {
                           var errorText = 'Error connecting, retry';
                           if (e is Map) {
