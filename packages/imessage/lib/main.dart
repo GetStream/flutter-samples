@@ -26,7 +26,9 @@ Future<void> main() async {
 
 class IMessage extends StatelessWidget {
   final StreamChatClient client;
+
   IMessage({required this.client});
+
   @override
   Widget build(BuildContext context) {
     initializeDateFormatting('en_US', null);
@@ -58,9 +60,7 @@ class ChatLoader extends StatelessWidget {
             Filter.equal('type', 'messaging'),
           ]),
           sort: [SortOption('last_message_at')],
-          pagination: PaginationParams(
-            limit: 20,
-          ),
+          limit: 20,
           emptyBuilder: (BuildContext context) {
             return Center(
               child: Text('Looks like you are not in any channels'),

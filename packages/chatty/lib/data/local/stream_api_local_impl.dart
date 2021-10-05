@@ -8,7 +8,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
   final StreamChatClient _client;
 
   @override
-  Future<ChatUser> connectUser(ChatUser user, String? token) async {
+  Future<ChatUser> connectUser(ChatUser user, String token) async {
     Map<String, dynamic> extraData = {};
     if (user.image != null) {
       extraData['image'] = user.image;
@@ -16,7 +16,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
     if (user.name != null) {
       extraData['name'] = user.name;
     }
-    await _client.disconnect();
+    await _client.disconnectUser();
     await _client.connectUser(
       User(id: user.id!, extraData: extraData as Map<String, Object>),
       token,
@@ -28,7 +28,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
   Future<List<ChatUser>> getChatUsers() async {
     final result = await _client.queryUsers();
     final chatUsers = result.users
-        .where((element) => element.id != _client.state.user!.id)
+        .where((element) => element.id != _client.state.currentUser!.id)
         .map(
           (e) => ChatUser(
             id: e.id,
@@ -42,7 +42,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
 
   @override
   Future<String> getToken(String userId) async {
-    return _client.devToken(userId);
+    return _client.devToken(userId).rawValue;
   }
 
   @override
@@ -52,7 +52,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
     final channel = _client.channel('messaging', id: channelId, extraData: {
       'name': name!,
       'image': image!,
-      'members': [_client.state.user!.id, ...members!],
+      'members': [_client.state.currentUser!.id, ...members!],
     });
     await channel.watch();
     return channel;
@@ -61,11 +61,11 @@ class StreamApiLocalImpl extends StreamApiRepository {
   @override
   Future<Channel> createSimpleChat(String? friendId) async {
     final channel = _client.channel('messaging',
-        id: '${_client.state.user!.id.hashCode}${friendId.hashCode}',
+        id: '${_client.state.currentUser!.id.hashCode}${friendId.hashCode}',
         extraData: {
           'members': [
             friendId,
-            _client.state.user!.id,
+            _client.state.currentUser!.id,
           ],
         });
     await channel.watch();
@@ -74,7 +74,7 @@ class StreamApiLocalImpl extends StreamApiRepository {
 
   @override
   Future<void> logout() {
-    return _client.disconnect();
+    return _client.disconnectUser();
   }
 
   @override
@@ -84,6 +84,6 @@ class StreamApiLocalImpl extends StreamApiRepository {
       User(id: userId),
       token,
     );
-    return _client.state.user!.name != userId;
+    return _client.state.currentUser!.name != userId;
   }
 }

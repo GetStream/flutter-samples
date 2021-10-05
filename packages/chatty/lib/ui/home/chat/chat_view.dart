@@ -25,7 +25,7 @@ class ChatView extends StatelessWidget {
         child: ChannelListView(
           filter: Filter.in_(
             'members',
-            [StreamChat.of(context).user!.id],
+            [StreamChat.of(context).currentUser!.id],
           ),
           sort: [SortOption('last_message_at')],
           channelPreviewBuilder: (context, channel) {
@@ -37,10 +37,11 @@ class ChatView extends StatelessWidget {
                 onImageTap: () {
                   String? name;
                   String? image;
-                  final currentUser = StreamChat.of(context).client.state.user;
+                  final currentUser =
+                      StreamChat.of(context).client.state.currentUser;
                   if (channel.isGroup) {
-                    name = channel.extraData['name'];
-                    image = channel.extraData['image'];
+                    name = channel.extraData['name'] as String?;
+                    image = channel.extraData['image'] as String?;
                   } else {
                     final friend = channel.state!.members
                         .where((element) => element.userId != currentUser!.id)

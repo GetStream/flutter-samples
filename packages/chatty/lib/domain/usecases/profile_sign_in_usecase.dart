@@ -9,6 +9,7 @@ import '../exceptions/auth_exception.dart';
 
 class ProfileInput {
   ProfileInput({this.imageFile, this.name});
+
   final File? imageFile;
   final String? name;
 }
@@ -36,11 +37,12 @@ class ProfileSignInUseCase {
           input.imageFile, 'users/${auth.id}');
     }
     await _streamApiRepository.connectUser(
-        ChatUser(
-          name: input.name,
-          id: auth.id,
-          image: image,
-        ),
-        token);
+      ChatUser(
+        name: input.name,
+        id: auth.id,
+        image: image,
+      ),
+      token,
+    );
   }
 }
