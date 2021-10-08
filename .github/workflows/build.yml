@@ -24,7 +24,7 @@ jobs:
         run: |
           cd ios
           bundle install
-      - uses: subosito/flutter-action@v1.4.0
+      - uses: subosito/flutter-action@v1.5.3
         with:
           channel: 'stable'
       - name: Flutter setup
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1.4.0
+      - uses: subosito/flutter-action@v1.5.3
         with:
           channel: 'stable'
       - run: |
