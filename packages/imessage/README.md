@@ -2,13 +2,13 @@
 
 ![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/imessage_clone_hero_v1.png)
 
-iMessage Clone is a sample app implemented using Stream Chat and Flutter. It is a fully fledged messaging app built using core packages. 
+iMessage Clone is a sample app implemented using Stream Chat and Flutter. It's a fully fledged messaging app built using the core Stream packages.
+
+See our [blog post](https://getstream.io/blog/build-an-imessage-clone-with-streams-flutter-chat-sdk/) for a step-by-step guide on how to build this application.
 
 ## Getting Started
 
 Before running this project please ensure Flutter is installed and configured on your machine. If you're new to Flutter, please checkout the [official guide](https://flutter.dev/docs/get-started/install) with installation instructions for your OS. 
-
- 
 
 This project is only configured to support the following platforms:
 
