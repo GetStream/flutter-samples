@@ -214,7 +214,6 @@ class MyChannelPreview extends StatelessWidget {
         ],
       );
     }
-    // TODO
     return TypingIndicator(
       channel: channel,
       alternativeWidget: _buildLastMessage(context),

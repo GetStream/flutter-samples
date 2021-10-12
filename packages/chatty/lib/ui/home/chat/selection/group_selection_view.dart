@@ -48,7 +48,7 @@ class GroupSelectionView extends StatelessWidget {
                 'New Group',
                 style: TextStyle(
                   fontSize: 24,
-                  color: Theme.of(context).appBarTheme.color,
+                  color: Theme.of(context).appBarTheme.backgroundColor,
                   fontWeight: FontWeight.w800,
                 ),
               ),

@@ -44,7 +44,6 @@ class SettingsView extends StatelessWidget {
             child: Column(
               children: [
                 AvatarImageView(
-                  //TODO: implement change avatar
                   onTap: () => null,
                   child: image != null
                       ? Image.network(

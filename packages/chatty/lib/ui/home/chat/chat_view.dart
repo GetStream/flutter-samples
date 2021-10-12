@@ -5,7 +5,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 class ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).appBarTheme.color;
+    final textColor = Theme.of(context).appBarTheme.backgroundColor;
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
       appBar: AppBar(
