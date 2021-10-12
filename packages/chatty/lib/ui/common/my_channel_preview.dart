@@ -80,7 +80,7 @@ class MyChannelPreview extends StatelessWidget {
                   tag: heroTag!,
                   child: StreamChannel(
                     channel: channel,
-                    child: ChannelImage(
+                    child: ChannelAvatar(
                       onTap: onImageTap,
                     ),
                   ),
@@ -91,8 +91,9 @@ class MyChannelPreview extends StatelessWidget {
                 children: <Widget>[
                   Flexible(
                     child: ChannelName(
-                      textStyle:
-                          StreamChatTheme.of(context).channelPreviewTheme.title,
+                      textStyle: StreamChatTheme.of(context)
+                          .channelPreviewTheme
+                          .titleStyle,
                     ),
                   ),
                   StreamBuilder<List<Member>>(
@@ -102,7 +103,8 @@ class MyChannelPreview extends StatelessWidget {
                         if (!snapshot.hasData ||
                             snapshot.data!.isEmpty ||
                             !snapshot.data!.any((Member e) =>
-                                e.user!.id == channel.client.state.user!.id)) {
+                                e.user!.id ==
+                                channel.client.state.currentUser!.id)) {
                           return SizedBox();
                         }
                         return ChannelUnreadIndicator(
@@ -122,7 +124,7 @@ class MyChannelPreview extends StatelessWidget {
                         (m) => !m.isDeleted && m.shadowed != true,
                       );
                       if (lastMessage?.user?.id ==
-                          StreamChat.of(context).user!.id) {
+                          StreamChat.of(context).currentUser!.id) {
                         return Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: SendingIndicator(
@@ -131,9 +133,9 @@ class MyChannelPreview extends StatelessWidget {
                                 .channelPreviewTheme
                                 .indicatorIconSize,
                             isMessageRead: channel.state!.read
-                                    ?.where((element) =>
+                                    .where((element) =>
                                         element.user.id !=
-                                        channel.client.state.user!.id)
+                                        channel.client.state.currentUser!.id)
                                     .where((element) => element.lastRead
                                         .isAfter(lastMessage.createdAt))
                                     .isNotEmpty ==
@@ -181,7 +183,9 @@ class MyChannelPreview extends StatelessWidget {
 
         return Text(
           stringDate,
-          style: StreamChatTheme.of(context).channelPreviewTheme.lastMessageAt,
+          style: StreamChatTheme.of(context)
+              .channelPreviewTheme
+              .lastMessageAtStyle,
         );
       },
     );
@@ -199,11 +203,11 @@ class MyChannelPreview extends StatelessWidget {
             '  Channel is muted',
             style: StreamChatTheme.of(context)
                 .channelPreviewTheme
-                .subtitle!
+                .subtitleStyle!
                 .copyWith(
                   color: StreamChatTheme.of(context)
                       .channelPreviewTheme
-                      .subtitle!
+                      .subtitleStyle!
                       .color,
                 ),
           ),
@@ -213,9 +217,14 @@ class MyChannelPreview extends StatelessWidget {
     return TypingIndicator(
       channel: channel,
       alternativeWidget: _buildLastMessage(context),
-      style: StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
-            color:
-                StreamChatTheme.of(context).channelPreviewTheme.subtitle!.color,
+      style: StreamChatTheme.of(context)
+          .channelPreviewTheme
+          .subtitleStyle!
+          .copyWith(
+            color: StreamChatTheme.of(context)
+                .channelPreviewTheme
+                .subtitleStyle!
+                .color,
           ),
     );
   }
@@ -255,23 +264,31 @@ class MyChannelPreview extends StatelessWidget {
             text,
             lastMessage.mentionedUsers,
             lastMessage.attachments,
-            StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
-                color: StreamChatTheme.of(context)
-                    .channelPreviewTheme
-                    .subtitle!
-                    .color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
-                    ? FontStyle.italic
-                    : FontStyle.normal),
-            StreamChatTheme.of(context).channelPreviewTheme.subtitle!.copyWith(
-                color: StreamChatTheme.of(context)
-                    .channelPreviewTheme
-                    .subtitle!
-                    .color,
-                fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
-                    ? FontStyle.italic
-                    : FontStyle.normal,
-                fontWeight: FontWeight.bold),
+            StreamChatTheme.of(context)
+                .channelPreviewTheme
+                .subtitleStyle!
+                .copyWith(
+                    color:
+                        StreamChatTheme.of(context)
+                            .channelPreviewTheme
+                            .subtitleStyle!
+                            .color,
+                    fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
+                        ? FontStyle.italic
+                        : FontStyle.normal),
+            StreamChatTheme.of(context)
+                .channelPreviewTheme
+                .subtitleStyle!
+                .copyWith(
+                    color:
+                        StreamChatTheme.of(context)
+                            .channelPreviewTheme
+                            .subtitleStyle!
+                            .color,
+                    fontStyle: (lastMessage.isSystem || lastMessage.isDeleted)
+                        ? FontStyle.italic
+                        : FontStyle.normal,
+                    fontWeight: FontWeight.bold),
           ),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,

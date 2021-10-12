@@ -1,5 +1,9 @@
 # Stream Chatty
 
+⚠️ **Attention**: This example is no longer maintained. It uses older versions of our packages and was tested on an older version of Flutter.
+
+---
+
 Stream Chatty is a sample chat app made in Flutter using [Stream Chat](https://getstream.io/chat/sdk/flutter/), [Firebase](https://firebase.google.com/), and [flutter_bloc](https://bloclibrary.dev/#/). It has full light and dark mode support, real-time chat, and full authentication using Firebase auth. 
 
 Stream Chatty was created by [Diego Velasquez](http://www.twitter.com/diegoveloper) as part of a Youtube series. A step by step guide to building Stream Chatty from scratch can be found here:

@@ -10,9 +10,9 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final user = StreamChat.of(context).client.state.user!;
+    final user = StreamChat.of(context).client.state.currentUser!;
     final image = user.extraData['image'];
-    final textColor = Theme.of(context).appBarTheme.color;
+    final textColor = Theme.of(context).appBarTheme.backgroundColor;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -44,7 +44,6 @@ class SettingsView extends StatelessWidget {
             child: Column(
               children: [
                 AvatarImageView(
-                  //TODO: implement change avatar
                   onTap: () => null,
                   child: image != null
                       ? Image.network(

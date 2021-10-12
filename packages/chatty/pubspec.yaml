@@ -10,9 +10,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_bloc: ^7.0.0
-  stream_chat_flutter: ^2.0.0-nullsafety.3
-  uuid: ^3.0.4
+  flutter_bloc: ^7.1.0
+  stream_chat_flutter: ^2.0.0
+  uuid: ^3.0.5
 
   firebase_core: ^1.2.0
   google_sign_in: ^5.0.3
@@ -20,7 +20,7 @@ dependencies:
   firebase_storage: ^8.1.0
   shared_preferences: ^2.0.5
   http: any
-  collection: ^1.15.0-nullsafety.4
+  collection: ^1.15.0
 
 dev_dependencies:
   flutter_test:

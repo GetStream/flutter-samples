@@ -82,7 +82,7 @@ class ProfileVerifyView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      color: Theme.of(context).accentColor,
+                      color: Theme.of(context).colorScheme.secondary,
                       child: InkWell(
                           onTap: () {
                             context.read<ProfileVerifyCubit>().startChatting();

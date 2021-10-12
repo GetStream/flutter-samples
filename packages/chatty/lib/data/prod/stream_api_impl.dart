@@ -11,7 +11,7 @@ class StreamApiImpl extends StreamApiRepository {
   final StreamChatClient _client;
 
   @override
-  Future<ChatUser> connectUser(ChatUser user, String? token) async {
+  Future<ChatUser> connectUser(ChatUser user, String token) async {
     Map<String, dynamic> extraData = {};
     if (user.image != null) {
       extraData['image'] = user.image;
@@ -19,7 +19,7 @@ class StreamApiImpl extends StreamApiRepository {
     if (user.name != null) {
       extraData['name'] = user.name;
     }
-    await _client.disconnect();
+    await _client.disconnectUser();
     await _client.connectUser(
       User(id: user.id!, extraData: extraData as Map<String, Object>),
       token,
@@ -31,7 +31,7 @@ class StreamApiImpl extends StreamApiRepository {
   Future<List<ChatUser>> getChatUsers() async {
     final result = await _client.queryUsers();
     final chatUsers = result.users
-        .where((element) => element.id != _client.state.user!.id)
+        .where((element) => element.id != _client.state.currentUser!.id)
         .map(
           (e) => ChatUser(
             id: e.id,
@@ -44,7 +44,7 @@ class StreamApiImpl extends StreamApiRepository {
   }
 
   @override
-  Future<String?> getToken(String userId) async {
+  Future<String> getToken(String userId) async {
     //TODO: use your own implementation in Production
     final response = await http.post(
       Uri.parse('your_backend_url'),
@@ -62,12 +62,13 @@ class StreamApiImpl extends StreamApiRepository {
   }
 
   @override
-  Future<Channel> createGroupChat(String id, String? name, List<String?>? members,
+  Future<Channel> createGroupChat(
+      String id, String? name, List<String?>? members,
       {String? image}) async {
     final channel = _client.channel('messaging', id: id, extraData: {
       'name': name!,
       'image': image!,
-      'members': [_client.state.user!.id, ...members!],
+      'members': [_client.state.currentUser!.id, ...members!],
     });
     await channel.watch();
     return channel;
@@ -76,11 +77,11 @@ class StreamApiImpl extends StreamApiRepository {
   @override
   Future<Channel> createSimpleChat(String? friendId) async {
     final channel = _client.channel('messaging',
-        id: '${_client.state.user!.id.hashCode}${friendId.hashCode}',
+        id: '${_client.state.currentUser!.id.hashCode}${friendId.hashCode}',
         extraData: {
           'members': [
             friendId,
-            _client.state.user!.id,
+            _client.state.currentUser!.id,
           ],
         });
     await channel.watch();
@@ -89,7 +90,7 @@ class StreamApiImpl extends StreamApiRepository {
 
   @override
   Future<void> logout() async {
-    return _client.disconnect();
+    return _client.disconnectUser();
   }
 
   @override
@@ -99,6 +100,6 @@ class StreamApiImpl extends StreamApiRepository {
       User(id: userId),
       token,
     );
-    return _client.state.user!.name != userId;
+    return _client.state.currentUser!.name != userId;
   }
 }
