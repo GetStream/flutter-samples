@@ -80,6 +80,7 @@ platform :ios do
         message = changelog_from_git_commits(commits_count: 10)
 
         upload_to_testflight(
+            api_key_path: "./authkey.json",
             groups: ['Public'],
             distribute_external: true,
             changelog: message,
