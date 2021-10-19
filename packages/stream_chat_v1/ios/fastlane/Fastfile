@@ -84,7 +84,6 @@ platform :ios do
             groups: ['Public'],
             distribute_external: true,
             changelog: message,
-            username: 'salvatore@getstream.io',
             reject_build_waiting_for_review: true
         )
     end
