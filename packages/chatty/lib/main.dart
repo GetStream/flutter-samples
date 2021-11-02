@@ -19,7 +19,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom],
+    );
 
     return MultiRepositoryProvider(
       providers: buildRepositories(_streamChatClient),
@@ -36,9 +39,10 @@ class MyApp extends StatelessWidget {
                 client: _streamChatClient,
                 streamChatThemeData:
                     StreamChatThemeData.fromTheme(Theme.of(context)).copyWith(
-                  ownMessageTheme: MessageTheme(
-                    messageBackgroundColor: Theme.of(context).accentColor,
-                    messageText: TextStyle(color: Colors.white),
+                  ownMessageTheme: MessageThemeData(
+                    messageBackgroundColor:
+                        Theme.of(context).colorScheme.secondary,
+                    messageTextStyle: TextStyle(color: Colors.white),
                   ),
                 ),
               );

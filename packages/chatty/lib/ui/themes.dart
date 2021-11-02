@@ -10,7 +10,8 @@ class Themes {
   static final themeLight = ThemeData.light().copyWith(
       backgroundColor: backgroundLightColor,
       // selected color
-      accentColor: primaryColor,
+      colorScheme:
+          ThemeData.light().colorScheme.copyWith(secondary: primaryColor),
       // floating action button
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,
@@ -32,7 +33,8 @@ class Themes {
   static final themeDark = ThemeData.dark().copyWith(
       backgroundColor: backgroundDarkColor,
       // selected color
-      accentColor: primaryColor,
+      colorScheme:
+          ThemeData.dark().colorScheme.copyWith(secondary: primaryColor),
       // floating action button
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: primaryColor,

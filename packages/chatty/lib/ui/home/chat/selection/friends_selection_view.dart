@@ -25,8 +25,8 @@ class FriendsSelectionView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textColor = Theme.of(context).appBarTheme.color;
-    final accentColor = Theme.of(context).accentColor;
+    final textColor = Theme.of(context).appBarTheme.backgroundColor;
+    final accentColor = Theme.of(context).colorScheme.secondary;
     return MultiBlocProvider(
       providers: [
         BlocProvider(
