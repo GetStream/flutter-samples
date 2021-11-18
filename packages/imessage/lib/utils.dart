@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 
 String formatDate(DateTime date) {
-  final dateFormat = DateFormat.yMd().add_jm();
+  final dateFormat = DateFormat.yMd();
   return dateFormat.format(date);
 }
 
@@ -12,7 +12,7 @@ String formatDateSameWeek(DateTime date) {
   if (date.day == DateTime.now().day) {
     dateFormat = DateFormat('hh:mm a');
   } else {
-    dateFormat = DateFormat('EEEE, hh:mm a');
+    dateFormat = DateFormat('EEEE');
   }
   return dateFormat.format(date);
 }
