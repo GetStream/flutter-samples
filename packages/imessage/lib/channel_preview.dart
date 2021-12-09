@@ -2,7 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:imessage/channel_image.dart';
 import 'package:imessage/channel_name_text.dart';
 import 'package:imessage/utils.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart' show Channel;
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
+    show Channel;
 
 import 'utils.dart';
 
@@ -23,7 +24,7 @@ class ChannelPreview extends StatelessWidget {
         : null;
 
     final prefix = lastMessage?.attachments != null
-        ? lastMessage?.attachments //TODO: ugly
+        ? lastMessage?.attachments
             .map((e) {
               if (e.type == 'image') {
                 return '📷 ';
@@ -35,13 +36,12 @@ class ChannelPreview extends StatelessWidget {
             .where((e) => e != null)
             .join(' ')
         : '';
+
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
-      child: Container(
-        constraints: BoxConstraints.tightFor(
-          height: 90,
-        ),
+      child: SizedBox(
+        height: 70,
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 8.0,
@@ -50,11 +50,10 @@ class ChannelPreview extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
+                padding: const EdgeInsets.only(left: 16.0, right: 8.0),
                 child: ChannelImage(
                   channel: channel,
-                  size: 50,
+                  size: 46,
                 ),
               ),
               Expanded(
@@ -67,27 +66,29 @@ class ChannelPreview extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: ChannelNameText(
-                            channel: channel,
-                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                          child: ChannelNameText(channel: channel),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 4.0),
                           child: Row(
                             children: [
                               Text(
                                 isSameWeek(channel.lastMessageAt!)
                                     ? formatDateSameWeek(channel.lastMessageAt!)
                                     : formatDate(channel.lastMessageAt!),
-                                style: TextStyle(
-                                  fontSize: 15,
+                                style: const TextStyle(
+                                  fontSize: 13,
                                   color: CupertinoColors.systemGrey,
                                 ),
                               ),
-                              Icon(
-                                CupertinoIcons.right_chevron,
-                                color: CupertinoColors.systemGrey3,
+                              const Padding(
+                                padding: EdgeInsets.only(left: 4.0),
+                                child: Icon(
+                                  CupertinoIcons.chevron_right,
+                                  size: 16,
+                                  color: CupertinoColors.systemGrey3,
+                                ),
                               ),
                             ],
                           ),
@@ -95,19 +96,19 @@ class ChannelPreview extends StatelessWidget {
                       ],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(4.0),
                       child: Text(
                         '$prefix${lastMessage?.text ?? ''}',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.normal,
                           color: CupertinoColors.systemGrey,
-                          fontSize: 16,
+                          fontSize: 14,
                         ),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                   ],
                 ),
               )

@@ -1,19 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart'
-    hide ChannelListView;
 
 import 'package:imessage/channel_list_view.dart';
 
 import 'package:imessage/channel_page_appbar.dart';
+import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final client = StreamChatClient('b67pax5b2wdq', logLevel: Level.INFO); //
+
+  // For demonstration purposes. Fixed user and token.
   await client.connectUser(
     User(
       id: 'cool-shadow-7',
-      extraData: {
+      extraData: const {
         'image':
             'https://getstream.io/random_png/?id=cool-shadow-7&amp;name=Cool+shadow',
       },
@@ -25,9 +26,9 @@ Future<void> main() async {
 }
 
 class IMessage extends StatelessWidget {
-  final StreamChatClient client;
+  const IMessage({Key? key, required this.client}) : super(key: key);
 
-  IMessage({required this.client});
+  final StreamChatClient client;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class IMessage extends StatelessWidget {
     return CupertinoApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: CupertinoThemeData(brightness: Brightness.light),
+      theme: const CupertinoThemeData(brightness: Brightness.light),
       home: StreamChatCore(client: client, child: ChatLoader()),
     );
   }
@@ -59,15 +60,15 @@ class ChatLoader extends StatelessWidget {
             Filter.in_('members', [user.id]),
             Filter.equal('type', 'messaging'),
           ]),
-          sort: [SortOption('last_message_at')],
+          sort: const [SortOption('last_message_at')],
           limit: 20,
           emptyBuilder: (BuildContext context) {
-            return Center(
+            return const Center(
               child: Text('Looks like you are not in any channels'),
             );
           },
           loadingBuilder: (BuildContext context) {
-            return Center(
+            return const Center(
               child: SizedBox(
                 height: 100.0,
                 width: 100.0,
@@ -76,7 +77,7 @@ class ChatLoader extends StatelessWidget {
             );
           },
           errorBuilder: (BuildContext context, dynamic error) {
-            return Center(
+            return const Center(
               child: Text(
                   'Oh no, something went wrong. Please check your config.'),
             );
@@ -94,7 +95,7 @@ class ChatLoader extends StatelessWidget {
                 CupertinoSliverRefreshControl(onRefresh: () async {
                   return channelListController.loadData!();
                 }),
-                ChannelPageAppBar(),
+                const ChannelPageAppBar(),
                 SliverPadding(
                   sliver: ChannelListView(channels: channels),
                   padding: const EdgeInsets.only(top: 16),

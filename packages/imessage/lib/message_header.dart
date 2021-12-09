@@ -9,9 +9,10 @@ class MessageHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final receivedAt = DateTime.parse(rawTimeStamp);
-    final textStyle = TextStyle(
+    const textStyle = TextStyle(
       color: CupertinoColors.systemGrey,
-      fontSize: 14,
+      fontWeight: FontWeight.w400,
+      fontSize: 11,
     );
     return isSameWeek(receivedAt)
         ? Text(
