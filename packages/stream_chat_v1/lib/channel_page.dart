@@ -34,7 +34,7 @@ class ChannelPage extends StatefulWidget {
 }
 
 class _ChannelPageState extends State<ChannelPage> {
-  Message? _quotedMessage;
+  final messageInputController = MessageInputController();
   FocusNode? _focusNode;
 
   @override
@@ -50,7 +50,9 @@ class _ChannelPageState extends State<ChannelPage> {
   }
 
   void _reply(Message message) {
-    setState(() => _quotedMessage = message);
+    messageInputController.value = messageInputController.value.copyWith(
+      quotedMessage: message,
+    );
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _focusNode!.requestFocus();
     });
@@ -177,11 +179,7 @@ class _ChannelPageState extends State<ChannelPage> {
           ),
           MessageInput(
             focusNode: _focusNode,
-            quotedMessage: _quotedMessage,
-            onQuotedMessageCleared: () {
-              setState(() => _quotedMessage = null);
-              _focusNode!.unfocus();
-            },
+            messageInputController: messageInputController,
           ),
         ],
       ),

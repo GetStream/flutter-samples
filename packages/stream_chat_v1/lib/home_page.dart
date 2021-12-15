@@ -91,6 +91,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return StreamChat(
+      onBackgroundEventReceived: (event) {
+        print('background event: $event ${event.type}');
+      },
       client: widget.chatClient,
       child: WillPopScope(
         onWillPop: () async {

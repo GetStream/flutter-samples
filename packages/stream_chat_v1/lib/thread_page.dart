@@ -18,7 +18,11 @@ class ThreadPage extends StatefulWidget {
 }
 
 class _ThreadPageState extends State<ThreadPage> {
-  Message? _quotedMessage;
+  late final messageInputController = MessageInputController(
+    message: Message(
+      parentId: widget.parent.id,
+    ),
+  );
   FocusNode _focusNode = FocusNode();
 
   @override
@@ -28,7 +32,9 @@ class _ThreadPageState extends State<ThreadPage> {
   }
 
   void _reply(Message message) {
-    setState(() => _quotedMessage = message);
+    messageInputController.value = messageInputController.value.copyWith(
+      quotedMessage: message,
+    );
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       _focusNode.requestFocus();
     });
@@ -65,13 +71,8 @@ class _ThreadPageState extends State<ThreadPage> {
           ),
           if (widget.parent.type != 'deleted')
             MessageInput(
-              parentMessage: widget.parent,
               focusNode: _focusNode,
-              quotedMessage: _quotedMessage,
-              onQuotedMessageCleared: () {
-                setState(() => _quotedMessage = null);
-                _focusNode.unfocus();
-              },
+              messageInputController: messageInputController,
             ),
         ],
       ),
