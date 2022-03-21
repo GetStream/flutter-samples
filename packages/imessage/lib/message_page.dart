@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:imessage/message_list_view.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show
