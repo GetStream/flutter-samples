@@ -24,7 +24,7 @@ With Stream's chat components, developers quickly add chat to their app for a va
 
 ## Repo Overview 😎
 
-This repo contains projects and samples developed by the team and Stream community. Projects are broken up into directories under the `packages` folder.
+This repo contains projects and samples developed by the team and Stream community. Projects are broke up into directories under the `packages` folder.
 
 Each project contains a README with build and execution instructions. 
 
