@@ -1,9 +1,8 @@
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/channel_page.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import 'channel_page.dart';
-import 'routes/routes.dart';
 
 class GroupChatDetailsScreen extends StatefulWidget {
   final List<User>? selectedUsers;

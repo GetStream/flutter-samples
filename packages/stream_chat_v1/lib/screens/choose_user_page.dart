@@ -1,19 +1,15 @@
-import 'package:example/app_config.dart';
-import 'package:example/home_page.dart';
-import 'package:example/localizations.dart';
-import 'package:example/stream_version.dart';
+import 'package:example/app/api_data.dart';
+import 'package:example/app/chat_client.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/app/app_config.dart';
+import 'package:example/screens/home_page.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/widgets/stream_version.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import 'main.dart';
-import 'routes/routes.dart';
-
-const kStreamApiKey = 'STREAM_API_KEY';
-const kStreamUserId = 'STREAM_USER_ID';
-const kStreamToken = 'STREAM_TOKEN';
 
 class ChooseUserPage extends StatelessWidget {
   @override

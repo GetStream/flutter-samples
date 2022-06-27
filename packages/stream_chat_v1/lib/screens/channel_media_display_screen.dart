@@ -1,10 +1,9 @@
-import 'package:example/localizations.dart';
-import 'package:example/routes/routes.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/channel_page.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:video_player/video_player.dart';
-
-import 'channel_page.dart';
 
 class ChannelMediaDisplayScreen extends StatefulWidget {
   final StreamMessageThemeData messageTheme;

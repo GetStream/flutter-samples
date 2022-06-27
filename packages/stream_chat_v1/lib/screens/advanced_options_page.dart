@@ -1,13 +1,12 @@
-import 'package:example/home_page.dart';
-import 'package:example/localizations.dart';
-import 'package:example/routes/routes.dart';
-import 'package:example/stream_version.dart';
+import 'package:example/app/api_data.dart';
+import 'package:example/app/chat_client.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/home_page.dart';
+import 'package:example/widgets/stream_version.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import 'choose_user_page.dart';
-import 'main.dart';
 
 class AdvancedOptionsPage extends StatefulWidget {
   @override

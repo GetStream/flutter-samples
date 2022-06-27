@@ -1,20 +1,9 @@
 import 'package:collection/collection.dart';
-import 'package:example/channel_list_page.dart';
+import 'package:example/app/app.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import '../advanced_options_page.dart';
-import '../channel_page.dart';
-import '../chat_info_screen.dart';
-import '../choose_user_page.dart';
-import '../group_chat_details_screen.dart';
-import '../group_info_screen.dart';
-import '../home_page.dart';
-import '../main.dart';
-import '../new_chat_screen.dart';
-import '../new_group_chat_screen.dart';
-import '../thread_page.dart';
-import 'routes.dart';
 
 class AppRoutes {
   /// Add entry for new route here
@@ -25,7 +14,7 @@ class AppRoutes {
         return MaterialPageRoute(
             settings: RouteSettings(arguments: args, name: Routes.APP),
             builder: (_) {
-              return MyApp();
+              return ChatAppV1();
             });
       case Routes.HOME:
         return MaterialPageRoute(

@@ -1,11 +1,8 @@
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/screens/screens.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import 'channel_file_display_screen.dart';
-import 'channel_media_display_screen.dart';
-import 'pinned_messages_screen.dart';
 
 /// Detail screen for a 1:1 chat correspondence
 class ChatInfoScreen extends StatefulWidget {

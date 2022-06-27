@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
-
-import 'routes/routes.dart';
-import 'search_text_field.dart';
 
 class NewGroupChatScreen extends StatefulWidget {
   @override
