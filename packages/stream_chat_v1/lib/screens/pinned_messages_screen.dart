@@ -30,6 +30,12 @@ class _PinnedMessagesScreenState extends State<PinnedMessagesScreen> {
   );
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
@@ -108,8 +114,7 @@ class _PinnedMessagesScreenState extends State<PinnedMessagesScreen> {
           if (channel.state == null) {
             await channel.watch();
           }
-          Navigator.pushNamed(
-            context,
+          Navigator.of(context).pushNamed(
             Routes.CHANNEL_PAGE,
             arguments: ChannelPageArgs(
               channel: channel,
@@ -119,11 +124,5 @@ class _PinnedMessagesScreenState extends State<PinnedMessagesScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }

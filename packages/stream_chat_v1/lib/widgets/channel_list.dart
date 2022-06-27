@@ -156,8 +156,7 @@ class _ChannelList extends State<ChannelList> {
                         if (channel.state == null) {
                           await channel.watch();
                         }
-                        Navigator.pushNamed(
-                          context,
+                        Navigator.of(context).pushNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,
@@ -194,9 +193,8 @@ class _ChannelList extends State<ChannelList> {
                                     context: context,
                                     channel: channel,
                                     onViewInfoTap: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
                                             final isOneToOne =
@@ -263,8 +261,7 @@ class _ChannelList extends State<ChannelList> {
                         );
                       },
                       onChannelTap: (channel) {
-                        Navigator.pushNamed(
-                          context,
+                        Navigator.of(context).pushNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,

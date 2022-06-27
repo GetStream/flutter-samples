@@ -39,6 +39,18 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    controller.doInitialLoad();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
@@ -140,17 +152,5 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    controller.doInitialLoad();
-    super.initState();
   }
 }

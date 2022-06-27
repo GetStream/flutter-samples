@@ -75,9 +75,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     _searchFocusNode.addListener(() async {
       if (_searchFocusNode.hasFocus && !_showUserList) {
-        setState(() {
-          _showUserList = true;
-        });
+        setState(() => _showUserList = true);
       }
     });
 
@@ -88,17 +86,17 @@ class _NewChatScreenState extends State<NewChatScreen> {
         final res = await chatState.client.queryChannelsOnline(
           state: false,
           watch: false,
-          filter: Filter.raw(value: {
-            'members': [
-              ..._selectedUsers.map((e) => e.id),
-              chatState.currentUser!.id,
-            ],
-            'distinct': true,
-          }),
-          messageLimit: 0,
-          paginationParams: PaginationParams(
-            limit: 1,
+          filter: Filter.raw(
+            value: {
+              'members': [
+                ..._selectedUsers.map((e) => e.id),
+                chatState.currentUser!.id,
+              ],
+              'distinct': true,
+            },
           ),
+          messageLimit: 0,
+          paginationParams: PaginationParams(limit: 1),
         );
 
         final _channelExisted = res.length == 1;
@@ -117,9 +115,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
           );
         }
 
-        setState(() {
-          _showUserList = false;
-        });
+        setState(() => _showUserList = false);
       }
     });
   }
@@ -242,37 +238,32 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     },
                   ),
                   if (!_isSearchActive && !_selectedUsers.isNotEmpty)
-                    Container(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.NEW_GROUP_CHAT,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            children: [
-                              StreamNeumorphicButton(
-                                child: Center(
-                                  child: StreamSvgIcon.contacts(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .accentPrimary,
-                                    size: 24,
-                                  ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.NEW_GROUP_CHAT);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            StreamNeumorphicButton(
+                              child: Center(
+                                child: StreamSvgIcon.contacts(
+                                  color: StreamChatTheme.of(context)
+                                      .colorTheme
+                                      .accentPrimary,
+                                  size: 24,
                                 ),
                               ),
-                              SizedBox(width: 8),
-                              Text(
-                                AppLocalizations.of(context).createAGroup,
-                                style: StreamChatTheme.of(context)
-                                    .textTheme
-                                    .bodyBold,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              AppLocalizations.of(context).createAGroup,
+                              style: StreamChatTheme.of(context)
+                                  .textTheme
+                                  .bodyBold,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -289,17 +280,19 @@ class _NewChatScreenState extends State<NewChatScreen> {
                           horizontal: 8,
                         ),
                         child: Text(
-                            _isSearchActive
-                                ? '${AppLocalizations.of(context).matchesFor} "$_userNameQuery"'
-                                : AppLocalizations.of(context).onThePlatorm,
-                            style: StreamChatTheme.of(context)
-                                .textTheme
-                                .footnote
-                                .copyWith(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis
-                                        .withOpacity(.5))),
+                          _isSearchActive
+                              ? '${AppLocalizations.of(context).matchesFor} "$_userNameQuery"'
+                              : AppLocalizations.of(context).onThePlatorm,
+                          style: StreamChatTheme.of(context)
+                              .textTheme
+                              .footnote
+                              .copyWith(
+                                color: StreamChatTheme.of(context)
+                                    .colorTheme
+                                    .textHighEmphasis
+                                    .withOpacity(.5),
+                              ),
+                        ),
                       ),
                     ),
                   Expanded(
@@ -356,16 +349,17 @@ class _NewChatScreenState extends State<NewChatScreen> {
                                               Text(
                                                 AppLocalizations.of(context)
                                                     .noUserMatchesTheseKeywords,
-                                                style: StreamChatTheme.of(
-                                                        context)
-                                                    .textTheme
-                                                    .footnote
-                                                    .copyWith(
-                                                        color: StreamChatTheme
-                                                                .of(context)
-                                                            .colorTheme
-                                                            .textHighEmphasis
-                                                            .withOpacity(.5)),
+                                                style:
+                                                    StreamChatTheme.of(context)
+                                                        .textTheme
+                                                        .footnote
+                                                        .copyWith(
+                                                          color: StreamChatTheme
+                                                                  .of(context)
+                                                              .colorTheme
+                                                              .textHighEmphasis
+                                                              .withOpacity(.5),
+                                                        ),
                                               ),
                                             ],
                                           ),
@@ -406,8 +400,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                       return message;
                     },
                     onMessageSent: (m) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
+                      Navigator.of(context).pushNamedAndRemoveUntil(
                         Routes.CHANNEL_PAGE,
                         ModalRoute.withName(Routes.CHANNEL_LIST_PAGE),
                         arguments: ChannelPageArgs(channel: channel),

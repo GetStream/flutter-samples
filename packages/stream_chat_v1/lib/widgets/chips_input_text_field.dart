@@ -7,14 +7,6 @@ typedef OnChipAdded<T> = void Function(T chip);
 typedef OnChipRemoved<T> = void Function(T chip);
 
 class ChipsInputTextField<T> extends StatefulWidget {
-  final TextEditingController? controller;
-  final FocusNode? focusNode;
-  final ValueChanged<String>? onInputChanged;
-  final ChipBuilder<T> chipBuilder;
-  final OnChipAdded<T>? onChipAdded;
-  final OnChipRemoved<T>? onChipRemoved;
-  final String hint;
-
   const ChipsInputTextField({
     Key? key,
     required this.chipBuilder,
@@ -25,6 +17,14 @@ class ChipsInputTextField<T> extends StatefulWidget {
     this.onChipRemoved,
     this.hint = 'Type a name',
   }) : super(key: key);
+
+  final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onInputChanged;
+  final ChipBuilder<T> chipBuilder;
+  final OnChipAdded<T>? onChipAdded;
+  final OnChipRemoved<T>? onChipRemoved;
+  final String hint;
 
   @override
   ChipInputTextFieldState<T> createState() => ChipInputTextFieldState<T>();
@@ -77,14 +77,13 @@ class ChipInputTextFieldState<T> extends State<ChipsInputTextField<T>> {
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Text(
                     '${AppLocalizations.of(context).to.toUpperCase()}:',
-                    style: StreamChatTheme.of(context)
-                        .textTheme
-                        .footnote
-                        .copyWith(
-                            color: StreamChatTheme.of(context)
-                                .colorTheme
-                                .textHighEmphasis
-                                .withOpacity(.5)),
+                    style:
+                        StreamChatTheme.of(context).textTheme.footnote.copyWith(
+                              color: StreamChatTheme.of(context)
+                                  .colorTheme
+                                  .textHighEmphasis
+                                  .withOpacity(.5),
+                            ),
                   ),
                 ),
                 SizedBox(width: 12),
@@ -118,10 +117,11 @@ class ChipInputTextFieldState<T> extends State<ChipsInputTextField<T>> {
                                 .textTheme
                                 .body
                                 .copyWith(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis
-                                        .withOpacity(.5)),
+                                  color: StreamChatTheme.of(context)
+                                      .colorTheme
+                                      .textHighEmphasis
+                                      .withOpacity(.5),
+                                ),
                           ),
                         ),
                     ],

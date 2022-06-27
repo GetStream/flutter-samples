@@ -59,99 +59,102 @@ class ChooseUserPage extends StatelessWidget {
                   itemCount: users.length + 1,
                   itemBuilder: (context, i) {
                     return [
-                      ...users.entries.map((entry) {
-                        final token = entry.key;
-                        final user = entry.value;
-                        return ListTile(
-                          visualDensity: VisualDensity.compact,
-                          onTap: () async {
-                            showDialog(
-                              barrierDismissible: false,
-                              context: context,
-                              barrierColor: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .overlay,
-                              builder: (context) => Center(
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
+                      ...users.entries.map(
+                        (entry) {
+                          final token = entry.key;
+                          final user = entry.value;
+                          return ListTile(
+                            visualDensity: VisualDensity.compact,
+                            onTap: () async {
+                              showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                barrierColor: StreamChatTheme.of(context)
+                                    .colorTheme
+                                    .overlay,
+                                builder: (context) => Center(
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: StreamChatTheme.of(context)
+                                          .colorTheme
+                                          .barsBg,
+                                    ),
+                                    height: 100,
+                                    width: 100,
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  ),
+                                ),
+                              );
+
+                              final client = StreamChatClient(
+                                kDefaultStreamApiKey,
+                                logLevel: Level.INFO,
+                              )..chatPersistenceClient = chatPersistentClient;
+
+                              await client.connectUser(
+                                user,
+                                token,
+                              );
+
+                              if (!kIsWeb) {
+                                final secureStorage = FlutterSecureStorage();
+                                secureStorage.write(
+                                  key: kStreamApiKey,
+                                  value: kDefaultStreamApiKey,
+                                );
+                                secureStorage.write(
+                                  key: kStreamUserId,
+                                  value: user.id,
+                                );
+                                secureStorage.write(
+                                  key: kStreamToken,
+                                  value: token,
+                                );
+                              }
+                              Navigator.of(context).pushNamedAndRemoveUntil(
+                                Routes.HOME,
+                                ModalRoute.withName(Routes.HOME),
+                                arguments: HomePageArgs(client),
+                              );
+                            },
+                            leading: StreamUserAvatar(
+                              user: user,
+                              constraints: BoxConstraints.tight(
+                                Size.fromRadius(20),
+                              ),
+                            ),
+                            title: Text(
+                              user.name,
+                              style: StreamChatTheme.of(context)
+                                  .textTheme
+                                  .bodyBold,
+                            ),
+                            subtitle: Text(
+                              AppLocalizations.of(context).streamTestAccount,
+                              style: StreamChatTheme.of(context)
+                                  .textTheme
+                                  .footnote
+                                  .copyWith(
                                     color: StreamChatTheme.of(context)
                                         .colorTheme
-                                        .barsBg,
+                                        .textLowEmphasis,
                                   ),
-                                  height: 100,
-                                  width: 100,
-                                  child: Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                                ),
-                              ),
-                            );
-
-                            final client = StreamChatClient(
-                              kDefaultStreamApiKey,
-                              logLevel: Level.INFO,
-                            )..chatPersistenceClient = chatPersistentClient;
-
-                            await client.connectUser(
-                              user,
-                              token,
-                            );
-
-                            if (!kIsWeb) {
-                              final secureStorage = FlutterSecureStorage();
-                              secureStorage.write(
-                                key: kStreamApiKey,
-                                value: kDefaultStreamApiKey,
-                              );
-                              secureStorage.write(
-                                key: kStreamUserId,
-                                value: user.id,
-                              );
-                              secureStorage.write(
-                                key: kStreamToken,
-                                value: token,
-                              );
-                            }
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              Routes.HOME,
-                              ModalRoute.withName(Routes.HOME),
-                              arguments: HomePageArgs(client),
-                            );
-                          },
-                          leading: StreamUserAvatar(
-                            user: user,
-                            constraints: BoxConstraints.tight(
-                              Size.fromRadius(20),
                             ),
-                          ),
-                          title: Text(
-                            user.name,
-                            style:
-                                StreamChatTheme.of(context).textTheme.bodyBold,
-                          ),
-                          subtitle: Text(
-                            AppLocalizations.of(context).streamTestAccount,
-                            style: StreamChatTheme.of(context)
-                                .textTheme
-                                .footnote
-                                .copyWith(
-                                  color: StreamChatTheme.of(context)
-                                      .colorTheme
-                                      .textLowEmphasis,
-                                ),
-                          ),
-                          trailing: StreamSvgIcon.arrowRight(
-                            color: StreamChatTheme.of(context)
-                                .colorTheme
-                                .accentPrimary,
-                          ),
-                        );
-                      }),
+                            trailing: StreamSvgIcon.arrowRight(
+                              color: StreamChatTheme.of(context)
+                                  .colorTheme
+                                  .accentPrimary,
+                            ),
+                          );
+                        },
+                      ),
                       ListTile(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.ADVANCED_OPTIONS);
+                          Navigator.of(context)
+                              .pushNamed(Routes.ADVANCED_OPTIONS);
                         },
                         leading: CircleAvatar(
                           child: StreamSvgIcon.settings(

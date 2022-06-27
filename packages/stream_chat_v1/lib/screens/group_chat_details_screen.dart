@@ -139,8 +139,7 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                                 'name': groupName,
                               });
                           await channel.watch();
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
+                          Navigator.of(context).pushNamedAndRemoveUntil(
                             Routes.CHANNEL_PAGE,
                             ModalRoute.withName(Routes.CHANNEL_LIST_PAGE),
                             arguments: ChannelPageArgs(channel: channel),
@@ -245,11 +244,9 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                               padding: const EdgeInsets.all(0),
                               splashRadius: 24,
                               onPressed: () {
-                                setState(() {
-                                  _selectedUsers.remove(user);
-                                });
+                                setState(() => _selectedUsers.remove(user));
                                 if (_selectedUsers.isEmpty) {
-                                  Navigator.pop(context, _selectedUsers);
+                                  Navigator.of(context).pop(_selectedUsers);
                                 }
                               },
                             ),
@@ -273,35 +270,28 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
       backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
       context: context,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-        topLeft: Radius.circular(16.0),
-        topRight: Radius.circular(16.0),
-      )),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(16.0),
+          topRight: Radius.circular(16.0),
+        ),
+      ),
       builder: (context) {
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              height: 26.0,
-            ),
+            SizedBox(height: 26.0),
             StreamSvgIcon.error(
               color: StreamChatTheme.of(context).colorTheme.accentError,
               size: 24.0,
             ),
-            SizedBox(
-              height: 26.0,
-            ),
+            SizedBox(height: 26.0),
             Text(
               AppLocalizations.of(context).somethingWentWrongErrorMessage,
               style: StreamChatTheme.of(context).textTheme.headlineBold,
             ),
-            SizedBox(
-              height: 7.0,
-            ),
+            SizedBox(height: 7.0),
             Text(AppLocalizations.of(context).operationCouldNotBeCompleted),
-            SizedBox(
-              height: 36.0,
-            ),
+            SizedBox(height: 36.0),
             Container(
               color: StreamChatTheme.of(context)
                   .colorTheme
@@ -323,9 +313,7 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                                 .colorTheme
                                 .accentPrimary),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.of(context).pop(),
                 ),
               ],
             ),

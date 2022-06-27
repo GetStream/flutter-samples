@@ -105,7 +105,7 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                   });
                 }
               },
-            )
+            ),
         ],
       ),
       body: StreamConnectionStatusBuilder(
@@ -258,13 +258,9 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                   },
                   onUserTap: (user) {
                     if (!_selectedUsers.contains(user)) {
-                      setState(() {
-                        _selectedUsers.add(user);
-                      });
+                      setState(() => _selectedUsers.add(user));
                     } else {
-                      setState(() {
-                        _selectedUsers.remove(user);
-                      });
+                      setState(() => _selectedUsers.remove(user));
                     }
                   },
                   emptyBuilder: (_) {
@@ -319,18 +315,21 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
 }
 
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-  final double height;
-
   const _HeaderDelegate({
     required this.child,
     required this.height,
   });
 
+  final Widget child;
+  final double height;
+
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(
       color: StreamChatTheme.of(context).colorTheme.barsBg,
       child: child,
     );

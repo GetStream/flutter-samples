@@ -64,9 +64,7 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
                     controller: _apiKeyController,
                     onChanged: (_) {
                       if (_apiKeyError != null) {
-                        setState(() {
-                          _apiKeyError = null;
-                        });
+                        setState(() => _apiKeyError = null);
                       }
                     },
                     validator: (value) {
@@ -114,9 +112,7 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
                     controller: _userIdController,
                     onChanged: (_) {
                       if (_userIdError != null) {
-                        setState(() {
-                          _userIdError = null;
-                        });
+                        setState(() => _userIdError = null);
                       }
                     },
                     validator: (value) {
@@ -163,9 +159,7 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
                   TextFormField(
                     onChanged: (_) {
                       if (_userTokenError != null) {
-                        setState(() {
-                          _userTokenError = null;
-                        });
+                        setState(() => _userTokenError = null);
                       }
                     },
                     controller: _userTokenController,
@@ -296,9 +290,12 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
 
                         try {
                           await client.connectUser(
-                            User(id: userId, extraData: {
-                              'name': username,
-                            }),
+                            User(
+                              id: userId,
+                              extraData: {
+                                'name': username,
+                              },
+                            ),
                             userToken,
                           );
 
@@ -321,16 +318,13 @@ class _AdvancedOptionsPageState extends State<AdvancedOptionsPage> {
                           if (e is Map) {
                             errorText = e['message'] ?? errorText;
                           }
-                          Navigator.pop(context);
-                          setState(() {
-                            _apiKeyError = errorText.toUpperCase();
-                          });
+                          Navigator.of(context).pop();
+                          setState(() => _apiKeyError = errorText.toUpperCase());
                           loading = false;
                           return;
                         }
                         loading = false;
-                        await Navigator.pushNamedAndRemoveUntil(
-                          context,
+                        await Navigator.of(context).pushNamedAndRemoveUntil(
                           Routes.HOME,
                           ModalRoute.withName(Routes.HOME),
                           arguments: HomePageArgs(client),

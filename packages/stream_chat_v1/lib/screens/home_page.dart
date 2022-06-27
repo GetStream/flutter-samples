@@ -88,6 +88,13 @@ class _HomePageState extends State<HomePage> {
   MyObserver? _observer;
 
   @override
+  void didChangeDependencies() {
+    _observer?.dispose();
+    _observer = MyObserver(widget.chatClient, _navigatorKey);
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamChat(
       client: widget.chatClient,
@@ -104,12 +111,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    _observer?.dispose();
-    _observer = MyObserver(widget.chatClient, _navigatorKey);
-    super.didChangeDependencies();
   }
 }

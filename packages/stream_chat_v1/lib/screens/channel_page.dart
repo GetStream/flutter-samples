@@ -37,8 +37,8 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   void initState() {
-    _focusNode = FocusNode();
     super.initState();
+    _focusNode = FocusNode();
   }
 
   @override
@@ -52,6 +52,14 @@ class _ChannelPageState extends State<ChannelPage> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _focusNode!.requestFocus();
     });
+  }
+
+  bool defaultFilter(Message m) {
+    var _currentUser = StreamChat.of(context).currentUser;
+    final isMyMessage = m.user?.id == _currentUser?.id;
+    final isDeletedOrShadowed = m.isDeleted == true || m.shadowed == true;
+    if (isDeletedOrShadowed && !isMyMessage) return false;
+    return true;
   }
 
   @override
@@ -83,12 +91,11 @@ class _ChannelPageState extends State<ChannelPage> {
               );
 
               if (pop == true) {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               }
             }
           } else {
-            await Navigator.push(
-              context,
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   child: GroupInfoScreen(
@@ -125,8 +132,7 @@ class _ChannelPageState extends State<ChannelPage> {
                         if (channel.state == null) {
                           await channel.watch();
                         }
-                        Navigator.pushReplacementNamed(
-                          context,
+                        Navigator.of(context).pushReplacementNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,
@@ -178,13 +184,5 @@ class _ChannelPageState extends State<ChannelPage> {
         ],
       ),
     );
-  }
-
-  bool defaultFilter(Message m) {
-    var _currentUser = StreamChat.of(context).currentUser;
-    final isMyMessage = m.user?.id == _currentUser?.id;
-    final isDeletedOrShadowed = m.isDeleted == true || m.shadowed == true;
-    if (isDeletedOrShadowed && !isMyMessage) return false;
-    return true;
   }
 }

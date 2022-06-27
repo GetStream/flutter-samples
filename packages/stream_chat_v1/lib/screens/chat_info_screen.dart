@@ -37,7 +37,63 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
       backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
       body: ListView(
         children: [
-          _buildUserHeader(),
+          Material(
+            color: StreamChatTheme.of(context).colorTheme.appBg,
+            child: SafeArea(
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: StreamUserAvatar(
+                          user: widget.user!,
+                          constraints: BoxConstraints.tightFor(
+                            width: 72.0,
+                            height: 72.0,
+                          ),
+                          borderRadius: BorderRadius.circular(36.0),
+                          showOnlineStatus: false,
+                        ),
+                      ),
+                      Text(
+                        widget.user!.name,
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 7.0),
+                      _buildConnectedTitleState(),
+                      SizedBox(height: 15.0),
+                      StreamOptionListTile(
+                        title: '@${widget.user!.id}',
+                        tileColor: StreamChatTheme.of(context).colorTheme.appBg,
+                        trailing: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            widget.user!.name,
+                            style: TextStyle(
+                                color: StreamChatTheme.of(context)
+                                    .colorTheme
+                                    .textHighEmphasis
+                                    .withOpacity(0.5),
+                                fontSize: 16.0),
+                          ),
+                        ),
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    width: 58,
+                    child: StreamBackButton(),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Container(
             height: 8.0,
             color: StreamChatTheme.of(context).colorTheme.disabled,
@@ -48,67 +104,28 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
             color: StreamChatTheme.of(context).colorTheme.disabled,
           ),
           if (channel.ownCapabilities.contains(PermissionType.deleteChannel))
-            _buildDeleteListTile(),
+            StreamOptionListTile(
+              title: 'Delete Conversation',
+              tileColor: StreamChatTheme.of(context).colorTheme.appBg,
+              titleTextStyle: StreamChatTheme.of(context)
+                  .textTheme
+                  .body
+                  .copyWith(
+                    color: StreamChatTheme.of(context).colorTheme.accentError,
+                  ),
+              leading: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22.0),
+                child: StreamSvgIcon.delete(
+                  color: StreamChatTheme.of(context).colorTheme.accentError,
+                  size: 24.0,
+                ),
+              ),
+              onTap: () {
+                _showDeleteDialog();
+              },
+              titleColor: StreamChatTheme.of(context).colorTheme.accentError,
+            ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildUserHeader() {
-    return Material(
-      color: StreamChatTheme.of(context).colorTheme.appBg,
-      child: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: StreamUserAvatar(
-                    user: widget.user!,
-                    constraints: BoxConstraints.tightFor(
-                      width: 72.0,
-                      height: 72.0,
-                    ),
-                    borderRadius: BorderRadius.circular(36.0),
-                    showOnlineStatus: false,
-                  ),
-                ),
-                Text(
-                  widget.user!.name,
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 7.0),
-                _buildConnectedTitleState(),
-                SizedBox(height: 15.0),
-                StreamOptionListTile(
-                  title: '@${widget.user!.id}',
-                  tileColor: StreamChatTheme.of(context).colorTheme.appBg,
-                  trailing: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      widget.user!.name,
-                      style: TextStyle(
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis
-                              .withOpacity(0.5),
-                          fontSize: 16.0),
-                    ),
-                  ),
-                  onTap: () {},
-                ),
-              ],
-            ),
-            Positioned(
-              top: 0,
-              left: 0,
-              width: 58,
-              child: StreamBackButton(),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -208,8 +225,7 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
           onTap: () {
             final channel = StreamChannel.of(context).channel;
 
-            Navigator.push(
-              context,
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   channel: channel,
@@ -239,8 +255,7 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
           onTap: () {
             final channel = StreamChannel.of(context).channel;
 
-            Navigator.push(
-              context,
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   channel: channel,
@@ -272,8 +287,7 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
           onTap: () {
             final channel = StreamChannel.of(context).channel;
 
-            Navigator.push(
-              context,
+            Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   channel: channel,
@@ -303,39 +317,19 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
             color: StreamChatTheme.of(context).colorTheme.textLowEmphasis,
           ),
           onTap: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => _SharedGroupsScreen(
-                        StreamChat.of(context).currentUser, widget.user)));
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => _SharedGroupsScreen(
+                    StreamChat.of(context).currentUser, widget.user),
+              ),
+            );
           },
         ),
       ],
     );
   }
 
-  Widget _buildDeleteListTile() {
-    return StreamOptionListTile(
-      title: 'Delete Conversation',
-      tileColor: StreamChatTheme.of(context).colorTheme.appBg,
-      titleTextStyle: StreamChatTheme.of(context).textTheme.body.copyWith(
-            color: StreamChatTheme.of(context).colorTheme.accentError,
-          ),
-      leading: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 22.0),
-        child: StreamSvgIcon.delete(
-          color: StreamChatTheme.of(context).colorTheme.accentError,
-          size: 24.0,
-        ),
-      ),
-      onTap: () {
-        _showDeleteDialog();
-      },
-      titleColor: StreamChatTheme.of(context).colorTheme.accentError,
-    );
-  }
-
-  void _showDeleteDialog() async {
+  Future<void> _showDeleteDialog() async {
     final res = await showConfirmationBottomSheet(
       context,
       title: AppLocalizations.of(context).deleteConversationTitle,
@@ -374,10 +368,11 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
         alternativeWidget = Text(
           '${AppLocalizations.of(context).lastSeen} ${Jiffy(otherMember.lastActive).fromNow()}',
           style: TextStyle(
-              color: StreamChatTheme.of(context)
-                  .colorTheme
-                  .textHighEmphasis
-                  .withOpacity(0.5)),
+            color: StreamChatTheme.of(context)
+                .colorTheme
+                .textHighEmphasis
+                .withOpacity(0.5),
+          ),
         );
       }
     }
@@ -402,10 +397,7 @@ class _ChatInfoScreenState extends State<ChatInfoScreen> {
             color: StreamChatTheme.of(context).colorTheme.barsBg,
           ),
         alternativeWidget,
-        if (widget.user!.online)
-          SizedBox(
-            width: 24.0,
-          ),
+        if (widget.user!.online) SizedBox(width: 24.0),
       ],
     );
   }
@@ -520,77 +512,83 @@ class __SharedGroupsScreenState extends State<_SharedGroupsScreen> {
 
     return Container(
       height: 64.0,
-      child: LayoutBuilder(builder: (context, constraints) {
-        String? title;
-        if (extraData['name'] == null) {
-          final otherMembers = members.where((member) =>
-              member.userId != StreamChat.of(context).currentUser!.id);
-          if (otherMembers.isNotEmpty) {
-            final maxWidth = constraints.maxWidth;
-            final maxChars = maxWidth / textStyle.fontSize!;
-            var currentChars = 0;
-            final currentMembers = <Member>[];
-            otherMembers.forEach((element) {
-              final newLength = currentChars + element.user!.name.length;
-              if (newLength < maxChars) {
-                currentChars = newLength;
-                currentMembers.add(element);
-              }
-            });
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          String? title;
+          if (extraData['name'] == null) {
+            final otherMembers = members.where((member) =>
+                member.userId != StreamChat.of(context).currentUser!.id);
+            if (otherMembers.isNotEmpty) {
+              final maxWidth = constraints.maxWidth;
+              final maxChars = maxWidth / textStyle.fontSize!;
+              var currentChars = 0;
+              final currentMembers = <Member>[];
+              otherMembers.forEach((element) {
+                final newLength = currentChars + element.user!.name.length;
+                if (newLength < maxChars) {
+                  currentChars = newLength;
+                  currentMembers.add(element);
+                }
+              });
 
-            final exceedingMembers =
-                otherMembers.length - currentMembers.length;
-            title =
-                '${currentMembers.map((e) => e.user!.name).join(', ')} ${exceedingMembers > 0 ? '+ $exceedingMembers' : ''}';
+              final exceedingMembers =
+                  otherMembers.length - currentMembers.length;
+              title =
+                  '${currentMembers.map((e) => e.user!.name).join(', ')} ${exceedingMembers > 0 ? '+ $exceedingMembers' : ''}';
+            } else {
+              title = 'No title';
+            }
           } else {
-            title = 'No title';
+            title = extraData['name'] as String;
           }
-        } else {
-          title = extraData['name'] as String;
-        }
 
-        return Column(
-          children: [
-            Expanded(
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: StreamChannelAvatar(
-                      channel: channel,
-                      constraints:
-                          BoxConstraints(maxWidth: 40.0, maxHeight: 40.0),
+          return Column(
+            children: [
+              Expanded(
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: StreamChannelAvatar(
+                        channel: channel,
+                        constraints: BoxConstraints(
+                          maxWidth: 40.0,
+                          maxHeight: 40.0,
+                        ),
+                      ),
                     ),
-                  ),
-                  Expanded(
+                    Expanded(
                       child: Text(
-                    title,
-                    style: textStyle,
-                  )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      '${channel.memberCount} ${AppLocalizations.of(context).members.toLowerCase()}',
-                      style: TextStyle(
+                        title,
+                        style: textStyle,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${channel.memberCount} ${AppLocalizations.of(context).members.toLowerCase()}',
+                        style: TextStyle(
                           color: StreamChatTheme.of(context)
                               .colorTheme
                               .textHighEmphasis
-                              .withOpacity(0.5)),
-                    ),
-                  )
-                ],
+                              .withOpacity(0.5),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-            Container(
-              height: 1.0,
-              color: StreamChatTheme.of(context)
-                  .colorTheme
-                  .textHighEmphasis
-                  .withOpacity(.08),
-            ),
-          ],
-        );
-      }),
+              Container(
+                height: 1.0,
+                color: StreamChatTheme.of(context)
+                    .colorTheme
+                    .textHighEmphasis
+                    .withOpacity(.08),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

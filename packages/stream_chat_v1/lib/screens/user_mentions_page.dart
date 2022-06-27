@@ -26,6 +26,13 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
     ],
     limit: 20,
   );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamMessageSearchListView(
@@ -77,8 +84,7 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
         if (channel.state == null) {
           await channel.watch();
         }
-        Navigator.pushNamed(
-          context,
+        Navigator.of(context).pushNamed(
           Routes.CHANNEL_PAGE,
           arguments: ChannelPageArgs(
             channel: channel,
@@ -87,11 +93,5 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }
