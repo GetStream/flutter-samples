@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class UserMentionsPage extends StatefulWidget {
+  const UserMentionsPage({Key? key}) : super(key: key);
+
   @override
   State<UserMentionsPage> createState() => _UserMentionsPageState();
 }
@@ -35,6 +37,7 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return StreamMessageSearchListView(
       controller: controller,
       emptyBuilder: (_) {
@@ -53,18 +56,14 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
                         padding: const EdgeInsets.all(24),
                         child: StreamSvgIcon.mentions(
                           size: 96,
-                          color:
-                              StreamChatTheme.of(context).colorTheme.disabled,
+                          color: streamChatTheme.colorTheme.disabled,
                         ),
                       ),
                       Text(
                         AppLocalizations.of(context).noMentionsExistYet,
-                        style:
-                            StreamChatTheme.of(context).textTheme.body.copyWith(
-                                  color: StreamChatTheme.of(context)
-                                      .colorTheme
-                                      .textLowEmphasis,
-                                ),
+                        style: streamChatTheme.textTheme.body.copyWith(
+                          color: streamChatTheme.colorTheme.textLowEmphasis,
+                        ),
                       ),
                     ],
                   ),

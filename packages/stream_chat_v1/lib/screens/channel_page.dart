@@ -5,20 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChannelPageArgs {
-  final Channel? channel;
-  final Message? initialMessage;
-
   const ChannelPageArgs({
     this.channel,
     this.initialMessage,
   });
+
+  final Channel? channel;
+  final Message? initialMessage;
 }
 
 class ChannelPage extends StatefulWidget {
-  final int? initialScrollIndex;
-  final double? initialAlignment;
-  final bool highlightInitialMessage;
-
   const ChannelPage({
     Key? key,
     this.initialScrollIndex,
@@ -26,8 +22,12 @@ class ChannelPage extends StatefulWidget {
     this.highlightInitialMessage = false,
   }) : super(key: key);
 
+  final int? initialScrollIndex;
+  final double? initialAlignment;
+  final bool highlightInitialMessage;
+
   @override
-  _ChannelPageState createState() => _ChannelPageState();
+  State<ChannelPage> createState() => _ChannelPageState();
 }
 
 class _ChannelPageState extends State<ChannelPage> {
@@ -64,8 +64,9 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: StreamChannelHeader(
         showTypingIndicator: false,
         onImageTap: () async {
@@ -82,7 +83,7 @@ class _ChannelPageState extends State<ChannelPage> {
                 MaterialPageRoute(
                   builder: (context) => StreamChannel(
                     child: ChatInfoScreen(
-                      messageTheme: StreamChatTheme.of(context).ownMessageTheme,
+                      messageTheme: streamChatTheme.ownMessageTheme,
                       user: otherUser.user,
                     ),
                     channel: channel,
@@ -99,7 +100,7 @@ class _ChannelPageState extends State<ChannelPage> {
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   child: GroupInfoScreen(
-                    messageTheme: StreamChatTheme.of(context).ownMessageTheme,
+                    messageTheme: streamChatTheme.ownMessageTheme,
                   ),
                   channel: channel,
                 ),
@@ -155,22 +156,15 @@ class _ChannelPageState extends State<ChannelPage> {
                   right: 0,
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    color: StreamChatTheme.of(context)
-                        .colorTheme
-                        .appBg
-                        .withOpacity(.9),
+                    color: streamChatTheme.colorTheme.appBg.withOpacity(.9),
                     child: StreamTypingIndicator(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
                       ),
-                      style: StreamChatTheme.of(context)
-                          .textTheme
-                          .footnote
-                          .copyWith(
-                              color: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .textLowEmphasis),
+                      style: streamChatTheme.textTheme.footnote.copyWith(
+                        color: streamChatTheme.colorTheme.textLowEmphasis,
+                      ),
                     ),
                   ),
                 ),

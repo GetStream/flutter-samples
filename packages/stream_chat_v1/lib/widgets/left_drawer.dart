@@ -16,9 +16,11 @@ class LeftDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Drawer(
       child: Container(
-        color: StreamChatTheme.of(context).colorTheme.barsBg,
+        color: streamChatTheme.colorTheme.barsBg,
         child: SafeArea(
           child: Padding(
             padding: EdgeInsets.only(
@@ -53,26 +55,20 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 ListTile(
                   leading: StreamSvgIcon.penWrite(
-                    color: StreamChatTheme.of(context)
-                        .colorTheme
-                        .textHighEmphasis
+                    color: streamChatTheme.colorTheme.textHighEmphasis
                         .withOpacity(.5),
                   ),
                   onTap: () {
                     Navigator.of(context).popAndPushNamed(Routes.NEW_CHAT);
                   },
                   title: Text(
-                    AppLocalizations.of(context).newDirectMessage,
-                    style: TextStyle(
-                      fontSize: 14.5,
-                    ),
+                    appLocalizations.newDirectMessage,
+                    style: TextStyle(fontSize: 14.5),
                   ),
                 ),
                 ListTile(
                   leading: StreamSvgIcon.contacts(
-                    color: StreamChatTheme.of(context)
-                        .colorTheme
-                        .textHighEmphasis
+                    color: streamChatTheme.colorTheme.textHighEmphasis
                         .withOpacity(.5),
                   ),
                   onTap: () {
@@ -80,10 +76,8 @@ class LeftDrawer extends StatelessWidget {
                         .popAndPushNamed(Routes.NEW_GROUP_CHAT);
                   },
                   title: Text(
-                    AppLocalizations.of(context).newGroup,
-                    style: TextStyle(
-                      fontSize: 14.5,
-                    ),
+                    appLocalizations.newGroup,
+                    style: TextStyle(fontSize: 14.5),
                   ),
                 ),
                 Expanded(
@@ -111,13 +105,11 @@ class LeftDrawer extends StatelessWidget {
                         );
                       },
                       leading: StreamSvgIcon.user(
-                        color: StreamChatTheme.of(context)
-                            .colorTheme
-                            .textHighEmphasis
+                        color: streamChatTheme.colorTheme.textHighEmphasis
                             .withOpacity(.5),
                       ),
                       title: Text(
-                        AppLocalizations.of(context).signOut,
+                        appLocalizations.signOut,
                         style: TextStyle(
                           fontSize: 14.5,
                         ),
@@ -126,9 +118,7 @@ class LeftDrawer extends StatelessWidget {
                         icon: StreamSvgIcon.iconMoon(
                           size: 24,
                         ),
-                        color: StreamChatTheme.of(context)
-                            .colorTheme
-                            .textLowEmphasis,
+                        color: streamChatTheme.colorTheme.textLowEmphasis,
                         onPressed: () async {
                           final sp = await StreamingSharedPreferences.instance;
                           sp.setInt(

@@ -15,9 +15,11 @@ class ChooseUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final users = defaultUsers;
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -31,20 +33,20 @@ class ChooseUserPage extends StatelessWidget {
                 child: SvgPicture.asset(
                   'assets/logo.svg',
                   height: 40,
-                  color: StreamChatTheme.of(context).colorTheme.accentPrimary,
+                  color: streamChatTheme.colorTheme.accentPrimary,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 13.0),
               child: Text(
-                AppLocalizations.of(context).welcomeToStreamChat,
-                style: StreamChatTheme.of(context).textTheme.title,
+                appLocalizations.welcomeToStreamChat,
+                style: streamChatTheme.textTheme.title,
               ),
             ),
             Text(
-              '${AppLocalizations.of(context).selectUserToTryFlutterSDK}:',
-              style: StreamChatTheme.of(context).textTheme.body,
+              '${appLocalizations.selectUserToTryFlutterSDK}:',
+              style: streamChatTheme.textTheme.body,
             ),
             Expanded(
               child: Padding(
@@ -53,7 +55,7 @@ class ChooseUserPage extends StatelessWidget {
                   separatorBuilder: (context, i) {
                     return Container(
                       height: 1,
-                      color: StreamChatTheme.of(context).colorTheme.borders,
+                      color: streamChatTheme.colorTheme.borders,
                     );
                   },
                   itemCount: users.length + 1,
@@ -69,16 +71,13 @@ class ChooseUserPage extends StatelessWidget {
                               showDialog(
                                 barrierDismissible: false,
                                 context: context,
-                                barrierColor: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .overlay,
+                                barrierColor:
+                                    streamChatTheme.colorTheme.overlay,
                                 builder: (context) => Center(
                                   child: Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
-                                      color: StreamChatTheme.of(context)
-                                          .colorTheme
-                                          .barsBg,
+                                      color: streamChatTheme.colorTheme.barsBg,
                                     ),
                                     height: 100,
                                     width: 100,
@@ -128,25 +127,18 @@ class ChooseUserPage extends StatelessWidget {
                             ),
                             title: Text(
                               user.name,
-                              style: StreamChatTheme.of(context)
-                                  .textTheme
-                                  .bodyBold,
+                              style: streamChatTheme.textTheme.bodyBold,
                             ),
                             subtitle: Text(
-                              AppLocalizations.of(context).streamTestAccount,
-                              style: StreamChatTheme.of(context)
-                                  .textTheme
-                                  .footnote
-                                  .copyWith(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textLowEmphasis,
-                                  ),
+                              appLocalizations.streamTestAccount,
+                              style:
+                                  streamChatTheme.textTheme.footnote.copyWith(
+                                color:
+                                    streamChatTheme.colorTheme.textLowEmphasis,
+                              ),
                             ),
                             trailing: StreamSvgIcon.arrowRight(
-                              color: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .accentPrimary,
+                              color: streamChatTheme.colorTheme.accentPrimary,
                             ),
                           );
                         },
@@ -158,27 +150,19 @@ class ChooseUserPage extends StatelessWidget {
                         },
                         leading: CircleAvatar(
                           child: StreamSvgIcon.settings(
-                            color: StreamChatTheme.of(context)
-                                .colorTheme
-                                .textHighEmphasis,
+                            color: streamChatTheme.colorTheme.textHighEmphasis,
                           ),
-                          backgroundColor:
-                              StreamChatTheme.of(context).colorTheme.borders,
+                          backgroundColor: streamChatTheme.colorTheme.borders,
                         ),
                         title: Text(
-                          AppLocalizations.of(context).advancedOptions,
-                          style: StreamChatTheme.of(context).textTheme.bodyBold,
+                          appLocalizations.advancedOptions,
+                          style: streamChatTheme.textTheme.bodyBold,
                         ),
                         subtitle: Text(
-                          AppLocalizations.of(context).customSettings,
-                          style: StreamChatTheme.of(context)
-                              .textTheme
-                              .footnote
-                              .copyWith(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .textLowEmphasis,
-                              ),
+                          appLocalizations.customSettings,
+                          style: streamChatTheme.textTheme.footnote.copyWith(
+                            color: streamChatTheme.colorTheme.textLowEmphasis,
+                          ),
                         ),
                         trailing: SvgPicture.asset(
                           'assets/icon_arrow_right.svg',

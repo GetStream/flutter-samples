@@ -19,12 +19,13 @@ class SearchTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return Container(
       height: 36,
       decoration: BoxDecoration(
-        color: StreamChatTheme.of(context).colorTheme.barsBg,
+        color: streamChatTheme.colorTheme.barsBg,
         border: Border.all(
-          color: StreamChatTheme.of(context).colorTheme.borders,
+          color: streamChatTheme.colorTheme.borders,
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -48,18 +49,15 @@ class SearchTextField extends StatelessWidget {
                     right: 8,
                   ),
                   child: StreamSvgIcon.search(
-                    color:
-                        StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+                    color: streamChatTheme.colorTheme.textHighEmphasis,
                     size: 24,
                   ),
                 ),
                 hintText: hintText,
-                hintStyle: StreamChatTheme.of(context).textTheme.body.copyWith(
-                      color: StreamChatTheme.of(context)
-                          .colorTheme
-                          .textHighEmphasis
-                          .withOpacity(.5),
-                    ),
+                hintStyle: streamChatTheme.textTheme.body.copyWith(
+                  color: streamChatTheme.colorTheme.textHighEmphasis
+                      .withOpacity(.5),
+                ),
                 contentPadding: const EdgeInsets.all(0),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,

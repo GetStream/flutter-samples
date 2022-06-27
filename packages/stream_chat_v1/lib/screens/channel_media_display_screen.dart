@@ -54,25 +54,30 @@ class _ChannelMediaDisplayScreenState extends State<ChannelMediaDisplayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+      backgroundColor: streamChatTheme.colorTheme.barsBg,
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).photosAndVideos,
+          appLocalizations.photosAndVideos,
           style: TextStyle(
-            color: StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+            color: streamChatTheme.colorTheme.textHighEmphasis,
             fontSize: 16.0,
           ),
         ),
         leading: StreamBackButton(),
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
       ),
       body: ValueListenableBuilder(
         valueListenable: controller,
-        builder: (BuildContext context,
-            PagedValue<String, GetMessageResponse> value, Widget? child) {
+        builder: (
+          BuildContext context,
+          PagedValue<String, GetMessageResponse> value,
+          Widget? child,
+        ) {
           return value.when(
             (items, nextPageKey, error) {
               if (items.isEmpty) {
@@ -82,28 +87,23 @@ class _ChannelMediaDisplayScreenState extends State<ChannelMediaDisplayScreen> {
                     children: [
                       StreamSvgIcon.pictures(
                         size: 136.0,
-                        color: StreamChatTheme.of(context).colorTheme.disabled,
+                        color: streamChatTheme.colorTheme.disabled,
                       ),
                       SizedBox(height: 16.0),
                       Text(
-                        AppLocalizations.of(context).noMedia,
+                        appLocalizations.noMedia,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis,
+                          color: streamChatTheme.colorTheme.textHighEmphasis,
                         ),
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        AppLocalizations.of(context)
-                            .photosOrVideosWillAppearHere,
+                        appLocalizations.photosOrVideosWillAppearHere,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis
+                          color: streamChatTheme.colorTheme.textHighEmphasis
                               .withOpacity(0.5),
                         ),
                       ),
@@ -150,8 +150,7 @@ class _ChannelMediaDisplayScreenState extends State<ChannelMediaDisplayScreen> {
                       padding: const EdgeInsets.all(1.0),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
+                          Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => StreamChannel(
                                 channel: channel,

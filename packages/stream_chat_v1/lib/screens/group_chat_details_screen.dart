@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class GroupChatDetailsScreen extends StatefulWidget {
-  final List<User>? selectedUsers;
-
   const GroupChatDetailsScreen({
     Key? key,
     required this.selectedUsers,
   }) : super(key: key);
 
+  final List<User>? selectedUsers;
+
   @override
-  _GroupChatDetailsScreenState createState() => _GroupChatDetailsScreenState();
+  State<GroupChatDetailsScreen> createState() => _GroupChatDetailsScreenState();
 }
 
 class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
@@ -28,9 +28,7 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
   void _groupNameListener() {
     final name = _groupNameController!.text;
     if (mounted) {
-      setState(() {
-        _isGroupNameEmpty = name.isEmpty;
-      });
+      setState(() => _isGroupNameEmpty = name.isEmpty);
     }
   }
 
@@ -52,21 +50,23 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, _selectedUsers);
+        Navigator.of(context).pop(_selectedUsers);
         return false;
       },
       child: Scaffold(
-        backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+        backgroundColor: streamChatTheme.colorTheme.appBg,
         appBar: AppBar(
           elevation: 1,
-          backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+          backgroundColor: streamChatTheme.colorTheme.barsBg,
           leading: const StreamBackButton(),
           title: Text(
-            AppLocalizations.of(context).nameOfGroupChat,
+            appLocalizations.nameOfGroupChat,
             style: TextStyle(
-              color: StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+              color: streamChatTheme.colorTheme.textHighEmphasis,
               fontSize: 16,
             ),
           ),
@@ -78,12 +78,10 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
               child: Row(
                 children: [
                   Text(
-                    AppLocalizations.of(context).name.toUpperCase(),
+                    appLocalizations.name.toUpperCase(),
                     style: TextStyle(
                       fontSize: 12,
-                      color: StreamChatTheme.of(context)
-                          .colorTheme
-                          .textLowEmphasis,
+                      color: streamChatTheme.colorTheme.textLowEmphasis,
                     ),
                   ),
                   SizedBox(width: 16),
@@ -98,13 +96,10 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                         errorBorder: InputBorder.none,
                         disabledBorder: InputBorder.none,
                         contentPadding: const EdgeInsets.all(0),
-                        hintText:
-                            AppLocalizations.of(context).chooseAGroupChatName,
+                        hintText: appLocalizations.chooseAGroupChatName,
                         hintStyle: TextStyle(
                           fontSize: 14,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textLowEmphasis,
+                          color: streamChatTheme.colorTheme.textLowEmphasis,
                         ),
                       ),
                     ),
@@ -120,8 +115,8 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                 icon: StreamSvgIcon.check(
                   size: 24,
                   color: _isGroupNameEmpty
-                      ? StreamChatTheme.of(context).colorTheme.textLowEmphasis
-                      : StreamChatTheme.of(context).colorTheme.accentPrimary,
+                      ? streamChatTheme.colorTheme.textLowEmphasis
+                      : streamChatTheme.colorTheme.accentPrimary,
                 ),
                 onPressed: _isGroupNameEmpty
                     ? null
@@ -159,14 +154,14 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
 
             switch (status) {
               case ConnectionStatus.connected:
-                statusString = AppLocalizations.of(context).connected;
+                statusString = appLocalizations.connected;
                 showStatus = false;
                 break;
               case ConnectionStatus.connecting:
-                statusString = AppLocalizations.of(context).reconnecting;
+                statusString = appLocalizations.reconnecting;
                 break;
               case ConnectionStatus.disconnected:
-                statusString = AppLocalizations.of(context).disconnected;
+                statusString = appLocalizations.disconnected;
                 break;
             }
             return StreamInfoTile(
@@ -179,8 +174,7 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                   Container(
                     width: double.maxFinite,
                     decoration: BoxDecoration(
-                      gradient:
-                          StreamChatTheme.of(context).colorTheme.bgGradient,
+                      gradient: streamChatTheme.colorTheme.bgGradient,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -188,11 +182,9 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                         horizontal: 8,
                       ),
                       child: Text(
-                        '$_totalUsers ${_totalUsers > 1 ? AppLocalizations.of(context).members : AppLocalizations.of(context).member}',
+                        '$_totalUsers ${_totalUsers > 1 ? appLocalizations.members : appLocalizations.member}',
                         style: TextStyle(
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textLowEmphasis,
+                          color: streamChatTheme.colorTheme.textLowEmphasis,
                         ),
                       ),
                     ),
@@ -205,15 +197,13 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                         itemCount: _selectedUsers.length + 1,
                         separatorBuilder: (_, __) => Container(
                           height: 1,
-                          color: StreamChatTheme.of(context).colorTheme.borders,
+                          color: streamChatTheme.colorTheme.borders,
                         ),
                         itemBuilder: (_, index) {
                           if (index == _selectedUsers.length) {
                             return Container(
                               height: 1,
-                              color: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .borders,
+                              color: streamChatTheme.colorTheme.borders,
                             );
                           }
                           final user = _selectedUsers[index];
@@ -237,9 +227,8 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
                             trailing: IconButton(
                               icon: Icon(
                                 Icons.clear_rounded,
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .textHighEmphasis,
+                                color:
+                                    streamChatTheme.colorTheme.textHighEmphasis,
                               ),
                               padding: const EdgeInsets.all(0),
                               splashRadius: 24,
@@ -265,9 +254,11 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
   }
 
   void _showErrorAlert() {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     showModalBottomSheet(
       useRootNavigator: false,
-      backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+      backgroundColor: streamChatTheme.colorTheme.barsBg,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -281,22 +272,20 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
           children: [
             SizedBox(height: 26.0),
             StreamSvgIcon.error(
-              color: StreamChatTheme.of(context).colorTheme.accentError,
+              color: streamChatTheme.colorTheme.accentError,
               size: 24.0,
             ),
             SizedBox(height: 26.0),
             Text(
-              AppLocalizations.of(context).somethingWentWrongErrorMessage,
-              style: StreamChatTheme.of(context).textTheme.headlineBold,
+              appLocalizations.somethingWentWrongErrorMessage,
+              style: streamChatTheme.textTheme.headlineBold,
             ),
             SizedBox(height: 7.0),
-            Text(AppLocalizations.of(context).operationCouldNotBeCompleted),
+            Text(appLocalizations.operationCouldNotBeCompleted),
             SizedBox(height: 36.0),
             Container(
-              color: StreamChatTheme.of(context)
-                  .colorTheme
-                  .textHighEmphasis
-                  .withOpacity(.08),
+              color:
+                  streamChatTheme.colorTheme.textHighEmphasis.withOpacity(.08),
               height: 1.0,
             ),
             Row(
@@ -304,14 +293,9 @@ class _GroupChatDetailsScreenState extends State<GroupChatDetailsScreen> {
               children: [
                 TextButton(
                   child: Text(
-                    AppLocalizations.of(context).ok,
-                    style: StreamChatTheme.of(context)
-                        .textTheme
-                        .bodyBold
-                        .copyWith(
-                            color: StreamChatTheme.of(context)
-                                .colorTheme
-                                .accentPrimary),
+                    appLocalizations.ok,
+                    style: streamChatTheme.textTheme.bodyBold.copyWith(
+                        color: streamChatTheme.colorTheme.accentPrimary),
                   ),
                   onPressed: () => Navigator.of(context).pop(),
                 ),

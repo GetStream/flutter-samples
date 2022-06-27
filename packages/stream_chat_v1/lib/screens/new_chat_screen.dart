@@ -8,8 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class NewChatScreen extends StatefulWidget {
+  const NewChatScreen({Key? key}) : super(key: key);
+
   @override
-  _NewChatScreenState createState() => _NewChatScreenState();
+  State<NewChatScreen> createState() => _NewChatScreenState();
 }
 
 class _NewChatScreenState extends State<NewChatScreen> {
@@ -133,16 +135,19 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
         leading: const StreamBackButton(),
         title: Text(
-          AppLocalizations.of(context).newChat,
-          style: StreamChatTheme.of(context).textTheme.headlineBold.copyWith(
-              color: StreamChatTheme.of(context).colorTheme.textHighEmphasis),
+          appLocalizations.newChat,
+          style: streamChatTheme.textTheme.headlineBold.copyWith(
+            color: streamChatTheme.colorTheme.textHighEmphasis,
+          ),
         ),
         centerTitle: true,
       ),
@@ -153,14 +158,14 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
           switch (status) {
             case ConnectionStatus.connected:
-              statusString = AppLocalizations.of(context).connected;
+              statusString = appLocalizations.connected;
               showStatus = false;
               break;
             case ConnectionStatus.connecting:
-              statusString = AppLocalizations.of(context).reconnecting;
+              statusString = appLocalizations.reconnecting;
               break;
             case ConnectionStatus.disconnected:
-              statusString = AppLocalizations.of(context).disconnected;
+              statusString = appLocalizations.disconnected;
               break;
           }
           return StreamInfoTile(
@@ -178,7 +183,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     key: _chipInputTextFieldStateKey,
                     controller: _controller,
                     focusNode: _searchFocusNode,
-                    hint: AppLocalizations.of(context).typeANameHint,
+                    hint: appLocalizations.typeANameHint,
                     chipBuilder: (context, user) {
                       return GestureDetector(
                         onTap: () {
@@ -190,9 +195,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .disabled,
+                                color: streamChatTheme.colorTheme.disabled,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               padding: const EdgeInsets.only(left: 24),
@@ -202,18 +205,15 @@ class _NewChatScreenState extends State<NewChatScreen> {
                                   user.name,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis,
+                                    color: streamChatTheme
+                                        .colorTheme.textHighEmphasis,
                                   ),
                                 ),
                               ),
                             ),
                             Container(
                               foregroundDecoration: BoxDecoration(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .overlay,
+                                color: streamChatTheme.colorTheme.overlay,
                                 shape: BoxShape.circle,
                               ),
                               child: StreamUserAvatar(
@@ -249,19 +249,16 @@ class _NewChatScreenState extends State<NewChatScreen> {
                             StreamNeumorphicButton(
                               child: Center(
                                 child: StreamSvgIcon.contacts(
-                                  color: StreamChatTheme.of(context)
-                                      .colorTheme
-                                      .accentPrimary,
+                                  color:
+                                      streamChatTheme.colorTheme.accentPrimary,
                                   size: 24,
                                 ),
                               ),
                             ),
                             SizedBox(width: 8),
                             Text(
-                              AppLocalizations.of(context).createAGroup,
-                              style: StreamChatTheme.of(context)
-                                  .textTheme
-                                  .bodyBold,
+                              appLocalizations.createAGroup,
+                              style: streamChatTheme.textTheme.bodyBold,
                             ),
                           ],
                         ),
@@ -271,8 +268,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     Container(
                       width: double.maxFinite,
                       decoration: BoxDecoration(
-                        gradient:
-                            StreamChatTheme.of(context).colorTheme.bgGradient,
+                        gradient: streamChatTheme.colorTheme.bgGradient,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -281,17 +277,12 @@ class _NewChatScreenState extends State<NewChatScreen> {
                         ),
                         child: Text(
                           _isSearchActive
-                              ? '${AppLocalizations.of(context).matchesFor} "$_userNameQuery"'
-                              : AppLocalizations.of(context).onThePlatorm,
-                          style: StreamChatTheme.of(context)
-                              .textTheme
-                              .footnote
-                              .copyWith(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .textHighEmphasis
-                                    .withOpacity(.5),
-                              ),
+                              ? '${appLocalizations.matchesFor} "$_userNameQuery"'
+                              : appLocalizations.onThePlatorm,
+                          style: streamChatTheme.textTheme.footnote.copyWith(
+                            color: streamChatTheme.colorTheme.textHighEmphasis
+                                .withOpacity(.5),
+                          ),
                         ),
                       ),
                     ),
@@ -347,19 +338,17 @@ class _NewChatScreenState extends State<NewChatScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                AppLocalizations.of(context)
+                                                appLocalizations
                                                     .noUserMatchesTheseKeywords,
-                                                style:
-                                                    StreamChatTheme.of(context)
-                                                        .textTheme
-                                                        .footnote
-                                                        .copyWith(
-                                                          color: StreamChatTheme
-                                                                  .of(context)
-                                                              .colorTheme
-                                                              .textHighEmphasis
-                                                              .withOpacity(.5),
-                                                        ),
+                                                style: streamChatTheme
+                                                    .textTheme.footnote
+                                                    .copyWith(
+                                                  color: StreamChatTheme.of(
+                                                          context)
+                                                      .colorTheme
+                                                      .textHighEmphasis
+                                                      .withOpacity(.5),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -380,12 +369,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
                               return Center(
                                 child: Text(
-                                  AppLocalizations.of(context).noChatsHereYet,
+                                  appLocalizations.noChatsHereYet,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis
+                                    color: streamChatTheme
+                                        .colorTheme.textHighEmphasis
                                         .withOpacity(.5),
                                   ),
                                 ),

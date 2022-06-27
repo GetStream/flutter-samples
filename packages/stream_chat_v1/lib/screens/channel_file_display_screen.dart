@@ -52,20 +52,22 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+      backgroundColor: streamChatTheme.colorTheme.barsBg,
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).files,
+          appLocalizations.files,
           style: TextStyle(
-            color: StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+            color: streamChatTheme.colorTheme.textHighEmphasis,
             fontSize: 16.0,
           ),
         ),
         leading: StreamBackButton(),
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
       ),
       body: ValueListenableBuilder(
         valueListenable: controller,
@@ -83,27 +85,23 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
                     children: [
                       StreamSvgIcon.files(
                         size: 136.0,
-                        color: StreamChatTheme.of(context).colorTheme.disabled,
+                        color: streamChatTheme.colorTheme.disabled,
                       ),
                       SizedBox(height: 16.0),
                       Text(
-                        AppLocalizations.of(context).noFiles,
+                        appLocalizations.noFiles,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis,
+                          color: streamChatTheme.colorTheme.textHighEmphasis,
                         ),
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        AppLocalizations.of(context).filesAppearHere,
+                        appLocalizations.filesAppearHere,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis
+                          color: streamChatTheme.colorTheme.textHighEmphasis
                               .withOpacity(0.5),
                         ),
                       ),

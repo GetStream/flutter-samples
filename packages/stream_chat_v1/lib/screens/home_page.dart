@@ -66,13 +66,13 @@ class MyObserver extends NavigatorObserver {
 }
 
 class HomePageArgs {
-  final StreamChatClient chatClient;
-
   HomePageArgs(this.chatClient);
+
+  final StreamChatClient chatClient;
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({
+  const HomePage({
     Key? key,
     required this.chatClient,
   }) : super(key: key);
@@ -80,7 +80,7 @@ class HomePage extends StatefulWidget {
   final StreamChatClient chatClient;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
@@ -89,9 +89,9 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void didChangeDependencies() {
+    super.didChangeDependencies();
     _observer?.dispose();
     _observer = MyObserver(widget.chatClient, _navigatorKey);
-    super.didChangeDependencies();
   }
 
   @override

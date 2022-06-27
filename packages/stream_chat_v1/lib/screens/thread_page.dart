@@ -14,7 +14,7 @@ class ThreadPage extends StatefulWidget {
   final double? initialAlignment;
 
   @override
-  _ThreadPageState createState() => _ThreadPageState();
+  State<ThreadPage> createState() => _ThreadPageState();
 }
 
 class _ThreadPageState extends State<ThreadPage> {

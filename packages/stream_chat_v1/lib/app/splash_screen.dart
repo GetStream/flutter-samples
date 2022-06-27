@@ -8,6 +8,17 @@ mixin SplashScreenStateMixin<T extends StatefulWidget> on State<T>
   late Animation<Color?> colorAnimation;
   bool animationCompleted = false;
 
+  @override
+  void initState() {
+    _createAnimations();
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        setState(() => animationCompleted = true);
+      }
+    });
+    super.initState();
+  }
+
   void _createAnimations() {
     _scaleAnimationController = AnimationController(
       vsync: this,
@@ -59,63 +70,53 @@ mixin SplashScreenStateMixin<T extends StatefulWidget> on State<T>
     });
   }
 
-  Widget buildAnimation() => Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          AnimatedBuilder(
-            animation: scaleAnimation,
-            builder: (context, _) {
-              return Transform.scale(
-                scale: scaleAnimation.value,
-                child: AnimatedBuilder(
-                    animation: colorAnimation,
-                    builder: (context, snapshot) {
-                      return Container(
-                        alignment: Alignment.center,
-                        constraints: BoxConstraints.expand(),
-                        color: colorAnimation.value,
-                        child: !_animationController.isAnimating
-                            ? Lottie.asset(
-                                'assets/floating_boat.json',
-                                alignment: Alignment.center,
-                              )
-                            : SizedBox(),
-                      );
-                    }),
-              );
-            },
-          ),
-          AnimatedBuilder(
-            animation: animation,
-            builder: (context, snapshot) {
-              return Transform.scale(
-                scale: animation.value,
-                child: Container(
-                  width: 1.0,
-                  height: 1.0,
-                  decoration: BoxDecoration(
-                    color: Colors.white
-                        .withOpacity(1 - _animationController.value),
-                    shape: BoxShape.circle,
-                  ),
+  Widget buildAnimation() {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.center,
+      children: [
+        AnimatedBuilder(
+          animation: scaleAnimation,
+          builder: (context, _) {
+            return Transform.scale(
+              scale: scaleAnimation.value,
+              child: AnimatedBuilder(
+                animation: colorAnimation,
+                builder: (context, snapshot) {
+                  return Container(
+                    alignment: Alignment.center,
+                    constraints: BoxConstraints.expand(),
+                    color: colorAnimation.value,
+                    child: !_animationController.isAnimating
+                        ? Lottie.asset(
+                            'assets/floating_boat.json',
+                            alignment: Alignment.center,
+                          )
+                        : SizedBox(),
+                  );
+                },
+              ),
+            );
+          },
+        ),
+        AnimatedBuilder(
+          animation: animation,
+          builder: (context, snapshot) {
+            return Transform.scale(
+              scale: animation.value,
+              child: Container(
+                width: 1.0,
+                height: 1.0,
+                decoration: BoxDecoration(
+                  color:
+                      Colors.white.withOpacity(1 - _animationController.value),
+                  shape: BoxShape.circle,
                 ),
-              );
-            },
-          ),
-        ],
-      );
-
-  @override
-  void initState() {
-    _createAnimations();
-    _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          animationCompleted = true;
-        });
-      }
-    });
-    super.initState();
+              ),
+            );
+          },
+        ),
+      ],
+    );
   }
 }

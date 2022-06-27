@@ -10,8 +10,10 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChannelList extends StatefulWidget {
+  const ChannelList({Key? key}) : super(key: key);
+
   @override
-  _ChannelList createState() => _ChannelList();
+  State<ChannelList> createState() => _ChannelList();
 }
 
 class _ChannelList extends State<ChannelList> {
@@ -75,6 +77,7 @@ class _ChannelList extends State<ChannelList> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return WillPopScope(
       onWillPop: () async {
         if (_isSearchActive) {
@@ -100,7 +103,7 @@ class _ChannelList extends State<ChannelList> {
               child: SearchTextField(
                 controller: _controller,
                 showCloseButton: _isSearchActive,
-                hintText: AppLocalizations.of(context).search,
+                hintText: appLocalizations.search,
               ),
             ),
           ],
@@ -126,9 +129,7 @@ class _ChannelList extends State<ChannelList> {
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  Text(
-                                    AppLocalizations.of(context).noResults,
-                                  ),
+                                  Text(appLocalizations.noResults),
                                 ],
                               ),
                             ),
@@ -269,6 +270,7 @@ class _ChannelList extends State<ChannelList> {
                         );
                       },
                       emptyBuilder: (_) {
+                        final chatTheme = StreamChatTheme.of(context);
                         return Center(
                           child: Padding(
                             padding: const EdgeInsets.all(8),
@@ -288,14 +290,9 @@ class _ChannelList extends State<ChannelList> {
                                 },
                                 child: Text(
                                   'Start a chat',
-                                  style: StreamChatTheme.of(context)
-                                      .textTheme
-                                      .bodyBold
-                                      .copyWith(
-                                        color: StreamChatTheme.of(context)
-                                            .colorTheme
-                                            .accentPrimary,
-                                      ),
+                                  style: chatTheme.textTheme.bodyBold.copyWith(
+                                    color: chatTheme.colorTheme.accentPrimary,
+                                  ),
                                 ),
                               ),
                             ),

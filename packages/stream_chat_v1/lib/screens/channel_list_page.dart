@@ -16,7 +16,7 @@ class ChannelListPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ChannelListPageState createState() => _ChannelListPageState();
+  State<ChannelListPage> createState() => _ChannelListPageState();
 }
 
 class _ChannelListPageState extends State<ChannelListPage> {
@@ -89,11 +89,12 @@ class _ChannelListPageState extends State<ChannelListPage> {
   @override
   Widget build(BuildContext context) {
     final user = StreamChat.of(context).currentUser;
+    final streamChatTheme = StreamChatTheme.of(context);
     if (user == null) {
       return Offstage();
     }
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: StreamChannelListHeader(
         onNewChatButtonTap: () {
           Navigator.of(context).pushNamed(Routes.NEW_CHAT);
@@ -107,15 +108,13 @@ class _ChannelListPageState extends State<ChannelListPage> {
       ),
       drawerEdgeDragWidth: 50,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
         currentIndex: _currentIndex,
         items: _navBarItems,
-        selectedLabelStyle: StreamChatTheme.of(context).textTheme.footnoteBold,
-        unselectedLabelStyle:
-            StreamChatTheme.of(context).textTheme.footnoteBold,
+        selectedLabelStyle: streamChatTheme.textTheme.footnoteBold,
+        unselectedLabelStyle: streamChatTheme.textTheme.footnoteBold,
         type: BottomNavigationBarType.fixed,
-        selectedItemColor:
-            StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+        selectedItemColor: streamChatTheme.colorTheme.textHighEmphasis,
         unselectedItemColor: Colors.grey,
         onTap: (index) {
           setState(() => _currentIndex = index);

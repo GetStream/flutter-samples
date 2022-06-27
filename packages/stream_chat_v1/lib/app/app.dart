@@ -16,7 +16,7 @@ import 'package:streaming_shared_preferences/streaming_shared_preferences.dart';
 
 class ChatAppV1 extends StatefulWidget {
   @override
-  _ChatAppV1State createState() => _ChatAppV1State();
+  State<ChatAppV1> createState() => _ChatAppV1State();
 }
 
 class _ChatAppV1State extends State<ChatAppV1>
