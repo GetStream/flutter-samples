@@ -186,9 +186,12 @@ class _ChannelMediaDisplayScreenState extends State<ChannelMediaDisplayScreen> {
                                   attachment: media[position].attachment,
                                   message: media[position].message,
                                   showTitle: false,
-                                  size: Size(
-                                    MediaQuery.of(context).size.width * 0.8,
-                                    MediaQuery.of(context).size.height * 0.3,
+                                  constraints: BoxConstraints(
+                                    maxWidth:
+                                        MediaQuery.of(context).size.width * 0.8,
+                                    maxHeight:
+                                        MediaQuery.of(context).size.height *
+                                            0.3,
                                   ),
                                   messageTheme: widget.messageTheme,
                                 ),
