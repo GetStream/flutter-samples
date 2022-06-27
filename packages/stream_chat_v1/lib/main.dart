@@ -22,7 +22,7 @@ final chatPersistentClient = StreamChatPersistenceClient(
   connectionMode: ConnectionMode.regular,
 );
 
-void sampleAppLogHandler(LogRecord record) async {
+Future<void> sampleAppLogHandler(LogRecord record) async {
   if (kDebugMode) StreamChatClient.defaultLogHandler(record);
 
   // report errors to sentry
@@ -45,7 +45,7 @@ StreamChatClient buildStreamChatClient(
   )..chatPersistenceClient = chatPersistentClient;
 }
 
-void main() async {
+Future<void> main() async {
   const sentryDsn =
       'https://6381ef88de4140db8f5e25ab37e0f08c@o1213503.ingest.sentry.io/6352870';
 
@@ -122,9 +122,7 @@ class _MyAppState extends State<MyApp>
 
     _initConnection().then(
       (initData) {
-        setState(() {
-          _initData = initData;
-        });
+        setState(() => _initData = initData);
 
         final now = DateTime.now().millisecondsSinceEpoch;
 
@@ -210,8 +208,8 @@ class _MyAppState extends State<MyApp>
 }
 
 class InitData {
+  InitData(this.client, this.preferences);
+
   final StreamChatClient client;
   final StreamingSharedPreferences preferences;
-
-  InitData(this.client, this.preferences);
 }
