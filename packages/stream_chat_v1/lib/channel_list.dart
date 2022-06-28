@@ -45,9 +45,7 @@ class _ChannelList extends State<ChannelList> {
     _debounce = Timer(const Duration(milliseconds: 350), () {
       if (mounted) {
         _messageSearchListController.searchQuery = _controller!.text;
-        setState(() {
-          _isSearchActive = _controller!.text.isNotEmpty;
-        });
+        setState(() => _isSearchActive = _controller!.text.isNotEmpty);
         if (_isSearchActive) _messageSearchListController.doInitialLoad();
       }
     });
@@ -244,7 +242,8 @@ class _ChannelList extends State<ChannelList> {
                                     color: chatTheme.colorTheme.accentError,
                                   ),
                                   onPressed: (_) async {
-                                    final res = await showConfirmationDialog(
+                                    final res =
+                                        await showConfirmationBottomSheet(
                                       context,
                                       title: 'Delete Conversation',
                                       question:
