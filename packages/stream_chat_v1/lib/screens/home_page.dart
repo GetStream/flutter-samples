@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:example/channel_page.dart';
-import 'package:example/notifications_service.dart';
-import 'package:example/routes/app_routes.dart';
-import 'package:example/routes/routes.dart';
+import 'package:example/app/routes/app_routes.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/channel_page.dart';
+import 'package:example/services/notifications_service.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
@@ -66,13 +66,13 @@ class MyObserver extends NavigatorObserver {
 }
 
 class HomePageArgs {
-  final StreamChatClient chatClient;
-
   HomePageArgs(this.chatClient);
+
+  final StreamChatClient chatClient;
 }
 
 class HomePage extends StatefulWidget {
-  HomePage({
+  const HomePage({
     Key? key,
     required this.chatClient,
   }) : super(key: key);
@@ -80,12 +80,19 @@ class HomePage extends StatefulWidget {
   final StreamChatClient chatClient;
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final GlobalKey<NavigatorState> _navigatorKey = GlobalKey();
   MyObserver? _observer;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _observer?.dispose();
+    _observer = MyObserver(widget.chatClient, _navigatorKey);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,12 +111,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    _observer?.dispose();
-    _observer = MyObserver(widget.chatClient, _navigatorKey);
-    super.didChangeDependencies();
   }
 }

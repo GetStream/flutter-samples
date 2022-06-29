@@ -1,11 +1,12 @@
-import 'package:example/localizations.dart';
-import 'package:example/routes/routes.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/channel_page.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-import 'channel_page.dart';
-
 class UserMentionsPage extends StatefulWidget {
+  const UserMentionsPage({Key? key}) : super(key: key);
+
   @override
   State<UserMentionsPage> createState() => _UserMentionsPageState();
 }
@@ -27,8 +28,16 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
     ],
     limit: 20,
   );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return StreamMessageSearchListView(
       controller: controller,
       emptyBuilder: (_) {
@@ -47,18 +56,14 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
                         padding: const EdgeInsets.all(24),
                         child: StreamSvgIcon.mentions(
                           size: 96,
-                          color:
-                              StreamChatTheme.of(context).colorTheme.disabled,
+                          color: streamChatTheme.colorTheme.disabled,
                         ),
                       ),
                       Text(
                         AppLocalizations.of(context).noMentionsExistYet,
-                        style:
-                            StreamChatTheme.of(context).textTheme.body.copyWith(
-                                  color: StreamChatTheme.of(context)
-                                      .colorTheme
-                                      .textLowEmphasis,
-                                ),
+                        style: streamChatTheme.textTheme.body.copyWith(
+                          color: streamChatTheme.colorTheme.textLowEmphasis,
+                        ),
                       ),
                     ],
                   ),
@@ -78,8 +83,7 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
         if (channel.state == null) {
           await channel.watch();
         }
-        Navigator.pushNamed(
-          context,
+        Navigator.of(context).pushNamed(
           Routes.CHANNEL_PAGE,
           arguments: ChannelPageArgs(
             channel: channel,
@@ -88,11 +92,5 @@ class _UserMentionsPageState extends State<UserMentionsPage> {
         );
       },
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }

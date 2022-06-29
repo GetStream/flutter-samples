@@ -1,4 +1,4 @@
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:video_player/video_player.dart';
@@ -39,21 +39,35 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
   );
 
   @override
+  void initState() {
+    super.initState();
+    controller.doInitialLoad();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+      backgroundColor: streamChatTheme.colorTheme.barsBg,
       appBar: AppBar(
         elevation: 1,
         centerTitle: true,
         title: Text(
-          AppLocalizations.of(context).files,
+          appLocalizations.files,
           style: TextStyle(
-            color: StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+            color: streamChatTheme.colorTheme.textHighEmphasis,
             fontSize: 16.0,
           ),
         ),
         leading: StreamBackButton(),
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
       ),
       body: ValueListenableBuilder(
         valueListenable: controller,
@@ -71,27 +85,23 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
                     children: [
                       StreamSvgIcon.files(
                         size: 136.0,
-                        color: StreamChatTheme.of(context).colorTheme.disabled,
+                        color: streamChatTheme.colorTheme.disabled,
                       ),
                       SizedBox(height: 16.0),
                       Text(
-                        AppLocalizations.of(context).noFiles,
+                        appLocalizations.noFiles,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis,
+                          color: streamChatTheme.colorTheme.textHighEmphasis,
                         ),
                       ),
                       SizedBox(height: 8.0),
                       Text(
-                        AppLocalizations.of(context).filesAppearHere,
+                        appLocalizations.filesAppearHere,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 14.0,
-                          color: StreamChatTheme.of(context)
-                              .colorTheme
-                              .textHighEmphasis
+                          color: streamChatTheme.colorTheme.textHighEmphasis
                               .withOpacity(0.5),
                         ),
                       ),
@@ -140,17 +150,5 @@ class _ChannelFileDisplayScreenState extends State<ChannelFileDisplayScreen> {
         },
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    controller.doInitialLoad();
-    super.initState();
   }
 }

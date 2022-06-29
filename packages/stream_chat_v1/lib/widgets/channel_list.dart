@@ -1,20 +1,19 @@
 import 'dart:async';
 
-import 'package:example/localizations.dart';
-import 'package:example/routes/routes.dart';
-import 'package:example/search_text_field.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/screens.dart';
+import 'package:example/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'channel_page.dart';
-import 'chat_info_screen.dart';
-import 'group_info_screen.dart';
+import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ChannelList extends StatefulWidget {
+  const ChannelList({Key? key}) : super(key: key);
+
   @override
-  _ChannelList createState() => _ChannelList();
+  State<ChannelList> createState() => _ChannelList();
 }
 
 class _ChannelList extends State<ChannelList> {
@@ -78,6 +77,7 @@ class _ChannelList extends State<ChannelList> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalizations = AppLocalizations.of(context);
     return WillPopScope(
       onWillPop: () async {
         if (_isSearchActive) {
@@ -103,7 +103,7 @@ class _ChannelList extends State<ChannelList> {
               child: SearchTextField(
                 controller: _controller,
                 showCloseButton: _isSearchActive,
-                hintText: AppLocalizations.of(context).search,
+                hintText: appLocalizations.search,
               ),
             ),
           ],
@@ -129,9 +129,7 @@ class _ChannelList extends State<ChannelList> {
                                       color: Colors.grey,
                                     ),
                                   ),
-                                  Text(
-                                    AppLocalizations.of(context).noResults,
-                                  ),
+                                  Text(appLocalizations.noResults),
                                 ],
                               ),
                             ),
@@ -159,8 +157,7 @@ class _ChannelList extends State<ChannelList> {
                         if (channel.state == null) {
                           await channel.watch();
                         }
-                        Navigator.pushNamed(
-                          context,
+                        Navigator.of(context).pushNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,
@@ -197,9 +194,8 @@ class _ChannelList extends State<ChannelList> {
                                     context: context,
                                     channel: channel,
                                     onViewInfoTap: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) {
                                             final isOneToOne =
@@ -266,8 +262,7 @@ class _ChannelList extends State<ChannelList> {
                         );
                       },
                       onChannelTap: (channel) {
-                        Navigator.pushNamed(
-                          context,
+                        Navigator.of(context).pushNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,
@@ -275,6 +270,7 @@ class _ChannelList extends State<ChannelList> {
                         );
                       },
                       emptyBuilder: (_) {
+                        final chatTheme = StreamChatTheme.of(context);
                         return Center(
                           child: Padding(
                             padding: const EdgeInsets.all(8),
@@ -294,14 +290,9 @@ class _ChannelList extends State<ChannelList> {
                                 },
                                 child: Text(
                                   'Start a chat',
-                                  style: StreamChatTheme.of(context)
-                                      .textTheme
-                                      .bodyBold
-                                      .copyWith(
-                                        color: StreamChatTheme.of(context)
-                                            .colorTheme
-                                            .accentPrimary,
-                                      ),
+                                  style: chatTheme.textTheme.bodyBold.copyWith(
+                                    color: chatTheme.colorTheme.accentPrimary,
+                                  ),
                                 ),
                               ),
                             ),

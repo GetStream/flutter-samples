@@ -1,27 +1,20 @@
 import 'package:collection/collection.dart';
-import 'package:example/routes/routes.dart';
-import 'package:example/thread_page.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-import 'chat_info_screen.dart';
-import 'group_info_screen.dart';
-
 class ChannelPageArgs {
-  final Channel? channel;
-  final Message? initialMessage;
-
   const ChannelPageArgs({
     this.channel,
     this.initialMessage,
   });
+
+  final Channel? channel;
+  final Message? initialMessage;
 }
 
 class ChannelPage extends StatefulWidget {
-  final int? initialScrollIndex;
-  final double? initialAlignment;
-  final bool highlightInitialMessage;
-
   const ChannelPage({
     Key? key,
     this.initialScrollIndex,
@@ -29,8 +22,12 @@ class ChannelPage extends StatefulWidget {
     this.highlightInitialMessage = false,
   }) : super(key: key);
 
+  final int? initialScrollIndex;
+  final double? initialAlignment;
+  final bool highlightInitialMessage;
+
   @override
-  _ChannelPageState createState() => _ChannelPageState();
+  State<ChannelPage> createState() => _ChannelPageState();
 }
 
 class _ChannelPageState extends State<ChannelPage> {
@@ -40,8 +37,8 @@ class _ChannelPageState extends State<ChannelPage> {
 
   @override
   void initState() {
-    _focusNode = FocusNode();
     super.initState();
+    _focusNode = FocusNode();
   }
 
   @override
@@ -57,10 +54,19 @@ class _ChannelPageState extends State<ChannelPage> {
     });
   }
 
+  bool defaultFilter(Message m) {
+    var _currentUser = StreamChat.of(context).currentUser;
+    final isMyMessage = m.user?.id == _currentUser?.id;
+    final isDeletedOrShadowed = m.isDeleted == true || m.shadowed == true;
+    if (isDeletedOrShadowed && !isMyMessage) return false;
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: StreamChannelHeader(
         showTypingIndicator: false,
         onImageTap: () async {
@@ -77,7 +83,7 @@ class _ChannelPageState extends State<ChannelPage> {
                 MaterialPageRoute(
                   builder: (context) => StreamChannel(
                     child: ChatInfoScreen(
-                      messageTheme: StreamChatTheme.of(context).ownMessageTheme,
+                      messageTheme: streamChatTheme.ownMessageTheme,
                       user: otherUser.user,
                     ),
                     channel: channel,
@@ -86,16 +92,15 @@ class _ChannelPageState extends State<ChannelPage> {
               );
 
               if (pop == true) {
-                Navigator.pop(context);
+                Navigator.of(context).pop();
               }
             }
           } else {
-            await Navigator.push(
-              context,
+            await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => StreamChannel(
                   child: GroupInfoScreen(
-                    messageTheme: StreamChatTheme.of(context).ownMessageTheme,
+                    messageTheme: streamChatTheme.ownMessageTheme,
                   ),
                   channel: channel,
                 ),
@@ -128,8 +133,7 @@ class _ChannelPageState extends State<ChannelPage> {
                         if (channel.state == null) {
                           await channel.watch();
                         }
-                        Navigator.pushReplacementNamed(
-                          context,
+                        Navigator.of(context).pushReplacementNamed(
                           Routes.CHANNEL_PAGE,
                           arguments: ChannelPageArgs(
                             channel: channel,
@@ -152,22 +156,15 @@ class _ChannelPageState extends State<ChannelPage> {
                   right: 0,
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    color: StreamChatTheme.of(context)
-                        .colorTheme
-                        .appBg
-                        .withOpacity(.9),
+                    color: streamChatTheme.colorTheme.appBg.withOpacity(.9),
                     child: StreamTypingIndicator(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 8,
                         vertical: 4,
                       ),
-                      style: StreamChatTheme.of(context)
-                          .textTheme
-                          .footnote
-                          .copyWith(
-                              color: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .textLowEmphasis),
+                      style: streamChatTheme.textTheme.footnote.copyWith(
+                        color: streamChatTheme.colorTheme.textLowEmphasis,
+                      ),
                     ),
                   ),
                 ),
@@ -181,13 +178,5 @@ class _ChannelPageState extends State<ChannelPage> {
         ],
       ),
     );
-  }
-
-  bool defaultFilter(Message m) {
-    var _currentUser = StreamChat.of(context).currentUser;
-    final isMyMessage = m.user?.id == _currentUser?.id;
-    final isDeletedOrShadowed = m.isDeleted == true || m.shadowed == true;
-    if (isDeletedOrShadowed && !isMyMessage) return false;
-    return true;
   }
 }

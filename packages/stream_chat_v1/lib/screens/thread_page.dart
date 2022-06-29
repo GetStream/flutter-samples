@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class ThreadPage extends StatefulWidget {
-  final Message parent;
-  final int? initialScrollIndex;
-  final double? initialAlignment;
-
-  ThreadPage({
+  const ThreadPage({
     Key? key,
     required this.parent,
     this.initialScrollIndex,
     this.initialAlignment,
   }) : super(key: key);
 
+  final Message parent;
+  final int? initialScrollIndex;
+  final double? initialAlignment;
+
   @override
-  _ThreadPageState createState() => _ThreadPageState();
+  State<ThreadPage> createState() => _ThreadPageState();
 }
 
 class _ThreadPageState extends State<ThreadPage> {
@@ -25,9 +25,10 @@ class _ThreadPageState extends State<ThreadPage> {
   void initState() {
     super.initState();
     _messageInputController = StreamMessageInputController(
-        message: Message(
-      parentId: widget.parent.id,
-    ));
+      message: Message(
+        parentId: widget.parent.id,
+      ),
+    );
   }
 
   @override

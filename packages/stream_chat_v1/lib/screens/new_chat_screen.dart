@@ -1,16 +1,17 @@
 import 'dart:async';
 
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/screens/channel_page.dart';
+import 'package:example/widgets/chips_input_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-import 'channel_page.dart';
-import 'chips_input_text_field.dart';
-import 'routes/routes.dart';
-
 class NewChatScreen extends StatefulWidget {
+  const NewChatScreen({Key? key}) : super(key: key);
+
   @override
-  _NewChatScreenState createState() => _NewChatScreenState();
+  State<NewChatScreen> createState() => _NewChatScreenState();
 }
 
 class _NewChatScreenState extends State<NewChatScreen> {
@@ -76,9 +77,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
     _searchFocusNode.addListener(() async {
       if (_searchFocusNode.hasFocus && !_showUserList) {
-        setState(() {
-          _showUserList = true;
-        });
+        setState(() => _showUserList = true);
       }
     });
 
@@ -89,17 +88,17 @@ class _NewChatScreenState extends State<NewChatScreen> {
         final res = await chatState.client.queryChannelsOnline(
           state: false,
           watch: false,
-          filter: Filter.raw(value: {
-            'members': [
-              ..._selectedUsers.map((e) => e.id),
-              chatState.currentUser!.id,
-            ],
-            'distinct': true,
-          }),
-          messageLimit: 0,
-          paginationParams: PaginationParams(
-            limit: 1,
+          filter: Filter.raw(
+            value: {
+              'members': [
+                ..._selectedUsers.map((e) => e.id),
+                chatState.currentUser!.id,
+              ],
+              'distinct': true,
+            },
           ),
+          messageLimit: 0,
+          paginationParams: PaginationParams(limit: 1),
         );
 
         final _channelExisted = res.length == 1;
@@ -118,9 +117,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
           );
         }
 
-        setState(() {
-          _showUserList = false;
-        });
+        setState(() => _showUserList = false);
       }
     });
   }
@@ -138,16 +135,19 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
         leading: const StreamBackButton(),
         title: Text(
-          AppLocalizations.of(context).newChat,
-          style: StreamChatTheme.of(context).textTheme.headlineBold.copyWith(
-              color: StreamChatTheme.of(context).colorTheme.textHighEmphasis),
+          appLocalizations.newChat,
+          style: streamChatTheme.textTheme.headlineBold.copyWith(
+            color: streamChatTheme.colorTheme.textHighEmphasis,
+          ),
         ),
         centerTitle: true,
       ),
@@ -158,14 +158,14 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
           switch (status) {
             case ConnectionStatus.connected:
-              statusString = AppLocalizations.of(context).connected;
+              statusString = appLocalizations.connected;
               showStatus = false;
               break;
             case ConnectionStatus.connecting:
-              statusString = AppLocalizations.of(context).reconnecting;
+              statusString = appLocalizations.reconnecting;
               break;
             case ConnectionStatus.disconnected:
-              statusString = AppLocalizations.of(context).disconnected;
+              statusString = appLocalizations.disconnected;
               break;
           }
           return StreamInfoTile(
@@ -183,7 +183,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     key: _chipInputTextFieldStateKey,
                     controller: _controller,
                     focusNode: _searchFocusNode,
-                    hint: AppLocalizations.of(context).typeANameHint,
+                    hint: appLocalizations.typeANameHint,
                     chipBuilder: (context, user) {
                       return GestureDetector(
                         onTap: () {
@@ -195,9 +195,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .disabled,
+                                color: streamChatTheme.colorTheme.disabled,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               padding: const EdgeInsets.only(left: 24),
@@ -207,18 +205,15 @@ class _NewChatScreenState extends State<NewChatScreen> {
                                   user.name,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis,
+                                    color: streamChatTheme
+                                        .colorTheme.textHighEmphasis,
                                   ),
                                 ),
                               ),
                             ),
                             Container(
                               foregroundDecoration: BoxDecoration(
-                                color: StreamChatTheme.of(context)
-                                    .colorTheme
-                                    .overlay,
+                                color: streamChatTheme.colorTheme.overlay,
                                 shape: BoxShape.circle,
                               ),
                               child: StreamUserAvatar(
@@ -243,37 +238,29 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     },
                   ),
                   if (!_isSearchActive && !_selectedUsers.isNotEmpty)
-                    Container(
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.NEW_GROUP_CHAT,
-                          );
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            children: [
-                              StreamNeumorphicButton(
-                                child: Center(
-                                  child: StreamSvgIcon.contacts(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .accentPrimary,
-                                    size: 24,
-                                  ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(Routes.NEW_GROUP_CHAT);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            StreamNeumorphicButton(
+                              child: Center(
+                                child: StreamSvgIcon.contacts(
+                                  color:
+                                      streamChatTheme.colorTheme.accentPrimary,
+                                  size: 24,
                                 ),
                               ),
-                              SizedBox(width: 8),
-                              Text(
-                                AppLocalizations.of(context).createAGroup,
-                                style: StreamChatTheme.of(context)
-                                    .textTheme
-                                    .bodyBold,
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              appLocalizations.createAGroup,
+                              style: streamChatTheme.textTheme.bodyBold,
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -281,8 +268,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                     Container(
                       width: double.maxFinite,
                       decoration: BoxDecoration(
-                        gradient:
-                            StreamChatTheme.of(context).colorTheme.bgGradient,
+                        gradient: streamChatTheme.colorTheme.bgGradient,
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -290,17 +276,14 @@ class _NewChatScreenState extends State<NewChatScreen> {
                           horizontal: 8,
                         ),
                         child: Text(
-                            _isSearchActive
-                                ? '${AppLocalizations.of(context).matchesFor} "$_userNameQuery"'
-                                : AppLocalizations.of(context).onThePlatorm,
-                            style: StreamChatTheme.of(context)
-                                .textTheme
-                                .footnote
-                                .copyWith(
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis
-                                        .withOpacity(.5))),
+                          _isSearchActive
+                              ? '${appLocalizations.matchesFor} "$_userNameQuery"'
+                              : appLocalizations.onThePlatorm,
+                          style: streamChatTheme.textTheme.footnote.copyWith(
+                            color: streamChatTheme.colorTheme.textHighEmphasis
+                                .withOpacity(.5),
+                          ),
+                        ),
                       ),
                     ),
                   Expanded(
@@ -355,18 +338,17 @@ class _NewChatScreenState extends State<NewChatScreen> {
                                                 ),
                                               ),
                                               Text(
-                                                AppLocalizations.of(context)
+                                                appLocalizations
                                                     .noUserMatchesTheseKeywords,
-                                                style: StreamChatTheme.of(
-                                                        context)
-                                                    .textTheme
-                                                    .footnote
+                                                style: streamChatTheme
+                                                    .textTheme.footnote
                                                     .copyWith(
-                                                        color: StreamChatTheme
-                                                                .of(context)
-                                                            .colorTheme
-                                                            .textHighEmphasis
-                                                            .withOpacity(.5)),
+                                                  color: StreamChatTheme.of(
+                                                          context)
+                                                      .colorTheme
+                                                      .textHighEmphasis
+                                                      .withOpacity(.5),
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -387,12 +369,11 @@ class _NewChatScreenState extends State<NewChatScreen> {
 
                               return Center(
                                 child: Text(
-                                  AppLocalizations.of(context).noChatsHereYet,
+                                  appLocalizations.noChatsHereYet,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: StreamChatTheme.of(context)
-                                        .colorTheme
-                                        .textHighEmphasis
+                                    color: streamChatTheme
+                                        .colorTheme.textHighEmphasis
                                         .withOpacity(.5),
                                   ),
                                 ),
@@ -407,8 +388,7 @@ class _NewChatScreenState extends State<NewChatScreen> {
                       return message;
                     },
                     onMessageSent: (m) {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
+                      Navigator.of(context).pushNamedAndRemoveUntil(
                         Routes.CHANNEL_PAGE,
                         ModalRoute.withName(Routes.CHANNEL_LIST_PAGE),
                         arguments: ChannelPageArgs(channel: channel),

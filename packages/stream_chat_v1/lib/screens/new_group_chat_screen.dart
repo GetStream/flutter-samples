@@ -1,15 +1,16 @@
 import 'dart:async';
 
-import 'package:example/localizations.dart';
+import 'package:example/app/localizations.dart';
+import 'package:example/app/routes/routes.dart';
+import 'package:example/widgets/search_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
-import 'routes/routes.dart';
-import 'search_text_field.dart';
-
 class NewGroupChatScreen extends StatefulWidget {
+  const NewGroupChatScreen({Key? key}) : super(key: key);
+
   @override
-  _NewGroupChatScreenState createState() => _NewGroupChatScreenState();
+  State<NewGroupChatScreen> createState() => _NewGroupChatScreenState();
 }
 
 class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
@@ -72,16 +73,18 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
+    final appLocalizations = AppLocalizations.of(context);
     return Scaffold(
-      backgroundColor: StreamChatTheme.of(context).colorTheme.appBg,
+      backgroundColor: streamChatTheme.colorTheme.appBg,
       appBar: AppBar(
         elevation: 1,
-        backgroundColor: StreamChatTheme.of(context).colorTheme.barsBg,
+        backgroundColor: streamChatTheme.colorTheme.barsBg,
         leading: const StreamBackButton(),
         title: Text(
-          AppLocalizations.of(context).addGroupMembers,
+          appLocalizations.addGroupMembers,
           style: TextStyle(
-            color: StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+            color: streamChatTheme.colorTheme.textHighEmphasis,
             fontSize: 16,
           ),
         ),
@@ -90,7 +93,7 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
           if (_selectedUsers.isNotEmpty)
             IconButton(
               icon: StreamSvgIcon.arrowRight(
-                color: StreamChatTheme.of(context).colorTheme.accentPrimary,
+                color: streamChatTheme.colorTheme.accentPrimary,
               ),
               onPressed: () async {
                 final updatedList = await Navigator.pushNamed(
@@ -106,7 +109,7 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                   });
                 }
               },
-            )
+            ),
         ],
       ),
       body: StreamConnectionStatusBuilder(
@@ -116,14 +119,14 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
 
           switch (status) {
             case ConnectionStatus.connected:
-              statusString = AppLocalizations.of(context).connected;
+              statusString = appLocalizations.connected;
               showStatus = false;
               break;
             case ConnectionStatus.connecting:
-              statusString = AppLocalizations.of(context).reconnecting;
+              statusString = appLocalizations.reconnecting;
               break;
             case ConnectionStatus.disconnected:
-              statusString = AppLocalizations.of(context).disconnected;
+              statusString = appLocalizations.disconnected;
               break;
           }
           return StreamInfoTile(
@@ -139,7 +142,7 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                   SliverToBoxAdapter(
                     child: SearchTextField(
                       controller: _controller,
-                      hintText: AppLocalizations.of(context).search,
+                      hintText: appLocalizations.search,
                     ),
                   ),
                   if (_selectedUsers.isNotEmpty)
@@ -180,20 +183,17 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: StreamChatTheme.of(context)
-                                                .colorTheme
-                                                .appBg,
+                                            color: streamChatTheme
+                                                .colorTheme.appBg,
                                             shape: BoxShape.circle,
                                             border: Border.all(
-                                              color: StreamChatTheme.of(context)
-                                                  .colorTheme
-                                                  .appBg,
+                                              color: streamChatTheme
+                                                  .colorTheme.appBg,
                                             ),
                                           ),
                                           child: StreamSvgIcon.close(
-                                            color: StreamChatTheme.of(context)
-                                                .colorTheme
-                                                .textHighEmphasis,
+                                            color: streamChatTheme
+                                                .colorTheme.textHighEmphasis,
                                             size: 24,
                                           ),
                                         ),
@@ -222,8 +222,7 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                       child: Container(
                         width: double.maxFinite,
                         decoration: BoxDecoration(
-                          gradient:
-                              StreamChatTheme.of(context).colorTheme.bgGradient,
+                          gradient: streamChatTheme.colorTheme.bgGradient,
                         ),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
@@ -232,12 +231,10 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                           ),
                           child: Text(
                             _isSearchActive
-                                ? '${AppLocalizations.of(context).matchesFor} \"$_userNameQuery\"'
-                                : AppLocalizations.of(context).onThePlatorm,
+                                ? '${appLocalizations.matchesFor} \"$_userNameQuery\"'
+                                : appLocalizations.onThePlatorm,
                             style: TextStyle(
-                              color: StreamChatTheme.of(context)
-                                  .colorTheme
-                                  .textLowEmphasis,
+                              color: streamChatTheme.colorTheme.textLowEmphasis,
                             ),
                           ),
                         ),
@@ -259,13 +256,9 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                   },
                   onUserTap: (user) {
                     if (!_selectedUsers.contains(user)) {
-                      setState(() {
-                        _selectedUsers.add(user);
-                      });
+                      setState(() => _selectedUsers.add(user));
                     } else {
-                      setState(() {
-                        _selectedUsers.remove(user);
-                      });
+                      setState(() => _selectedUsers.remove(user));
                     }
                   },
                   emptyBuilder: (_) {
@@ -284,22 +277,17 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
                                     padding: const EdgeInsets.all(24),
                                     child: StreamSvgIcon.search(
                                       size: 96,
-                                      color: StreamChatTheme.of(context)
-                                          .colorTheme
-                                          .textLowEmphasis,
+                                      color: streamChatTheme
+                                          .colorTheme.textLowEmphasis,
                                     ),
                                   ),
                                   Text(
-                                    AppLocalizations.of(context)
-                                        .noUserMatchesTheseKeywords,
-                                    style: StreamChatTheme.of(context)
-                                        .textTheme
-                                        .footnote
+                                    appLocalizations.noUserMatchesTheseKeywords,
+                                    style: streamChatTheme.textTheme.footnote
                                         .copyWith(
-                                          color: StreamChatTheme.of(context)
-                                              .colorTheme
-                                              .textLowEmphasis,
-                                        ),
+                                      color: streamChatTheme
+                                          .colorTheme.textLowEmphasis,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -320,18 +308,21 @@ class _NewGroupChatScreenState extends State<NewGroupChatScreen> {
 }
 
 class _HeaderDelegate extends SliverPersistentHeaderDelegate {
-  final Widget child;
-  final double height;
-
   const _HeaderDelegate({
     required this.child,
     required this.height,
   });
 
+  final Widget child;
+  final double height;
+
   @override
   Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return Container(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return ColoredBox(
       color: StreamChatTheme.of(context).colorTheme.barsBg,
       child: child,
     );

@@ -2,12 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 class SearchTextField extends StatelessWidget {
-  final TextEditingController? controller;
-  final ValueChanged<String>? onChanged;
-  final String hintText;
-  final VoidCallback? onTap;
-  final bool showCloseButton;
-
   const SearchTextField({
     Key? key,
     required this.controller,
@@ -17,14 +11,21 @@ class SearchTextField extends StatelessWidget {
     this.showCloseButton = true,
   }) : super(key: key);
 
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final String hintText;
+  final VoidCallback? onTap;
+  final bool showCloseButton;
+
   @override
   Widget build(BuildContext context) {
+    final streamChatTheme = StreamChatTheme.of(context);
     return Container(
       height: 36,
       decoration: BoxDecoration(
-        color: StreamChatTheme.of(context).colorTheme.barsBg,
+        color: streamChatTheme.colorTheme.barsBg,
         border: Border.all(
-          color: StreamChatTheme.of(context).colorTheme.borders,
+          color: streamChatTheme.colorTheme.borders,
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -48,17 +49,15 @@ class SearchTextField extends StatelessWidget {
                     right: 8,
                   ),
                   child: StreamSvgIcon.search(
-                    color:
-                        StreamChatTheme.of(context).colorTheme.textHighEmphasis,
+                    color: streamChatTheme.colorTheme.textHighEmphasis,
                     size: 24,
                   ),
                 ),
                 hintText: hintText,
-                hintStyle: StreamChatTheme.of(context).textTheme.body.copyWith(
-                    color: StreamChatTheme.of(context)
-                        .colorTheme
-                        .textHighEmphasis
-                        .withOpacity(.5)),
+                hintStyle: streamChatTheme.textTheme.body.copyWith(
+                  color: streamChatTheme.colorTheme.textHighEmphasis
+                      .withOpacity(.5),
+                ),
                 contentPadding: const EdgeInsets.all(0),
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
