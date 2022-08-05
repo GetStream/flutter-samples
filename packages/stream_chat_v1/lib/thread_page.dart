@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
+import 'emoji_autocomplete_options.dart';
+
 class ThreadPage extends StatefulWidget {
   final Message parent;
   final int? initialScrollIndex;
@@ -75,6 +77,29 @@ class _ThreadPageState extends State<ThreadPage> {
             StreamMessageInput(
               focusNode: _focusNode,
               messageInputController: _messageInputController,
+              customAutocompleteTriggers: [
+                StreamAutocompleteTrigger(
+                  trigger: ':',
+                  minimumRequiredCharacters: 2,
+                  optionsViewBuilder: (
+                    context,
+                    autocompleteQuery,
+                    messageEditingController,
+                  ) {
+                    final query = autocompleteQuery.query;
+                    return StreamEmojiAutocompleteOptions(
+                      query: query,
+                      onEmojiSelected: (emoji) {
+                        // accepting the autocomplete option.
+                        StreamAutocomplete.of(context).acceptAutocompleteOption(
+                          emoji.char,
+                          keepTrigger: false,
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
         ],
       ),

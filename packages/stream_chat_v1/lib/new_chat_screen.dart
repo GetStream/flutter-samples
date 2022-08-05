@@ -6,6 +6,7 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 
 import 'channel_page.dart';
 import 'chips_input_text_field.dart';
+import 'emoji_autocomplete_options.dart';
 import 'routes/routes.dart';
 
 class NewChatScreen extends StatefulWidget {
@@ -406,6 +407,30 @@ class _NewChatScreenState extends State<NewChatScreen> {
                       await channel!.watch();
                       return message;
                     },
+                    customAutocompleteTriggers: [
+                      StreamAutocompleteTrigger(
+                        trigger: ':',
+                        minimumRequiredCharacters: 2,
+                        optionsViewBuilder: (
+                          context,
+                          autocompleteQuery,
+                          messageEditingController,
+                        ) {
+                          final query = autocompleteQuery.query;
+                          return StreamEmojiAutocompleteOptions(
+                            query: query,
+                            onEmojiSelected: (emoji) {
+                              // accepting the autocomplete option.
+                              StreamAutocomplete.of(context)
+                                  .acceptAutocompleteOption(
+                                emoji.char,
+                                keepTrigger: false,
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
                     onMessageSent: (m) {
                       Navigator.pushNamedAndRemoveUntil(
                         context,

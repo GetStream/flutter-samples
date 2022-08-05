@@ -26,11 +26,14 @@ dependencies:
       url: https://github.com/GetStream/stream-chat-flutter.git
       ref: v5
       path: packages/stream_chat_localizations
+  emojis: ^0.9.9
   flutter_local_notifications: ^9.0.0
+  flutter_slidable: ^2.0.0
   flutter_svg: ^1.0.3
   flutter_secure_storage: ^5.0.2
   yaml: ^3.1.0
   uuid: ^3.0.5
+  substring_highlight: ^1.0.33
   streaming_shared_preferences: ^2.0.0
   lottie: ^1.2.1
   collection: ^1.15.0
