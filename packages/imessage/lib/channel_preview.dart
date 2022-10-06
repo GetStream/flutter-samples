@@ -5,8 +5,6 @@ import 'package:imessage/utils.dart';
 import 'package:stream_chat_flutter_core/stream_chat_flutter_core.dart'
     show Channel;
 
-import 'utils.dart';
-
 class ChannelPreview extends StatelessWidget {
   final VoidCallback onTap;
   final Channel channel;
