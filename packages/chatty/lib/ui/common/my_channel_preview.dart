@@ -164,7 +164,7 @@ class MyChannelPreview extends StatelessWidget {
         String stringDate;
         final now = DateTime.now();
 
-        var startOfDay = DateTime(now.year, now.month, now.day);
+        final startOfDay = DateTime(now.year, now.month, now.day);
 
         if (lastMessageAt.millisecondsSinceEpoch >=
             startOfDay.millisecondsSinceEpoch) {
@@ -300,9 +300,9 @@ class MyChannelPreview extends StatelessWidget {
       List<Attachment> attachments,
       TextStyle normalTextStyle,
       TextStyle mentionsTextStyle) {
-    var textList = text.split(' ');
-    var resList = <TextSpan>[];
-    for (var e in textList) {
+    final textList = text.split(' ');
+    final resList = <TextSpan>[];
+    for (final e in textList) {
       if (mentions.isNotEmpty &&
           mentions.any((element) => '@${element.name}' == e)) {
         resList.add(TextSpan(
