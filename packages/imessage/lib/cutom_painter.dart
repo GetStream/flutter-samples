@@ -17,7 +17,7 @@ class ChatBubble extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var path = Path();
+    final path = Path();
     const cornerSize = 18.0;
     const buffer = 6.0;
     const innerTailWidth = 7.0;
