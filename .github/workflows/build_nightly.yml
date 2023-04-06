@@ -13,19 +13,20 @@ jobs:
   cleanup-runs:
     runs-on: ubuntu-latest
     steps:
-    - uses: rokroskar/workflow-run-cleanup-action@master
-      env:
-        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      - uses: rokroskar/workflow-run-cleanup-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   build_and_deploy_ios:
-    runs-on: [macos-11]
+    runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - run: sudo xcode-select --switch /Applications/Xcode_13.0.app/Contents/Developer
       - name: Install RubyGems
         run: |
           cd ios
           bundle install
-      - uses: subosito/flutter-action@v1.5.3
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - name: Install firebase-tools
@@ -42,14 +43,15 @@ jobs:
           flutter build ios --release --no-codesign
           cd ios
           bundle exec fastlane deploy_to_firebase
+
   build_and_deploy_android:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1.5.3
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - run: |
@@ -58,7 +60,7 @@ jobs:
         run: |
           flutter build apk
       - name: Deploy
-        uses: wzieba/Firebase-Distribution-Github-Action@v1.3.2
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
         with:
           appId: ${{secrets.FIREBASE_ANDROID_APPID}}
           token: ${{secrets.FIREBASE_TOKEN}}
@@ -66,26 +68,27 @@ jobs:
           debug: true
           file: packages/stream_chat_v1/build/app/outputs/apk/release/app-release.apk
       - name: upload apk
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: android-stream-chat-v1
           path: packages/stream_chat_v1/build/app/outputs/apk/release/app-release.apk
+
   build_and_deploy_web:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: config git
         run: |
           git config --global user.email "$(git log --format='%ae' HEAD^!)"
           git config --global user.name "$(git log --format='%an' HEAD^!)"
           git fetch origin gh-pages:gh-pages
-      - uses: subosito/flutter-action@v1.5.3
+      - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
       - run: flutter pub get
       - name: Copy production config
         run: echo "${{ secrets.PRODUCTION_CONFIG }}" > lib/app_config.dart
-      - uses: erickzanardo/flutter-gh-pages@v3
+      - uses: bluefireteam/flutter-gh-pages@v7
         with:
           webRenderer: canvaskit
           workingDir: packages/stream_chat_v1
