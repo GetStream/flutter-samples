@@ -5,9 +5,14 @@ on:
     branches:
       - develop
   workflow_dispatch:
+
 defaults:
   run:
     working-directory: packages/stream_chat_v1
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   cleanup-runs:

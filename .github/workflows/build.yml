@@ -5,18 +5,16 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 defaults:
   run:
     working-directory: packages/stream_chat_v1
 
-jobs:
-  cleanup-runs:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: rokroskar/workflow-run-cleanup-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
+jobs:
   build_and_deploy_ios:
     runs-on: macos-latest
     steps:
