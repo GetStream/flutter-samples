@@ -31,7 +31,7 @@ jobs:
       - name: Setup Ruby and Gems
         uses: ruby/setup-ruby@v1
         with:
-          working-directory: stream_chat_v1/ios
+          working-directory: packages/stream_chat_v1/ios
           bundler-cache: true
 
       - name: Install firebase-tools
