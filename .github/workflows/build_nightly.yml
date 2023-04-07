@@ -108,7 +108,7 @@ jobs:
       - name: Build and Deploy
         uses: bluefireteam/flutter-gh-pages@v7
         with:
-          webRenderer: canvaskit
+          baseHref: /flutter-samples/
           workingDir: packages/stream_chat_v1
 
 
