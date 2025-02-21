@@ -11,7 +11,9 @@ class ChannelListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    channels.removeWhere((channel) => channel.lastMessageAt == null);
+    final filteredChannels = List.from(channels)
+      ..removeWhere((channel) => channel.lastMessageAt == null);
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (
@@ -21,13 +23,13 @@ class ChannelListView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: ChannelPreview(
-              channel: channels[index],
+              channel: filteredChannels[index],
               onTap: () {
                 Navigator.push(
                   context,
                   PageRouteBuilder(
                     pageBuilder: (_, __, ___) => StreamChannel(
-                      channel: channels[index],
+                      channel: filteredChannels[index],
                       child: const MessagePage(),
                     ),
                     transitionsBuilder: (
@@ -48,7 +50,7 @@ class ChannelListView extends StatelessWidget {
             ),
           );
         },
-        childCount: channels.length,
+        childCount: filteredChannels.length,
       ),
     );
   }
