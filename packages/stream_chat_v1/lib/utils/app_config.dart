@@ -3,9 +3,38 @@ import 'package:stream_chat_flutter/stream_chat_flutter.dart';
 const sentryDsn =
     'https://6381ef88de4140db8f5e25ab37e0f08c@o1213503.ingest.sentry.io/6352870';
 
-const kDefaultStreamApiKey = 'kv7mcsxr24p8';
+// const kDefaultStreamApiKey = 'kv7mcsxr24p8';
+const kDefaultStreamApiKey = 'hd8szvscpxvd';
 
 final defaultUsers = <String, User>{
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibHVrZV9za3l3YWxrZXIifQ.75UE4KkzEMIyfdsZMGEQcv5o-O6faZcMhlzA3WlJC0s':
+  User(
+    id: 'luke_skywalker',
+    extraData: const {
+      'name': 'Luke Skywalker',
+      'image':
+      'https://vignette.wikia.nocookie.net/starwars/images/2/20/LukeTLJ.jpg',
+    },
+  ),
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoibGVpYV9vcmdhbmEifQ.h3-yvKMXKQR0fI7SQvgcaa3BDDey2B--xeQ3qK3ub1E':
+  User(
+    id: 'leia_organa',
+    extraData: const {
+      'name': 'Leia Organa',
+      'image':
+      'https://vignette.wikia.nocookie.net/starwars/images/f/fc/Leia_Organa_TLJ.png',
+    },
+  ),
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiaGFuX3NvbG8ifQ.jC08SNxdlJ4rlVRIaYTPKGamvj4Uq6B2-77bXvnFxIU':
+  User(
+    id: 'han_solo',
+    extraData: const {
+      'name': 'Han Solo',
+      'image':
+      'https://vignette.wikia.nocookie.net/starwars/images/e/e2/TFAHanSolo.png',
+    },
+  ),
+  /*
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoic2FsdmF0b3JlIn0.pgiJz7sIc7iP29BHKFwe3nLm5-OaR_1l2P-SlgiC9a8':
       User(
     id: 'salvatore',
@@ -81,4 +110,5 @@ final defaultUsers = <String, User>{
       'name': 'QA test 2',
     },
   ),
+  */
 };
