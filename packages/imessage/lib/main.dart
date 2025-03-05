@@ -42,68 +42,90 @@ class IMessage extends StatelessWidget {
   }
 }
 
-class ChatLoader extends StatelessWidget {
-  ChatLoader({
+class ChatLoader extends StatefulWidget {
+  const ChatLoader({
     Key? key,
   }) : super(key: key);
 
-  final channelListController = ChannelListController();
+  @override
+  State<ChatLoader> createState() => _ChatLoaderState();
+}
+
+class _ChatLoaderState extends State<ChatLoader> {
+  StreamChannelListController? _channelListController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_channelListController
+        case final StreamChannelListController controller) {
+      controller.dispose();
+    }
+
+    final streamChat = StreamChatCore.of(context);
+
+    _channelListController = StreamChannelListController(
+      client: streamChat.client,
+      filter: Filter.and([
+        Filter.in_('members', [streamChat.currentUser!.id]),
+        Filter.equal('type', 'messaging'),
+      ]),
+      channelStateSort: const [SortOption('last_message_at')],
+      limit: 20,
+    )..doInitialLoad();
+  }
+
+  @override
+  void dispose() {
+    _channelListController?.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final user = StreamChatCore.of(context).currentUser!;
+    final channelListController = _channelListController!;
+
     return CupertinoPageScaffold(
-      child: ChannelsBloc(
-        child: ChannelListCore(
-          channelListController: channelListController,
-          filter: Filter.and([
-            Filter.in_('members', [user.id]),
-            Filter.equal('type', 'messaging'),
-          ]),
-          sort: const [SortOption('last_message_at')],
-          limit: 20,
-          emptyBuilder: (BuildContext context) {
-            return const Center(
-              child: Text('Looks like you are not in any channels'),
-            );
-          },
-          loadingBuilder: (BuildContext context) {
-            return const Center(
+      child: PagedValueListenableBuilder<int, Channel>(
+        valueListenable: channelListController,
+        builder: (context, value, child) {
+          return value.when(
+            (channels, nextPageKey, error) => LazyLoadScrollView(
+              onEndOfPage: () async {
+                if (nextPageKey != null) {
+                  channelListController.loadMore(nextPageKey);
+                }
+              },
+              child: channels.isEmpty
+                  ? const Center(
+                      child: Text('Looks like you are not in any channels'),
+                    )
+                  : CustomScrollView(
+                      slivers: [
+                        CupertinoSliverRefreshControl(onRefresh: () async {
+                          return channelListController.refresh();
+                        }),
+                        const ChannelPageAppBar(),
+                        SliverPadding(
+                          sliver: ChannelListView(channels: channels),
+                          padding: const EdgeInsets.only(top: 16),
+                        )
+                      ],
+                    ),
+            ),
+            loading: () => const Center(
               child: SizedBox(
                 height: 100.0,
                 width: 100.0,
                 child: CupertinoActivityIndicator(),
               ),
-            );
-          },
-          errorBuilder: (BuildContext context, dynamic error) {
-            return const Center(
+            ),
+            error: (e) => const Center(
               child: Text(
                   'Oh no, something went wrong. Please check your config.'),
-            );
-          },
-          listBuilder: (
-            BuildContext context,
-            List<Channel> channels,
-          ) =>
-              LazyLoadScrollView(
-            onEndOfPage: () async {
-              return channelListController.paginateData!();
-            },
-            child: CustomScrollView(
-              slivers: [
-                CupertinoSliverRefreshControl(onRefresh: () async {
-                  return channelListController.loadData!();
-                }),
-                const ChannelPageAppBar(),
-                SliverPadding(
-                  sliver: ChannelListView(channels: channels),
-                  padding: const EdgeInsets.only(top: 16),
-                )
-              ],
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

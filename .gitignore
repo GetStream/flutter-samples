@@ -35,6 +35,7 @@ gradlew.bat
 gradle-wrapper.jar
 .flutter-plugins-dependencies
 *.iml
+**/android/app/.cxx/
 
 generated_plugin_registrant.dart
 GeneratedPluginRegistrant.h
