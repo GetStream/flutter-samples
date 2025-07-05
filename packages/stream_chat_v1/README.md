@@ -48,7 +48,7 @@ git clone https://github.com/GetStream/flutter-samples
 **Open the app folder** 
 
 ```bash
-cd flutter-samples/stream_chat_v1
+cd flutter-samples/packages/stream_chat_v1
 ```
 
 **Install package dependencies:**
