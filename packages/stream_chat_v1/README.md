@@ -1,3 +1,5 @@
+> **This sample is out of date and no longer maintained.** For a current Stream Chat Flutter app, see [sample_app in stream-chat-flutter](https://github.com/GetStream/stream-chat-flutter/tree/master/sample_app).
+
 # Stream Chat v1
 
 ![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/sdk_hero_v4.png)

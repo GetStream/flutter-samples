@@ -1,3 +1,5 @@
+> **This sample is out of date and no longer maintained.** For a current Stream Chat Flutter app, see [sample_app in stream-chat-flutter](https://github.com/GetStream/stream-chat-flutter/tree/master/sample_app).
+
 # Stream Chatty
 
 ⚠️ **Attention**: This example is no longer maintained. It uses older versions of our packages and was tested on an older version of Flutter.
