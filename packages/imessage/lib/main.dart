@@ -70,7 +70,7 @@ class _ChatLoaderState extends State<ChatLoader> {
         Filter.in_('members', [streamChat.currentUser!.id]),
         Filter.equal('type', 'messaging'),
       ]),
-      channelStateSort: const [SortOption('last_message_at')],
+      channelStateSort: const [SortOption.desc('last_message_at')],
       limit: 20,
     )..doInitialLoad();
   }
