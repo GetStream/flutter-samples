@@ -1,5 +1,12 @@
 # Stream Flutter Samples
 
+> [!WARNING]
+> **This repository is archived and no longer maintained.**
+>
+> The samples here were built against older versions of Flutter and the Stream SDKs and will not receive updates or fixes.
+>
+> **For an up-to-date sample app, go to [`sample_app` in the `stream-chat-flutter` repository](https://github.com/GetStream/stream-chat-flutter/tree/master/sample_app).** It is maintained alongside the Flutter Chat SDK and always targets the latest release.
+
 ![](https://raw.githubusercontent.com/GetStream/flutter-samples/master/images/sdk_hero_v4.png)
 
 ## 😎 Repo Overview
